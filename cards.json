@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "lastUpdated": "2026-02-25",
   "source": "Official bank websites (hdfcbank.com, sbicard.com, icicibank.com, axisbank.com, canarabank.com etc.)",
   "cards": [
@@ -2488,6 +2488,66 @@
       },
       "notes": "5x on top 2 categories (~1.25%). 1x others (~0.25%). Powered by OneCard. Lifetime Free. No fuel rewards.",
       "lastVerified": "2026-02-01"
+    },
+    {
+      "id": "pnb-rupay-platinum", "name": "PNB RuPay Platinum", "bank": "Punjab National Bank", "network": "RuPay", "color": "#1e40af",
+      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.5, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
+      "notes": "0.5% cashback on all spends. Lifetime free. UPI-linkable (RuPay). Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "pnb-rupay-select", "name": "PNB RuPay Select", "bank": "Punjab National Bank", "network": "RuPay", "color": "#1e3a5f",
+      "joiningFee": 500, "annualFee": 500, "monthlyCap": 500,
+      "rates": { "dining": 1, "groceries": 1, "fuel": 0.5, "travel": 1, "online": 1, "entertainment": 1, "utilities": 1, "general": 0.5 },
+      "notes": "1% on most categories, 0.5% on fuel/general. Cap 500/mo. Lounge access (4/qtr via RuPay). Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "union-visa-signature", "name": "Union Bank Visa Signature", "bank": "Union Bank of India", "network": "Visa", "color": "#ea580c",
+      "joiningFee": 1500, "annualFee": 1500, "monthlyCap": 750,
+      "rates": { "dining": 1, "groceries": 1, "fuel": 0.5, "travel": 1.5, "online": 1, "entertainment": 1, "utilities": 1, "general": 0.5 },
+      "notes": "1.5% on travel, 1% on dining/grocery/online/entertainment/utility. Cap 750/mo. Lounge. Fee waived on 2L spend.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "union-rupay-platinum", "name": "Union Bank RuPay Platinum", "bank": "Union Bank of India", "network": "RuPay", "color": "#c2410c",
+      "joiningFee": 0, "annualFee": 250, "monthlyCap": 0,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.25, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.25 },
+      "notes": "0.5% on most categories. UPI-linkable. Low annual fee. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "indian-bank-visa-signature", "name": "Indian Bank Visa Signature", "bank": "Indian Bank", "network": "Visa", "color": "#0369a1",
+      "joiningFee": 1500, "annualFee": 1500, "monthlyCap": 750,
+      "rates": { "dining": 1, "groceries": 1, "fuel": 0.5, "travel": 1.5, "online": 1, "entertainment": 1, "utilities": 0.5, "general": 0.5 },
+      "notes": "1.5% travel, 1% on dining/groceries/online/entertainment. Lounge (4/qtr). Fuel surcharge waiver. Fee waived on 2L spend.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "indian-bank-rupay-platinum", "name": "Indian Bank RuPay Platinum", "bank": "Indian Bank", "network": "RuPay", "color": "#0284c7",
+      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.25, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.25 },
+      "notes": "0.5% on most spends. Lifetime free. UPI-linkable. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "boi-visa-signature", "name": "Bank of India Visa Signature", "bank": "Bank of India", "network": "Visa", "color": "#b91c1c",
+      "joiningFee": 1499, "annualFee": 1499, "monthlyCap": 500,
+      "rates": { "dining": 1, "groceries": 1, "fuel": 0.5, "travel": 1, "online": 1, "entertainment": 1, "utilities": 0.5, "general": 0.5 },
+      "notes": "1% on dining/groceries/online/entertainment/travel. Cap 500/mo. Lounge. Fuel surcharge waiver. Fee waived on 1.5L spend.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "boi-rupay-platinum", "name": "Bank of India RuPay Platinum", "bank": "Bank of India", "network": "RuPay", "color": "#dc2626",
+      "joiningFee": 0, "annualFee": 250, "monthlyCap": 0,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.25, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.25 },
+      "notes": "0.5% on most spends. UPI-linkable. Low annual fee. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "central-rupay-select", "name": "Central Bank RuPay Select", "bank": "Central Bank of India", "network": "RuPay", "color": "#7c3aed",
+      "joiningFee": 500, "annualFee": 500, "monthlyCap": 500,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.25, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.25 },
+      "notes": "0.5% on most categories. RuPay Select lounge (4/qtr). UPI-linkable. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+    },
+    {
+      "id": "iob-visa-classic", "name": "IOB Visa Classic", "bank": "Indian Overseas Bank", "network": "Visa", "color": "#059669",
+      "joiningFee": 0, "annualFee": 250, "monthlyCap": 0,
+      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.25, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.25 },
+      "notes": "0.5% on most spends. Low annual fee. Basic card. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
     }
   ],
   "smartbuyRates": {
@@ -2589,6 +2649,16 @@
     "yes-marquee": "https://www.yesbank.in/personal-banking/yes-first/credit-cards/yes-first-marquee",
     "sc-ultimate": "https://www.sc.com/in/credit-cards/ultimate/",
     "canara-rupay-select": "https://canarabank.com/User_page.aspx?otherlinkid=228",
-    "canara-rupay-platinum": "https://canarabank.com/User_page.aspx?otherlinkid=228"
+    "canara-rupay-platinum": "https://canarabank.com/User_page.aspx?otherlinkid=228",
+    "pnb-rupay-platinum": "https://www.pnbcard.in/credit-card.html",
+    "pnb-rupay-select": "https://www.pnbcard.in/credit-card.html",
+    "union-visa-signature": "https://www.unionbankofindia.co.in/english/credit-cards.aspx",
+    "union-rupay-platinum": "https://www.unionbankofindia.co.in/english/credit-cards.aspx",
+    "indian-bank-visa-signature": "https://www.indianbank.in/departments/credit-card/",
+    "indian-bank-rupay-platinum": "https://www.indianbank.in/departments/credit-card/",
+    "boi-visa-signature": "https://www.bankofindia.co.in/creditcard",
+    "boi-rupay-platinum": "https://www.bankofindia.co.in/creditcard",
+    "central-rupay-select": "https://www.centralbankofindia.co.in/en/credit-cards",
+    "iob-visa-classic": "https://www.iob.in/Credit_Card"
   }
 }

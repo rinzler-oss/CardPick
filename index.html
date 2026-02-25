@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CardPick - Best Card for Every Purchase</title>
+<meta name="description" content="CardPick - Free credit card reward optimizer for India. Find the best card and multi-step routes to maximize cashback on every purchase.">
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%233b82f6'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>CP</text></svg>">
+<!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 <!-- Google AdSense — Replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID after approval -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <style>
@@ -159,6 +165,39 @@
   .results-header { margin-bottom: 16px; }
   .results-header h3 { font-size: 1rem; color: #94a3b8; margin-bottom: 4px; }
   .results-header .savings-summary { font-size: 0.85rem; color: #22c55e; }
+
+  /* Share button */
+  .btn-share { display: inline-flex; align-items: center; gap: 6px; background: #334155; color: #94a3b8; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; border: 1px solid #475569; cursor: pointer; transition: all 0.2s; }
+  .btn-share:hover { background: #475569; color: #e2e8f0; }
+  .btn-share.copied { background: #22c55e22; color: #22c55e; border-color: #22c55e44; }
+
+  /* Recommend panel */
+  .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .rec-field label { font-size: 0.82rem; color: #94a3b8; margin-bottom: 2px; display: block; margin-top: 0; }
+  .rec-field input { width: 100%; }
+  .rec-card { background: #1e293b; border-radius: 12px; padding: 18px; border: 1px solid #334155; margin-bottom: 12px; }
+  .rec-card.top-pick { border-color: #22c55e; background: #22c55e0a; }
+  .rec-card .rec-rank { font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
+  .rec-card.top-pick .rec-rank { color: #22c55e; }
+  .rec-card .rec-name { font-size: 1.1rem; font-weight: 700; margin: 4px 0; }
+  .rec-card .rec-bank { font-size: 0.82rem; color: #64748b; }
+  .rec-card .rec-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .rec-stat { background: #0f172a; border-radius: 8px; padding: 8px 12px; flex: 1; min-width: 100px; }
+  .rec-stat .stat-label { font-size: 0.68rem; color: #64748b; }
+  .rec-stat .stat-value { font-size: 1rem; font-weight: 700; color: #38bdf8; }
+  .rec-card .rec-fee { font-size: 0.78rem; color: #64748b; margin-top: 8px; }
+  .rec-card .rec-notes { font-size: 0.73rem; color: #475569; margin-top: 6px; font-style: italic; }
+  .rec-card .rec-milestones { margin-top: 10px; }
+  .milestone-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .milestone-track { flex: 1; height: 6px; background: #0f172a; border-radius: 3px; overflow: hidden; }
+  .milestone-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #3b82f6, #22c55e); transition: width 0.4s; }
+  .milestone-label { font-size: 0.7rem; color: #64748b; white-space: nowrap; }
+  .milestone-reward { font-size: 0.7rem; color: #22c55e; font-weight: 600; white-space: nowrap; }
+
+  /* Fee toggle */
+  .fee-toggle { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .fee-toggle label { margin: 0; font-size: 0.8rem; color: #94a3b8; cursor: pointer; }
+  .fee-toggle input { width: auto; cursor: pointer; accent-color: #3b82f6; }
 </style>
 </head>
 <body>
@@ -169,6 +208,7 @@
 
   <div class="tabs">
     <div class="tab active" data-panel="compare">Compare</div>
+    <div class="tab" data-panel="recommend">Recommend</div>
     <div class="tab" data-panel="mycards">My Cards</div>
   </div>
 
@@ -199,8 +239,41 @@
           <button class="btn btn-primary" onclick="compare()">Find Best Route</button>
         </div>
       </div>
+      <div class="fee-toggle">
+        <input type="checkbox" id="inp-fee-adjust">
+        <label for="inp-fee-adjust">Deduct annual fee (spread monthly) from rewards</label>
+      </div>
+    </div>
+    <div id="share-bar" style="display:none;text-align:right;margin-bottom:8px;">
+      <button class="btn-share" onclick="shareResults()">&#128279; Share Results</button>
     </div>
     <div class="results" id="results"></div>
+  </div>
+
+  <!-- RECOMMEND PANEL -->
+  <div class="panel" id="panel-recommend">
+    <div class="compare-box">
+      <h3 style="font-size:1rem;color:#cbd5e1;margin-bottom:4px;">What's your monthly spending?</h3>
+      <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">Enter approximate monthly spend per category. We'll find the best card for you.</p>
+      <div class="rec-grid">
+        <div class="rec-field"><label>Dining (&#8377;/mo)</label><input type="number" id="rec-dining" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Groceries (&#8377;/mo)</label><input type="number" id="rec-groceries" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Fuel (&#8377;/mo)</label><input type="number" id="rec-fuel" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Travel (&#8377;/mo)</label><input type="number" id="rec-travel" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Online Shopping (&#8377;/mo)</label><input type="number" id="rec-online" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Entertainment (&#8377;/mo)</label><input type="number" id="rec-entertainment" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>Utilities (&#8377;/mo)</label><input type="number" id="rec-utilities" placeholder="0" min="0"></div>
+        <div class="rec-field"><label>General / Other (&#8377;/mo)</label><input type="number" id="rec-general" placeholder="0" min="0"></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="recommendCard()">Find Best Card</button>
+        <div class="fee-toggle" style="margin-top:0;">
+          <input type="checkbox" id="rec-fee-adjust" checked>
+          <label for="rec-fee-adjust">Factor in annual fee</label>
+        </div>
+      </div>
+    </div>
+    <div id="rec-results"></div>
   </div>
 
   <!-- MY CARDS PANEL -->
@@ -725,6 +798,48 @@ const CARD_DB = [
   { id:'fi-federal', name:'Fi Federal Bank (powered by OneCard)', bank:'Federal Bank', network:'Visa', color:'#eab308', joiningFee:0, annualFee:0, monthlyCap:0,
     rates:{dining:1.25,groceries:1.25,fuel:0,travel:0.25,online:1.25,entertainment:0.25,utilities:0.25,general:0.25},
     notes:'5x on top 2 categories (~1.25%). 1x others (~0.25%). Powered by OneCard. Lifetime Free. No fuel rewards.' },
+
+  // ==================== PNB (Punjab National Bank) ====================
+  { id:'pnb-rupay-platinum', name:'PNB RuPay Platinum', bank:'Punjab National Bank', network:'RuPay', color:'#1e40af', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0.5,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'0.5% cashback on all spends. Lifetime free. UPI-linkable (RuPay). Fuel surcharge waiver. Basic PSU bank card.' },
+  { id:'pnb-rupay-select', name:'PNB RuPay Select', bank:'Punjab National Bank', network:'RuPay', color:'#1e3a5f', joiningFee:500, annualFee:500, monthlyCap:500,
+    rates:{dining:1,groceries:1,fuel:0.5,travel:1,online:1,entertainment:1,utilities:1,general:0.5},
+    notes:'1% on most categories, 0.5% on fuel/general. ₹500 cap/mo. Complimentary lounge access (4/qtr via RuPay). Fuel surcharge waiver.' },
+
+  // ==================== UNION BANK OF INDIA ====================
+  { id:'union-visa-signature', name:'Union Bank Visa Signature', bank:'Union Bank of India', network:'Visa', color:'#ea580c', joiningFee:1500, annualFee:1500, monthlyCap:750,
+    rates:{dining:1,groceries:1,fuel:0.5,travel:1.5,online:1,entertainment:1,utilities:1,general:0.5},
+    notes:'1.5% on travel, 1% on dining/grocery/online/entertainment/utility. ₹750 cap/mo. Lounge access. Fuel surcharge waiver. Fee waived on ₹2L spend.' },
+  { id:'union-rupay-platinum', name:'Union Bank RuPay Platinum', bank:'Union Bank of India', network:'RuPay', color:'#c2410c', joiningFee:0, annualFee:250, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0.25,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.25},
+    notes:'0.5% on most categories. UPI-linkable. Basic card with low annual fee. Fuel surcharge waiver.' },
+
+  // ==================== INDIAN BANK ====================
+  { id:'indian-bank-visa-signature', name:'Indian Bank Visa Signature', bank:'Indian Bank', network:'Visa', color:'#0369a1', joiningFee:1500, annualFee:1500, monthlyCap:750,
+    rates:{dining:1,groceries:1,fuel:0.5,travel:1.5,online:1,entertainment:1,utilities:0.5,general:0.5},
+    notes:'1.5% travel, 1% on dining/groceries/online/entertainment. Lounge access (4/qtr). Fuel surcharge waiver. Fee waived on ₹2L spend.' },
+  { id:'indian-bank-rupay-platinum', name:'Indian Bank RuPay Platinum', bank:'Indian Bank', network:'RuPay', color:'#0284c7', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0.25,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.25},
+    notes:'0.5% on most spends. Lifetime free. UPI-linkable (RuPay). Basic rewards. Fuel surcharge waiver.' },
+
+  // ==================== BANK OF INDIA ====================
+  { id:'boi-visa-signature', name:'Bank of India Visa Signature', bank:'Bank of India', network:'Visa', color:'#b91c1c', joiningFee:1499, annualFee:1499, monthlyCap:500,
+    rates:{dining:1,groceries:1,fuel:0.5,travel:1,online:1,entertainment:1,utilities:0.5,general:0.5},
+    notes:'1% on dining/groceries/online/entertainment/travel. ₹500 cap/mo. Lounge access. Fuel surcharge waiver. Fee waived on ₹1.5L spend.' },
+  { id:'boi-rupay-platinum', name:'Bank of India RuPay Platinum', bank:'Bank of India', network:'RuPay', color:'#dc2626', joiningFee:0, annualFee:250, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0.25,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.25},
+    notes:'0.5% on most spends. UPI-linkable. Low annual fee. Fuel surcharge waiver.' },
+
+  // ==================== CENTRAL BANK OF INDIA ====================
+  { id:'central-rupay-select', name:'Central Bank RuPay Select', bank:'Central Bank of India', network:'RuPay', color:'#7c3aed', joiningFee:500, annualFee:500, monthlyCap:500,
+    rates:{dining:0.5,groceries:0.5,fuel:0.25,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.25},
+    notes:'0.5% on most categories. RuPay Select complimentary lounge (4/qtr). UPI-linkable. Fuel surcharge waiver.' },
+
+  // ==================== INDIAN OVERSEAS BANK ====================
+  { id:'iob-visa-classic', name:'IOB Visa Classic', bank:'Indian Overseas Bank', network:'Visa', color:'#059669', joiningFee:0, annualFee:250, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0.25,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.25},
+    notes:'0.5% on most spends. Low annual fee. Basic card. Fuel surcharge waiver.' },
 ];
 
 // ===================== SMARTBUY RATES (HDFC portal) =====================
@@ -811,6 +926,16 @@ const APPLY_LINKS = {
   'sc-ultimate':            'https://www.sc.com/in/credit-cards/ultimate/',
   'canara-rupay-select':    'https://canarabank.com/User_page.aspx?otherlinkid=228',
   'canara-rupay-platinum':  'https://canarabank.com/User_page.aspx?otherlinkid=228',
+  'pnb-rupay-platinum':    'https://www.pnbcard.in/credit-card.html',
+  'pnb-rupay-select':      'https://www.pnbcard.in/credit-card.html',
+  'union-visa-signature':  'https://www.unionbankofindia.co.in/english/credit-cards.aspx',
+  'union-rupay-platinum':  'https://www.unionbankofindia.co.in/english/credit-cards.aspx',
+  'indian-bank-visa-signature': 'https://www.indianbank.in/departments/credit-card/',
+  'indian-bank-rupay-platinum': 'https://www.indianbank.in/departments/credit-card/',
+  'boi-visa-signature':    'https://www.bankofindia.co.in/creditcard',
+  'boi-rupay-platinum':    'https://www.bankofindia.co.in/creditcard',
+  'central-rupay-select':  'https://www.centralbankofindia.co.in/en/credit-cards',
+  'iob-visa-classic':      'https://www.iob.in/Credit_Card',
 };
 
 // ===================== ROUTE TEMPLATES =====================
@@ -1688,19 +1813,38 @@ function compare() {
   const purchaseKey = document.getElementById('inp-purchase').value;
   const networkFilter = document.getElementById('inp-network').value;
   const amount = parseFloat(document.getElementById('inp-amount').value) || 0;
+  const feeAdjust = document.getElementById('inp-fee-adjust').checked;
   const resultsEl = document.getElementById('results');
   const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
 
   if (cards.length === 0) {
     resultsEl.innerHTML = '<div class="empty-state"><p>Add your credit cards first in the "My Cards" tab.</p></div>';
+    document.getElementById('share-bar').style.display = 'none';
     return;
   }
   if (amount <= 0) {
     resultsEl.innerHTML = '<div class="empty-state"><p>Enter a purchase amount to compare.</p></div>';
+    document.getElementById('share-bar').style.display = 'none';
     return;
   }
 
   const ranked = evaluateAllRoutes(purchaseKey, amount, networkFilter);
+
+  // Fee-adjusted: deduct monthly portion of annual fee from each result
+  if (feeAdjust) {
+    ranked.forEach(r => {
+      // Find the primary card used
+      const primaryCard = r.card;
+      if (primaryCard) {
+        const annualFee = primaryCard.annualFee || 0;
+        const monthlyFee = annualFee / 12;
+        r.totalReward -= monthlyFee;
+        r.feeDeducted = monthlyFee;
+        r.effectiveRate = (r.totalReward / amount) * 100;
+      }
+    });
+    ranked.sort((a, b) => b.totalReward - a.totalReward);
+  }
 
   if (ranked.length === 0 && networkFilter !== 'all') {
     resultsEl.innerHTML = '<div class="empty-state"><p>No ' + esc(networkFilter) + ' cards found. Try "All Cards" or add a ' + esc(networkFilter) + ' card in "My Cards" tab.</p></div>';
@@ -1709,9 +1853,11 @@ function compare() {
 
   if (ranked.length === 0) {
     resultsEl.innerHTML = '<div class="empty-state"><p>No routes found for this purchase type.</p></div>';
+    document.getElementById('share-bar').style.display = 'none';
     return;
   }
 
+  document.getElementById('share-bar').style.display = 'block';
   const bestReward = ranked[0].totalReward;
   // Find best direct-only for savings comparison
   const bestDirect = ranked.find(r => r.type === 'direct');
@@ -1764,6 +1910,8 @@ function compare() {
       applyCards.map(c => applyBtn(c.dbId, false)).join(' ') +
       '<span class="apply-hint">Don\'t have ' + (applyCards.length === 1 ? 'this card' : 'these cards') + '? Apply now</span></div>' : '';
 
+    let feeHtml = r.feeDeducted > 0 ? '<div class="route-notes" style="color:#f87171;">Annual fee impact: -' + fmt(r.feeDeducted) + '/mo deducted</div>' : '';
+
     return '<div class="route-card' + (isBest ? ' best' : '') + '">' +
       '<div class="route-header">' +
         '<div class="route-rank">#' + (i + 1) + '</div>' +
@@ -1778,7 +1926,7 @@ function compare() {
           '<div class="label">' + r.effectiveRate.toFixed(2) + '% return</div>' +
         '</div>' +
       '</div>' +
-      stepsHtml + tipHtml + notesHtml + applyHtml +
+      stepsHtml + tipHtml + notesHtml + feeHtml + applyHtml +
     '</div>';
   }).join('');
 }
@@ -1803,6 +1951,207 @@ function applyBtn(cardId, small) {
 
 // Auto-compare on enter
 document.getElementById('inp-amount').addEventListener('keydown', e => { if (e.key === 'Enter') compare(); });
+
+// ===================== SHARE RESULTS =====================
+function shareResults() {
+  const purchaseKey = document.getElementById('inp-purchase').value;
+  const amount = parseFloat(document.getElementById('inp-amount').value) || 0;
+  const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
+  const networkFilter = document.getElementById('inp-network').value;
+  const ranked = evaluateAllRoutes(purchaseKey, amount, networkFilter);
+  if (ranked.length === 0) return;
+
+  const best = ranked[0];
+  const netLabel = networkFilter !== 'all' ? ' (' + networkFilter + ')' : '';
+  let text = 'CardPick Result' + netLabel + '\n';
+  text += 'Purchase: ' + pt.label + ' - Rs.' + amount.toLocaleString('en-IN') + '\n\n';
+  ranked.slice(0, 5).forEach((r, i) => {
+    text += '#' + (i + 1) + ' ' + r.name + ' - Rs.' + r.totalReward.toFixed(2) + ' (' + r.effectiveRate.toFixed(2) + '% return)';
+    if (r.type === 'route') text += ' [ROUTE]';
+    text += '\n';
+    r.steps.forEach((s, si) => {
+      if (s.card) text += '   Step ' + (si + 1) + ': ' + s.label + ' with ' + s.card.name + ' (' + s.rate.toFixed(1) + '%)\n';
+    });
+  });
+  text += '\nFind your best card at https://rinzler-oss.github.io/CardPick/';
+
+  const btn = document.querySelector('.btn-share');
+  if (navigator.share) {
+    navigator.share({ title: 'CardPick - Best Card Result', text: text }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '&#10003; Copied!';
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '&#128279; Share Results'; }, 2000);
+    });
+  }
+}
+
+// ===================== MILESTONE DATA =====================
+const MILESTONES = {
+  'hdfc-regalia-gold': [
+    { spend: 150000, reward: 'Rs.1,500 Taj/Marriott voucher', label: '1.5L spend' },
+    { spend: 300000, reward: 'Rs.3,000 Taj/Marriott voucher', label: '3L spend' },
+    { spend: 500000, reward: 'Rs.5,000 Taj/Marriott voucher', label: '5L spend' },
+  ],
+  'hdfc-regalia': [
+    { spend: 800000, reward: 'Annual fee reversal + vouchers', label: '8L spend' },
+  ],
+  'hdfc-diners-black': [
+    { spend: 80000, reward: '2,500 bonus RP/month', label: '80K/mo' },
+    { spend: 500000, reward: 'Annual fee waiver', label: '5L spend' },
+  ],
+  'hdfc-infinia': [
+    { spend: 1000000, reward: 'Annual fee waiver', label: '10L spend' },
+  ],
+  'hdfc-diners-privilege': [
+    { spend: 300000, reward: 'Annual fee reversal', label: '3L spend' },
+  ],
+  'hdfc-millennia': [
+    { spend: 100000, reward: 'Rs.500 cashback quarterly', label: '1L/qtr' },
+  ],
+  'sbi-elite': [
+    { spend: 1000000, reward: 'Annual fee reversal (Rs.4,999)', label: '10L spend' },
+  ],
+  'sbi-prime': [
+    { spend: 300000, reward: 'Annual fee reversal (Rs.2,999)', label: '3L spend' },
+  ],
+  'icici-sapphiro': [
+    { spend: 600000, reward: 'Annual fee waiver', label: '6L spend' },
+  ],
+  'icici-coral': [
+    { spend: 250000, reward: 'Annual fee waiver', label: '2.5L spend' },
+  ],
+  'icici-rubyx': [
+    { spend: 200000, reward: 'Annual fee waiver', label: '2L spend' },
+  ],
+  'axis-magnus': [
+    { spend: 1500000, reward: '25,000 bonus Edge Points', label: '15L spend' },
+  ],
+  'axis-atlas': [
+    { spend: 750000, reward: 'Annual fee reversal', label: '7.5L spend' },
+  ],
+  'axis-ace': [
+    { spend: 200000, reward: 'Annual fee waiver', label: '2L spend' },
+  ],
+  'idfc-select': [
+    { spend: 200000, reward: 'Annual fee waiver', label: '2L spend' },
+  ],
+  'sc-ultimate': [
+    { spend: 600000, reward: 'Annual fee reversal', label: '6L spend' },
+  ],
+};
+
+// ===================== RECOMMEND CARD ENGINE =====================
+function recommendCard() {
+  const cats = ['dining','groceries','fuel','travel','online','entertainment','utilities','general'];
+  const spends = {};
+  let totalSpend = 0;
+  cats.forEach(c => {
+    spends[c] = parseFloat(document.getElementById('rec-' + c).value) || 0;
+    totalSpend += spends[c];
+  });
+  const feeAdjust = document.getElementById('rec-fee-adjust').checked;
+  const resultsEl = document.getElementById('rec-results');
+
+  if (totalSpend <= 0) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>Enter your monthly spending in at least one category.</p></div>';
+    return;
+  }
+
+  // Score each card in the database
+  const scored = CARD_DB.map(card => {
+    let monthlyReward = 0;
+    cats.forEach(cat => {
+      if (spends[cat] > 0) {
+        const rate = card.rates[cat] || 0;
+        let reward = spends[cat] * rate / 100;
+        monthlyReward += reward;
+      }
+    });
+    // Apply monthly cap
+    if (card.monthlyCap > 0) monthlyReward = Math.min(monthlyReward, card.monthlyCap);
+
+    // Fee adjustment
+    const annualFee = card.annualFee || 0;
+    const monthlyFee = feeAdjust ? annualFee / 12 : 0;
+    const netMonthly = monthlyReward - monthlyFee;
+    const yearlyReward = monthlyReward * 12;
+    const yearlyNet = netMonthly * 12;
+
+    // Best categories for this card
+    const topCats = cats
+      .filter(c => spends[c] > 0 && (card.rates[c] || 0) > 0)
+      .sort((a, b) => (card.rates[b] || 0) - (card.rates[a] || 0))
+      .slice(0, 3);
+
+    return {
+      card, monthlyReward, netMonthly, yearlyReward, yearlyNet,
+      annualFee, topCats, totalSpend
+    };
+  });
+
+  scored.sort((a, b) => b.netMonthly - a.netMonthly);
+  const top = scored.slice(0, 10);
+
+  if (top.length === 0 || top[0].netMonthly <= 0) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>No cards found with positive rewards for your spending pattern.</p></div>';
+    return;
+  }
+
+  resultsEl.innerHTML = '<div class="results-header"><h3>Top Cards for Your Spending</h3><div class="savings-summary">Monthly spend: ' + fmt(totalSpend) + ' &middot; Best yearly reward: ' + fmt(top[0].yearlyNet) + (feeAdjust ? ' (after fee)' : '') + '</div></div>' +
+    top.map((s, i) => {
+      const isTop = i === 0;
+      const card = s.card;
+      const milestones = MILESTONES[card.id] || [];
+
+      const catLabels = { dining:'Dining', groceries:'Groceries', fuel:'Fuel', travel:'Travel', online:'Online', entertainment:'Entertainment', utilities:'Utilities', general:'General' };
+
+      let topCatsHtml = s.topCats.map(c =>
+        '<span class="reward-tag">' + catLabels[c] + ' <span>' + (card.rates[c] || 0) + '%</span></span>'
+      ).join('');
+
+      let milestoneHtml = '';
+      if (milestones.length > 0) {
+        const yearlySpend = s.totalSpend * 12;
+        milestoneHtml = '<div class="rec-milestones"><div style="font-size:0.75rem;color:#94a3b8;margin-bottom:6px;font-weight:600;">Spend Milestones</div>' +
+          milestones.map(m => {
+            const pct = Math.min(100, (yearlySpend / m.spend) * 100);
+            const reached = yearlySpend >= m.spend;
+            return '<div class="milestone-bar">' +
+              '<div class="milestone-label">' + m.label + '</div>' +
+              '<div class="milestone-track"><div class="milestone-fill" style="width:' + pct + '%;' + (reached ? 'background:#22c55e;' : '') + '"></div></div>' +
+              '<div class="milestone-reward">' + (reached ? '&#10003; ' : '') + m.reward + '</div>' +
+            '</div>';
+          }).join('') + '</div>';
+      }
+
+      let feeNote = '';
+      if (card.annualFee > 0) {
+        const ltf = card.joiningFee === 0 && card.annualFee === 0;
+        feeNote = '<div class="rec-fee">Joining: ' + fmt(card.joiningFee || 0) + ' &middot; Annual: ' + fmt(card.annualFee) +
+          (feeAdjust ? ' &middot; <span style="color:#f87171;">-' + fmt(s.annualFee / 12) + '/mo deducted</span>' : '') + '</div>';
+      } else {
+        feeNote = '<div class="rec-fee" style="color:#22c55e;">Lifetime Free</div>';
+      }
+
+      return '<div class="rec-card' + (isTop ? ' top-pick' : '') + '">' +
+        '<div class="rec-rank">' + (isTop ? 'TOP PICK' : '#' + (i + 1)) + '</div>' +
+        '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(card.network) + '</span></div>' +
+        '<div class="rec-bank">' + esc(card.bank) + '</div>' +
+        '<div class="rec-stats">' +
+          '<div class="rec-stat"><div class="stat-label">Monthly Reward</div><div class="stat-value">' + fmt(s.monthlyReward) + '</div></div>' +
+          '<div class="rec-stat"><div class="stat-label">Yearly' + (feeAdjust ? ' (net)' : '') + '</div><div class="stat-value">' + fmt(s.yearlyNet) + '</div></div>' +
+          '<div class="rec-stat"><div class="stat-label">Eff. Rate</div><div class="stat-value">' + (s.netMonthly / s.totalSpend * 100).toFixed(2) + '%</div></div>' +
+        '</div>' +
+        '<div style="margin-top:8px;">' + topCatsHtml + '</div>' +
+        feeNote +
+        (card.notes ? '<div class="rec-notes">' + esc(card.notes) + '</div>' : '') +
+        milestoneHtml +
+        (APPLY_LINKS[card.id] ? '<div class="apply-row">' + applyBtn(card.id, false) + '</div>' : '') +
+      '</div>';
+    }).join('');
+}
 
 renderCards();
 
