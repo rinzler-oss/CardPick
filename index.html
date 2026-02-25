@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CardPick - Best Card for Every Purchase</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  h1 { text-align: center; font-size: 1.8rem; padding: 24px 0 8px; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { text-align: center; color: #64748b; margin-bottom: 28px; font-size: 0.9rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: #1e293b; border-radius: 12px; padding: 4px; }
+  .tab { flex: 1; text-align: center; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s; color: #94a3b8; }
+  .tab.active { background: #334155; color: #f1f5f9; }
+  .tab:hover:not(.active) { color: #cbd5e1; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Cards list */
+  .card-entry { background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #334155; display: flex; align-items: stretch; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-name { font-size: 1.1rem; font-weight: 600; }
+  .card-rewards { display: flex; flex-wrap: wrap; gap: 6px; }
+  .reward-tag { background: #334155; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; color: #94a3b8; }
+  .reward-tag span { color: #38bdf8; font-weight: 600; }
+  .card-color-bar { width: 5px; border-radius: 3px; align-self: stretch; margin-right: 10px; flex-shrink: 0; }
+  .card-body { flex: 1; }
+  .card-notes { font-size: 0.75rem; color: #64748b; margin-top: 6px; font-style: italic; }
+
+  /* Buttons */
+  .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+  .btn-primary { background: #3b82f6; color: white; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn-danger { background: transparent; color: #f87171; border: 1px solid #f8717133; font-size: 0.8rem; padding: 6px 12px; }
+  .btn-danger:hover { background: #f8717122; }
+  .btn-add { width: 100%; padding: 14px; background: #1e293b; border: 2px dashed #334155; color: #64748b; border-radius: 12px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
+  .btn-add:hover { border-color: #3b82f6; color: #3b82f6; }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: #0f172aee; z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #1e293b; border-radius: 16px; padding: 28px; width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto; border: 1px solid #334155; }
+  .modal h2 { margin-bottom: 20px; font-size: 1.2rem; }
+
+  label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; margin-top: 14px; }
+  input, select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; }
+  input:focus, select:focus { outline: none; border-color: #3b82f6; }
+
+  .category-rates { margin-top: 16px; }
+  .category-rates h3 { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 4px; }
+  .category-rates p { font-size: 0.78rem; color: #64748b; margin-bottom: 12px; }
+  .rate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .rate-row label { margin: 0; flex: 1; font-size: 0.9rem; color: #cbd5e1; }
+  .rate-row input { width: 90px; flex: none; text-align: right; }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+  .btn-secondary { background: #334155; color: #e2e8f0; }
+  .btn-secondary:hover { background: #475569; }
+
+  /* Search dropdown */
+  .search-wrap { position: relative; }
+  .search-wrap input { padding-left: 36px; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #475569; pointer-events: none; font-size: 0.95rem; }
+  .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0f172a; border: 1px solid #334155; border-radius: 8px; max-height: 260px; overflow-y: auto; z-index: 10; display: none; margin-top: 4px; }
+  .search-dropdown.open { display: block; }
+  .search-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #1e293b; transition: background 0.15s; }
+  .search-item:hover, .search-item.highlighted { background: #1e293b; }
+  .search-item .si-name { font-weight: 600; font-size: 0.92rem; }
+  .search-item .si-bank { color: #64748b; font-size: 0.8rem; margin-left: 6px; }
+  .search-item .si-desc { font-size: 0.75rem; color: #475569; margin-top: 2px; }
+  .search-divider { padding: 6px 14px; font-size: 0.72rem; color: #3b82f6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: #1e293b22; border-bottom: 1px solid #1e293b; }
+  .autofill-badge { display: inline-block; background: #3b82f622; color: #38bdf8; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+
+  /* Compare panel */
+  .compare-box { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+  .compare-row { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+  .compare-row .field { flex: 1; min-width: 180px; }
+  .compare-row .field-sm { flex: 0 0 140px; }
+
+  /* Results */
+  .results { margin-top: 20px; }
+  .result-card { background: #1e293b; border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; border: 1px solid #334155; display: flex; align-items: center; transition: all 0.2s; }
+  .result-card.best { border-color: #22c55e; background: #22c55e0d; }
+  .result-rank { font-size: 1.4rem; font-weight: 700; color: #475569; width: 40px; flex-shrink: 0; }
+  .result-card.best .result-rank { color: #22c55e; }
+  .result-info { flex: 1; min-width: 0; }
+  .result-info .name { font-weight: 600; font-size: 1.05rem; }
+  .result-info .detail { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+  .result-info .notes { font-size: 0.73rem; color: #475569; margin-top: 3px; font-style: italic; }
+  .result-reward { text-align: right; flex-shrink: 0; margin-left: 12px; }
+  .result-reward .amount { font-size: 1.3rem; font-weight: 700; color: #38bdf8; }
+  .result-card.best .result-reward .amount { color: #22c55e; }
+  .result-reward .label { font-size: 0.75rem; color: #64748b; }
+  .best-badge { display: inline-block; background: #22c55e22; color: #22c55e; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+
+  .empty-state { text-align: center; padding: 48px 20px; color: #475569; }
+  .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .empty-state p { margin-bottom: 6px; }
+
+  .annual-note { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+
+  .color-options { display: flex; gap: 8px; margin-top: 6px; }
+  .color-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; }
+  .color-dot.selected { border-color: white; transform: scale(1.15); }
+
+  .data-source { text-align: center; font-size: 0.7rem; color: #334155; padding: 20px 0 8px; }
+  .data-source a { color: #475569; }
+  .db-ok { color: #22c55e; }
+  .db-warn { color: #eab308; }
+  .db-err { color: #f87171; }
+
+  .result-color-bar { width: 4px; border-radius: 2px; align-self: stretch; margin-right: 14px; min-height: 40px; flex-shrink: 0; }
+
+  .manual-link { display: block; text-align: center; color: #475569; font-size: 0.82rem; margin-top: 10px; cursor: pointer; padding: 6px; }
+  .manual-link:hover { color: #64748b; }
+
+  /* Route results */
+  .route-card { background: #1e293b; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; border: 1px solid #334155; transition: all 0.2s; }
+  .route-card.best { border-color: #22c55e; background: #22c55e0a; }
+  .route-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .route-rank { font-size: 1.3rem; font-weight: 700; color: #475569; width: 36px; flex-shrink: 0; }
+  .route-card.best .route-rank { color: #22c55e; }
+  .route-title { flex: 1; min-width: 0; }
+  .route-title .name { font-weight: 600; font-size: 1rem; }
+  .route-title .type-tag { display: inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: 600; vertical-align: middle; }
+  .route-title .type-tag.direct { background: #3b82f622; color: #38bdf8; }
+  .route-title .type-tag.route { background: #8b5cf622; color: #a78bfa; }
+  .route-reward { text-align: right; flex-shrink: 0; }
+  .route-reward .amount { font-size: 1.3rem; font-weight: 700; color: #38bdf8; }
+  .route-card.best .route-reward .amount { color: #22c55e; }
+  .route-reward .label { font-size: 0.72rem; color: #64748b; }
+  .route-steps { margin-top: 12px; padding: 12px; background: #0f172a; border-radius: 8px; }
+  .route-step { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+  .route-step:not(:last-child) { border-bottom: 1px dashed #1e293b; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: #334155; color: #94a3b8; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-body { flex: 1; }
+  .step-action { font-size: 0.85rem; color: #cbd5e1; }
+  .step-card-used { font-size: 0.75rem; color: #38bdf8; margin-top: 2px; }
+  .step-reward { font-size: 0.78rem; font-weight: 600; color: #22c55e; flex-shrink: 0; }
+  .route-tip { margin-top: 10px; padding: 8px 12px; background: #eab30811; border: 1px solid #eab30833; border-radius: 8px; font-size: 0.75rem; color: #eab308; }
+  .route-tip::before { content: 'TIP: '; font-weight: 700; }
+  .route-notes { font-size: 0.73rem; color: #475569; margin-top: 6px; font-style: italic; }
+  .route-savings { margin-top: 8px; font-size: 0.8rem; color: #22c55e; font-weight: 600; }
+  .results-header { margin-bottom: 16px; }
+  .results-header h3 { font-size: 1rem; color: #94a3b8; margin-bottom: 4px; }
+  .results-header .savings-summary { font-size: 0.85rem; color: #22c55e; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>CardPick</h1>
+  <p class="subtitle">Find the best credit card for every purchase</p>
+
+  <div class="tabs">
+    <div class="tab active" data-panel="compare">Compare</div>
+    <div class="tab" data-panel="mycards">My Cards</div>
+  </div>
+
+  <!-- COMPARE PANEL -->
+  <div class="panel active" id="panel-compare">
+    <div class="compare-box">
+      <div class="compare-row">
+        <div class="field">
+          <label for="inp-purchase">What are you paying for?</label>
+          <select id="inp-purchase"></select>
+        </div>
+        <div class="field-sm">
+          <label for="inp-network">Card Network</label>
+          <select id="inp-network">
+            <option value="all" selected>All Cards</option>
+            <option value="Visa">Visa</option>
+            <option value="Mastercard">Mastercard</option>
+            <option value="RuPay">RuPay</option>
+            <option value="Amex">Amex</option>
+            <option value="Diners">Diners Club</option>
+          </select>
+        </div>
+        <div class="field-sm">
+          <label for="inp-amount">Amount (&#8377;)</label>
+          <input type="number" id="inp-amount" placeholder="1000" min="0" step="any">
+        </div>
+        <div style="padding-bottom:2px;">
+          <button class="btn btn-primary" onclick="compare()">Find Best Route</button>
+        </div>
+      </div>
+    </div>
+    <div class="results" id="results"></div>
+  </div>
+
+  <!-- MY CARDS PANEL -->
+  <div class="panel" id="panel-mycards">
+    <div id="cards-list"></div>
+    <button class="btn-add" onclick="openModal()">+ Add Credit Card</button>
+  </div>
+</div>
+
+<!-- ADD/EDIT CARD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2 id="modal-title">Add Credit Card</h2>
+
+    <label>Search & Select Your Card</label>
+    <div class="search-wrap" id="card-search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="card-search" placeholder="Type card name... e.g. HDFC Regalia, SBI Cashback" autocomplete="off">
+      <div class="search-dropdown" id="card-dropdown"></div>
+    </div>
+    <span class="manual-link" id="manual-toggle" onclick="toggleManualFields(true)">or enter details manually</span>
+
+    <div id="manual-fields" style="display:none;">
+      <label for="m-name">Card Name</label>
+      <input type="text" id="m-name" placeholder="e.g. HDFC Regalia Gold">
+
+      <label for="m-network">Network</label>
+      <select id="m-network">
+        <option value="Visa">Visa</option>
+        <option value="Mastercard">Mastercard</option>
+        <option value="RuPay">RuPay</option>
+        <option value="Amex">Amex</option>
+        <option value="Diners">Diners Club</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Card Color</label>
+      <div class="color-options" id="m-colors"></div>
+
+      <div class="category-rates">
+        <h3>Effective Cashback % by Category</h3>
+        <p>All rates are in effective return %. For points cards, this is already converted to cash value.</p>
+        <div id="m-rates"></div>
+      </div>
+
+      <div class="fee-section">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:16px;">
+          <input type="checkbox" id="m-ltf" style="width:auto;accent-color:#22c55e;cursor:pointer;" onchange="toggleFeeFields()">
+          <span style="font-size:0.95rem;color:#22c55e;font-weight:600;">Lifetime Free (LTF)</span>
+        </label>
+        <div id="fee-fields">
+          <label for="m-joining-fee">Joining Fee (&#8377;)</label>
+          <input type="number" id="m-joining-fee" placeholder="0" min="0" step="any">
+          <label for="m-annual-fee">Annual Fee (&#8377;)</label>
+          <input type="number" id="m-annual-fee" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+
+      <label for="m-cap">Monthly Reward Cap &#8377; (0 = no cap)</label>
+      <input type="number" id="m-cap" placeholder="0" min="0" step="any">
+
+      <label for="m-notes">Notes</label>
+      <input type="text" id="m-notes" placeholder="Any special conditions...">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="modal-save" onclick="saveCard()">Add Card</button>
+    </div>
+  </div>
+</div>
+
+<div class="data-source">
+  <div id="db-status">Reward data sourced from official bank websites. Loading card database&hellip;</div>
+  <button onclick="refreshCardDB()" style="background:#1e293b;color:#38bdf8;border:1px solid #334155;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.72rem;margin-top:4px;">Check for Updates</button>
+</div>
+
+<script>
+// ===================== CATEGORIES =====================
+const CATEGORIES = [
+  { key: 'dining',        label: 'Dining / Restaurants' },
+  { key: 'groceries',     label: 'Groceries' },
+  { key: 'fuel',          label: 'Fuel / Gas' },
+  { key: 'travel',        label: 'Travel / Hotels / Flights' },
+  { key: 'online',        label: 'Online Shopping' },
+  { key: 'entertainment', label: 'Entertainment / Streaming' },
+  { key: 'utilities',     label: 'Utilities / Bills' },
+  { key: 'general',       label: 'General / Other' },
+];
+
+const COLORS = ['#3b82f6','#8b5cf6','#ec4899','#f97316','#22c55e','#ef4444','#14b8a6','#eab308'];
+
+// ===================== PURCHASE TYPES =====================
+const PURCHASE_TYPES = [
+  { key:'mobile_recharge', label:'Mobile Recharge', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'electricity_bill', label:'Electricity Bill', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'dth_recharge', label:'DTH Recharge', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'broadband_bill', label:'Broadband / WiFi Bill', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'water_bill', label:'Water Bill', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'lpg_cylinder', label:'LPG Gas Cylinder', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'fastag_recharge', label:'FASTag Recharge', group:'Bills & Recharges', directCat:'utilities' },
+  { key:'insurance_premium', label:'Insurance Premium', group:'Bills & Recharges', directCat:'utilities' },
+
+  { key:'amazon_shopping', label:'Amazon Shopping', group:'Online Shopping', directCat:'online' },
+  { key:'flipkart_shopping', label:'Flipkart Shopping', group:'Online Shopping', directCat:'online' },
+  { key:'myntra_shopping', label:'Myntra Shopping', group:'Online Shopping', directCat:'online' },
+  { key:'nykaa_shopping', label:'Nykaa Shopping', group:'Online Shopping', directCat:'online' },
+  { key:'croma_shopping', label:'Croma Electronics', group:'Online Shopping', directCat:'online' },
+  { key:'other_online', label:'Other Online Shopping', group:'Online Shopping', directCat:'online' },
+
+  { key:'food_swiggy', label:'Swiggy (Food Delivery)', group:'Food & Groceries', directCat:'dining' },
+  { key:'food_zomato', label:'Zomato (Food Delivery)', group:'Food & Groceries', directCat:'dining' },
+  { key:'swiggy_instamart', label:'Swiggy Instamart (Groceries)', group:'Food & Groceries', directCat:'groceries' },
+  { key:'restaurant', label:'Restaurant (Dine Out)', group:'Food & Groceries', directCat:'dining' },
+  { key:'grocery_bigbasket', label:'BigBasket (Groceries)', group:'Food & Groceries', directCat:'groceries' },
+  { key:'grocery_blinkit', label:'Blinkit / Zepto', group:'Food & Groceries', directCat:'groceries' },
+  { key:'grocery_offline', label:'Grocery Store (Offline)', group:'Food & Groceries', directCat:'groceries' },
+
+  { key:'flight_booking', label:'Flight Booking', group:'Travel', directCat:'travel' },
+  { key:'hotel_booking', label:'Hotel Booking', group:'Travel', directCat:'travel' },
+  { key:'train_irctc', label:'Train Ticket (IRCTC)', group:'Travel', directCat:'travel' },
+  { key:'cab_ride', label:'Cab / Auto (Uber/Ola)', group:'Travel', directCat:'travel' },
+  { key:'bus_booking', label:'Bus Ticket (RedBus)', group:'Travel', directCat:'travel' },
+
+  { key:'fuel_indianoil', label:'Fuel - IndianOil', group:'Fuel', directCat:'fuel' },
+  { key:'fuel_hpcl', label:'Fuel - HP', group:'Fuel', directCat:'fuel' },
+  { key:'fuel_bpcl', label:'Fuel - BPCL', group:'Fuel', directCat:'fuel' },
+
+  { key:'movie_tickets', label:'Movie Tickets (BookMyShow/PVR)', group:'Entertainment', directCat:'entertainment' },
+  { key:'ott_subscription', label:'OTT Subscription', group:'Entertainment', directCat:'entertainment' },
+
+  { key:'rent_payment', label:'Rent Payment', group:'General', directCat:'general' },
+  { key:'general_purchase', label:'General / Other', group:'General', directCat:'general' },
+];
+
+// ===================== CARD DATABASE =====================
+// All rates are EFFECTIVE CASHBACK % (points already converted to ₹ value)
+// Sources: Paisabazaar, BankBazaar, CardExpert, TechnoFino, official bank T&Cs (Feb 2026)
+const CARD_DB = [
+  // ==================== HDFC BANK ====================
+  { id:'hdfc-infinia', name:'HDFC Infinia', bank:'HDFC Bank', network:'Visa', color:'#1e293b', joiningFee:12500, annualFee:12500, monthlyCap:0,
+    rates:{dining:3.33,groceries:3.33,fuel:0,travel:3.33,online:3.33,entertainment:3.33,utilities:3.33,general:3.33},
+    notes:'5 RP/₹150. 1 RP=₹1 via SmartBuy. 10x on SmartBuy (cap 15,000 bonus RP/mo, 25,000 total/statement, valid till Mar 2026). RP redemption max 5x/mo (from Feb 2026). Invite-only. Unlimited lounge. No fuel/wallet/rent.' },
+  { id:'hdfc-diners-black', name:'HDFC Diners Club Black', bank:'HDFC Bank', network:'Diners', color:'#1e293b', joiningFee:10000, annualFee:10000, monthlyCap:0,
+    rates:{dining:3.33,groceries:3.33,fuel:0,travel:3.33,online:3.33,entertainment:3.33,utilities:3.33,general:3.33},
+    notes:'5 RP/₹150. 1 RP=₹1 via SmartBuy. 10x on SmartBuy (cap 15,000 bonus RP/mo, 25,000 total/statement). Welcome: Club Marriott + Swiggy One + Amazon Prime on ₹1.5L in 90 days. Monthly milestone: 2x ₹500 vouchers on ₹80K/mo spend. 10,000 Bonus RP on ₹4L/qtr. Unlimited lounge (1,300+). 6 golf/qtr. Fee waived on ₹8L spend. No fuel/wallet/rent.' },
+  { id:'hdfc-regalia', name:'HDFC Regalia', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:1.33,groceries:1.33,fuel:0,travel:1.33,online:1.33,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'4 RP/₹150. 1 RP=₹0.50 SmartBuy. Up to 5x on SmartBuy. 7.5% dining discount via Swiggy Dineout (Good Food Trail). 24x7 concierge. 15,000 bonus RP milestone. No fuel/wallet/rent.' },
+  { id:'hdfc-regalia-gold', name:'HDFC Regalia Gold', bank:'HDFC Bank', network:'Visa', color:'#eab308', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:1.33,groceries:1.33,fuel:0,travel:1.33,online:6.67,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'4 RP/₹150 base. 20 RP/₹150 (5x) on Nykaa, Myntra, M&S, Reliance Digital. 1 RP=₹0.50. Complimentary Swiggy One + MMT Black Gold membership. ₹1,500 voucher on ₹1.5L/qtr. ₹5,000 on ₹5L/yr. No fuel/wallet/rent.' },
+  { id:'hdfc-regalia-first', name:'HDFC Regalia First', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:1000, annualFee:1000, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'3 RP/₹150 (w.e.f. Sep 2024). 1 RP=₹0.50 (=1% effective). Bonus 7,500 RP on ₹6L + 5,000 on ₹9L/yr. 20% off dining via Swiggy Dineout. Renewal fee waived on ₹1L/yr. No fuel/wallet/EMI.' },
+  { id:'hdfc-millennia', name:'HDFC Millennia', bank:'HDFC Bank', network:'Visa', color:'#3b82f6', joiningFee:1000, annualFee:1000, monthlyCap:0,
+    rates:{dining:5,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'5% CashBack on Amazon, Flipkart, Myntra, Tata CLiQ, Swiggy, Zomato, Uber, BookMyShow, Sony LIV, Cult.fit, BigBasket. 1% others. ₹1,000 voucher or lounge on ₹1L spend/qtr. No fuel/wallet/rent.' },
+  { id:'hdfc-moneyback-plus', name:'HDFC MoneyBack+', bank:'HDFC Bank', network:'Visa', color:'#14b8a6', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:5,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'10x CashPoints on Amazon, Flipkart, Swiggy, BigBasket (~5%). 2 CP/₹150 on others (~1%). Max 2,500 CP/mo. No fuel/wallet/rent.' },
+  { id:'hdfc-swiggy', name:'HDFC Swiggy', bank:'HDFC Bank', network:'Visa', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:3500,
+    rates:{dining:10,groceries:5,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'10% Swiggy (food/Instamart/Dineout) cap ₹1,500/mo. 5% select online cap ₹1,500/mo. 1% others cap ₹500/mo. Total cap ₹3,500/mo.' },
+  { id:'hdfc-tata-neu-infinity', name:'HDFC Tata Neu Infinity', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:1499, annualFee:1499, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'5% NeuCoins on Tata ecosystem (BigBasket, Croma, 1mg, Westside, Taj etc). 1.5% others. Cap 2,000 NeuCoins/mo per category. No fuel/wallet/rent.' },
+  { id:'hdfc-tata-neu-plus', name:'HDFC Tata Neu Plus', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:2,entertainment:1,utilities:1,general:1},
+    notes:'2% NeuCoins on Tata ecosystem. 1% on all other spends. Entry-level Tata co-brand. No fuel/wallet/rent.' },
+  { id:'hdfc-diners-privilege', name:'HDFC Diners Club Privilege', bank:'HDFC Bank', network:'Diners', color:'#334155', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:6.67,groceries:1.33,fuel:0,travel:1.33,online:1.33,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'20 RP/₹150 on Swiggy & Zomato (=6.67%). 4 RP/₹150 base (=1.33%). 1 RP=₹0.50. BookMyShow BOGO: 2 free tickets/mo (Fri-Sun, max ₹250/ticket). Quarterly voucher (O2 Spa/Lakme) on ₹1.5L spend. Welcome: ₹500 voucher on ₹75K in 90 days. Fee waived on ₹3L spend. No fuel/wallet/rent.' },
+  { id:'hdfc-indianoil', name:'HDFC IndianOil', bank:'HDFC Bank', network:'Visa', color:'#ef4444', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.64,groceries:5,fuel:5,travel:0.64,online:0.64,entertainment:0.64,utilities:5,general:0.64},
+    notes:'5% Fuel Points at IndianOil, groceries & bills. 1 FP/₹150 on others (~0.64%). 1% fuel surcharge waiver.' },
+  { id:'hdfc-bharat-cashback', name:'HDFC Bharat Cashback', bank:'HDFC Bank', network:'RuPay', color:'#22c55e', joiningFee:500, annualFee:500, monthlyCap:1000,
+    rates:{dining:1,groceries:1,fuel:5,travel:1,online:1,entertainment:1,utilities:5,general:1},
+    notes:'5% on fuel (all brands). 5% on utility/telecom. 1% others. Cap ₹1,000/mo. RuPay benefits apply.' },
+  { id:'hdfc-pixel-play', name:'HDFC Pixel Play', bank:'HDFC Bank', network:'Visa', color:'#ec4899', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:5,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'Up to 5% cashback on select online merchants. 1% on others. Fully digital card via PayZapp. Lifetime Free. Customizable card design.' },
+  { id:'hdfc-marriott-bonvoy', name:'Marriott Bonvoy HDFC Diners', bank:'HDFC Bank', network:'Diners', color:'#8b5cf6', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:1.33,groceries:1.33,fuel:0,travel:4,online:1.33,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'8 Marriott Bonvoy points/₹150 on Marriott stays (~4% travel). 4 points/₹150 on others (~1.33%). First hotel co-brand in India.' },
+  { id:'hdfc-6e-indigo', name:'6E Rewards HDFC IndiGo', bank:'HDFC Bank', network:'Diners', color:'#3b82f6', joiningFee:1500, annualFee:1500, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:3,online:1,entertainment:1,utilities:1,general:1},
+    notes:'6E Rewards on IndiGo bookings (~3% travel). Base rewards on other spends. Good for frequent IndiGo flyers.' },
+  { id:'hdfc-intermiles', name:'HDFC InterMiles Signature', bank:'HDFC Bank', network:'Visa', color:'#334155', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:1.33,groceries:1.33,fuel:0,travel:3,online:1.33,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'Accelerated InterMiles on travel (~3%). Base 4 RP/₹150 on others (~1.33%). Transfer to airline partners. 1% fuel surcharge waiver.' },
+  { id:'hdfc-shoppers-stop', name:'HDFC Shoppers Stop', bank:'HDFC Bank', network:'Visa', color:'#ec4899', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.67,groceries:0.67,fuel:0,travel:0.67,online:0.67,entertainment:0.67,utilities:0.67,general:3},
+    notes:'6 First Citizen points/₹150 at Shoppers Stop (~3%). 2 RP/₹150 on others (~0.67%). Best for Shoppers Stop regulars.' },
+  { id:'hdfc-irctc-rupay', name:'HDFC IRCTC RuPay', bank:'HDFC Bank', network:'RuPay', color:'#ef4444', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Up to 5% value back on IRCTC bookings. Base rewards on other spends. RuPay UPI benefits. For frequent train travelers.' },
+
+  // ==================== SBI CARD ====================
+  { id:'sbi-cashback', name:'SBI Cashback', bank:'SBI Card', network:'Visa', color:'#3b82f6', joiningFee:999, annualFee:999, monthlyCap:5000,
+    rates:{dining:1,groceries:1,fuel:0,travel:5,online:5,entertainment:5,utilities:0,general:1},
+    notes:'5% on online spends, 1% offline. Cap ₹5,000/statement. EXCLUDED: Utility bills, Insurance, Fuel, Rent, Wallet, Education, Jewellery, Railways — 0% on these even if paid online. Fee waived on ₹2L spend. Use Amazon GC route to bypass utility exclusion.' },
+  { id:'sbi-elite', name:'SBI Card ELITE', bank:'SBI Card', network:'Visa', color:'#334155', joiningFee:4999, annualFee:4999, monthlyCap:0,
+    rates:{dining:2.5,groceries:2.5,fuel:0,travel:0.5,online:0.5,entertainment:2.5,utilities:0.5,general:0.5},
+    notes:'5x RP on dining, groceries, dept stores (~2.5%). 2 RP/₹100 base (~0.5%). 2 free movie tickets/mo via BookMyShow (worth ~₹500). Priority Pass lounge. Concierge (flowers, gifts, doctor). Welcome gift ₹5,000. Fee waived on ₹10L spend.' },
+  { id:'sbi-prime', name:'SBI Card PRIME', bank:'SBI Card', network:'Visa', color:'#8b5cf6', joiningFee:2999, annualFee:2999, monthlyCap:0,
+    rates:{dining:2.5,groceries:2.5,fuel:0,travel:0.5,online:0.5,entertainment:2.5,utilities:0.5,general:0.5},
+    notes:'10 RP/₹100 on dining, groceries, movies (~2.5%). 2 RP/₹100 base (~0.5%). 20x RP on birthday (cap 2,000 RP). 4 golf rounds free + 50% off games + 1 lesson/mo. ITC Hotels membership (cards from Sep 2025). Welcome gift ₹3,000. Fee waived on ₹3L spend.' },
+  { id:'sbi-simplyclick', name:'SBI SimplyCLICK', bank:'SBI Card', network:'Visa', color:'#8b5cf6', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:0.25,groceries:0.25,fuel:0,travel:2.5,online:2.5,entertainment:2.5,utilities:0.25,general:0.25},
+    notes:'10x RP on partners (Amazon, Apollo 24x7, BookMyShow, Cleartrip, Dominos, IGP, Myntra, Netmeds, Yatra) ~2.5%. 5x on other online ~1.25%. 1 RP/₹100 offline ~0.25%. Welcome: ₹500 Amazon GC. Fee waived on ₹1L spend.' },
+  { id:'sbi-simplysave', name:'SBI SimplySAVE', bank:'SBI Card', network:'Visa', color:'#22c55e', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1.67,groceries:1.67,fuel:0,travel:0.17,online:0.17,entertainment:1.67,utilities:0.17,general:0.17},
+    notes:'10 RP/₹150 on dining, groceries, movies, dept stores (~1.67%). 1 RP/₹150 on others (~0.17%). Good offline rewards card.' },
+  { id:'sbi-bpcl-octane', name:'SBI BPCL Octane', bank:'SBI Card', network:'Visa', color:'#f97316', joiningFee:1499, annualFee:1499, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:7.25,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'Up to ₹7.25 back per ₹100 at BPCL pumps. 1% on others. 1% fuel surcharge waiver. Best fuel card for BPCL users.' },
+  { id:'sbi-flipkart', name:'Flipkart SBI Card', bank:'SBI Card', network:'Visa', color:'#3b82f6', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:2.5,online:5,entertainment:1,utilities:1,general:1},
+    notes:'5% on Flipkart/Myntra/Cleartrip. 2.5% on preferred partners. 1% on others. Fee waived on ₹3.5L spend. 1% fuel surcharge waiver.' },
+  { id:'sbi-irctc-premier', name:'IRCTC SBI Card Premier', bank:'SBI Card', network:'Visa', color:'#ef4444', joiningFee:1500, annualFee:1500, monthlyCap:0,
+    rates:{dining:0.2,groceries:0.2,fuel:0,travel:10,online:0.2,entertainment:0.2,utilities:0.2,general:0.2},
+    notes:'10% value back on AC1/AC2/AC3/CC train bookings. 5% on air/catering via IRCTC. 1 RP/₹125 on others. Transaction charge waiver on IRCTC.' },
+  { id:'sbi-phonepe-purple', name:'PhonePe SBI PURPLE', bank:'SBI Card', network:'RuPay', color:'#8b5cf6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.25,groceries:0.25,fuel:0,travel:0.25,online:0.5,entertainment:0.25,utilities:0.75,general:0.25},
+    notes:'3 RP/₹100 on PhonePe (~0.75%). 2 RP/₹100 online (~0.5%). 1 RP/₹100 others (~0.25%). Lifetime Free. UPI rewards via RuPay.' },
+  { id:'sbi-titan', name:'Titan SBI Card', bank:'SBI Card', network:'Visa', color:'#eab308', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:1.5,general:7.5},
+    notes:'7.5% cashback at World of Titan, Taneira, Fastrack, Sonata etc (cap ₹10K/qtr). 6 RP/₹100 on others (~1.5%). For Titan brand shoppers.' },
+  { id:'sbi-aurum', name:'SBI Card AURUM', bank:'SBI Card', network:'Visa', color:'#eab308', joiningFee:9999, annualFee:9999, monthlyCap:0,
+    rates:{dining:0.75,groceries:0.75,fuel:0,travel:3,online:0.75,entertainment:0.75,utilities:0.75,general:0.75},
+    notes:'6 Travel Credits/₹200 on travel (~3%). 3 RP/₹200 on others (~0.75%). 5,000 Travel Credits welcome. Premium travel card.' },
+
+  // ==================== ICICI BANK ====================
+  { id:'icici-amazon-pay', name:'Amazon Pay ICICI', bank:'ICICI Bank', network:'Visa', color:'#f97316', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:2,general:1},
+    notes:'5% on Amazon (Prime), 3% (non-Prime). 2% on bill payments. 1% others. Lifetime Free. No fuel/wallet.' },
+  { id:'icici-emeralde-private', name:'ICICI Emeralde Private Metal', bank:'ICICI Bank', network:'Visa', color:'#334155', joiningFee:20000, annualFee:20000, monthlyCap:0,
+    rates:{dining:3,groceries:3,fuel:0,travel:3,online:3,entertainment:3,utilities:3,general:3},
+    notes:'~3% reward rate. Unlimited domestic & international lounge. Unlimited golf. Up to 50% dining. No fuel/wallet/rent/gaming.' },
+  { id:'icici-emeralde', name:'ICICI Emeralde', bank:'ICICI Bank', network:'Visa', color:'#22c55e', joiningFee:12000, annualFee:12000, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'~1.5% effective. Premium lounge access. Transport cap ₹20K/mo. 2% DCC markup. No fuel/wallet/rent/gaming.' },
+  { id:'icici-sapphiro', name:'ICICI Sapphiro', bank:'ICICI Bank', network:'Visa', color:'#334155', joiningFee:3500, annualFee:3500, monthlyCap:0,
+    rates:{dining:0.75,groceries:2,fuel:0,travel:0.75,online:0.75,entertainment:0.75,utilities:2,general:0.75},
+    notes:'~0.75% base. ~2% on groceries & utilities. 6x-12x via iShop. 4,000 bonus RP on ₹4L spend. Fee waived on ₹6L spend. No fuel/wallet/rent/gaming.' },
+  { id:'icici-rubyx', name:'ICICI Rubyx', bank:'ICICI Bank', network:'Visa', color:'#ef4444', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:0.5},
+    notes:'2 RP/₹100 domestic (~1% with good redemption). 4 RP/₹100 international. Lounge access. Transport cap ₹20K/mo. No fuel/wallet/rent.' },
+  { id:'icici-coral', name:'ICICI Coral', bank:'ICICI Bank', network:'Visa', color:'#ec4899', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.75,groceries:0.75,fuel:0,travel:0.75,online:0.75,entertainment:0.75,utilities:0.75,general:0.75},
+    notes:'6 RP/₹200 (~0.75%). BOGO BookMyShow (₹25K spend in prior qtr). Transport cap ₹10K/mo. No fuel/wallet/rent/gaming.' },
+  { id:'icici-platinum', name:'ICICI Platinum Chip', bank:'ICICI Bank', network:'Visa', color:'#94a3b8', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Basic entry-level card. ~0.5% rewards. No joining/annual fee. Dining discounts. No fuel rewards.' },
+  { id:'icici-hpcl-supersaver', name:'ICICI HPCL Super Saver', bank:'ICICI Bank', network:'Visa', color:'#f97316', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1,groceries:5,fuel:5,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'5% at HPCL pumps/HP Pay. 5% on groceries. 1% others. Best fuel card for HPCL users.' },
+  { id:'icici-hpcl-coral', name:'ICICI HPCL Coral', bank:'ICICI Bank', network:'Visa', color:'#f97316', joiningFee:199, annualFee:199, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:2.5,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2.5% discount on fuel at HPCL. 2 RP/₹100 on all spends (~0.5%). Entry-level fuel card ₹199 fee.' },
+  { id:'icici-mmt', name:'MakeMyTrip ICICI', bank:'ICICI Bank', network:'Mastercard', color:'#ef4444', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:2,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Up to 2 MyCash/₹100 on travel (~2%). Milestone MyCash benefits. ₹1,000 MakeMyTrip voucher on joining. No fuel rewards.' },
+
+  // ==================== AXIS BANK ====================
+  { id:'axis-magnus', name:'Axis Magnus', bank:'Axis Bank', network:'Visa', color:'#eab308', joiningFee:12500, annualFee:12500, monthlyCap:0,
+    rates:{dining:1.2,groceries:1.2,fuel:0,travel:3.5,online:1.2,entertainment:1.2,utilities:1.2,general:1.2},
+    notes:'12 EDGE pts/₹200 base (~1.2%). 25,000 bonus pts on ₹1L/mo spend. Up to 40% off dining at 4,000+ restaurants. Airport concierge across 29 cities. Unlimited domestic + international lounge. 2% forex. Fee waived on ₹25L spend.' },
+  { id:'axis-reserve', name:'Axis Reserve', bank:'Axis Bank', network:'Visa', color:'#334155', joiningFee:50000, annualFee:50000, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:0,travel:4,online:2,entertainment:2,utilities:2,general:2},
+    notes:'2x RP on international. ~4% on travel. ~2% base. 1.5% forex markup. Ultra-premium. Fee waived on ₹25L spend.' },
+  { id:'axis-atlas', name:'Axis Atlas', bank:'Axis Bank', network:'Visa', color:'#334155', joiningFee:5000, annualFee:5000, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:3.75,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'5 EDGE Miles/₹100 on airlines & hotels (=3.75%). 2 Miles/₹100 others (=1.5%). 15+ airline transfer partners.' },
+  { id:'axis-select', name:'Axis Select', bank:'Axis Bank', network:'Visa', color:'#8b5cf6', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'10,000 EDGE RP on activation. 6 complimentary golf rounds/yr. 5,000 RP on ₹3L spend milestone. ~1% base.' },
+  { id:'axis-flipkart', name:'Axis Flipkart', bank:'Axis Bank', network:'Visa', color:'#3b82f6', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:4,groceries:1,fuel:0,travel:5,online:5,entertainment:1,utilities:0,general:1},
+    notes:'7.5% Myntra (cap ₹4K/qtr). 5% Flipkart & Cleartrip (cap ₹4K/qtr). 4% Swiggy/Uber/PVR. 1% others. Welcome (Feb 2026): BMS ₹250 + Flipkart ₹250 voucher + 3-mo Myntra Insider on first txn in 30 days. No fuel/utility/rent.' },
+  { id:'axis-flipkart-super-elite', name:'Axis Flipkart Super Elite', bank:'Axis Bank', network:'Visa', color:'#3b82f6', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:0,travel:2,online:5,entertainment:2,utilities:0,general:2},
+    notes:'Up to 12 SuperCoins/₹100 on Flipkart (Plus). 6 SC/₹100 non-Plus. 2 SC/₹100 others. ₹500 off Myntra. 15% off flights. Premium Flipkart co-brand.' },
+  { id:'axis-ace', name:'Axis ACE', bank:'Axis Bank', network:'Visa', color:'#8b5cf6', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:5,general:1.5},
+    notes:'5% on utility bills (Google Pay, PhonePe, electricity, broadband). 1.5% others. Fee waived on ₹2L spend. No fuel rewards.' },
+  { id:'axis-cashback', name:'Axis Cashback', bank:'Axis Bank', network:'Visa', color:'#22c55e', joiningFee:1000, annualFee:1000, monthlyCap:0,
+    rates:{dining:0.75,groceries:0.75,fuel:0,travel:0.75,online:5,entertainment:0.75,utilities:0.5,general:0.75},
+    notes:'2-7% cashback on online transactions (avg ~5%). 0.75% offline & travel. 0.5% on utilities. 5,000 EDGE RP welcome. Fee waived on ₹4L spend.' },
+  { id:'axis-rewards', name:'Axis Rewards', bank:'Axis Bank', network:'Visa', color:'#22c55e', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:3.2,groceries:3.2,fuel:0,travel:0.4,online:0.4,entertainment:0.4,utilities:0,general:0.4},
+    notes:'Up to 20 EDGE RP/₹125 on dining & grocery (10x = ~3.2%). 2 RP/₹125 base (~0.4%). 1,500 bonus RP monthly milestone. No fuel/utility.' },
+  { id:'axis-airtel', name:'Axis Airtel', bank:'Axis Bank', network:'Visa', color:'#ef4444', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:10,groceries:10,fuel:0,travel:1,online:1,entertainment:1,utilities:10,general:1},
+    notes:'25% on Airtel recharges. 10% on Swiggy/Zomato/BigBasket. 10% on utility bills via Airtel Thanks. 1% others.' },
+  { id:'axis-myzone', name:'Axis MyZone', bank:'Axis Bank', network:'Visa', color:'#ec4899', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:4,groceries:0.4,fuel:0,travel:0.4,online:2,entertainment:0,utilities:0,general:0.4},
+    notes:'0.4% base (4 EDGE RP/₹200 @ ₹0.20). 10x weekend dining partners (=4%). 5x weekend shopping (=2%). No RP on fuel/movies/utilities. BOGO movies. ₹120 off Swiggy. Often available as LTF.' },
+  { id:'axis-horizon', name:'Axis Horizon (ex-Citi PremierMiles)', bank:'Axis Bank', network:'Visa', color:'#334155', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:3,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'5,000 EDGE Miles welcome. Accelerated miles on travel (~3%). 2 miles/₹100 on others (~1.5%). Quarterly lounge access. Rebranded from Citi PremierMiles.' },
+  { id:'axis-signature', name:'Axis Signature', bank:'Axis Bank', network:'Visa', color:'#8b5cf6', joiningFee:2000, annualFee:2000, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:2,online:1,entertainment:1,utilities:1,general:1},
+    notes:'10 pts/₹200 domestic (~1%). 20 pts/₹200 international (~2%). 2 domestic lounge/qtr. Priority Pass. Insurance covers.' },
+  { id:'axis-googlepay', name:'Axis Google Pay', bank:'Axis Bank', network:'Visa', color:'#22c55e', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:2,entertainment:1,utilities:2,general:1},
+    notes:'Earn stars redeemable as cashback on Google Pay (1 star = ₹1). ~2% on online & bill payments. 15% off dining via EazyDiner. LTF variants available.' },
+  { id:'indianoil-axis', name:'IndianOil Axis Bank', bank:'Axis Bank', network:'Visa', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:4.25,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'Up to 4.25% at IndianOil outlets. 1% others. 1% fuel surcharge waiver. Fee waived on ₹3.5L spend.' },
+
+  // ==================== KOTAK MAHINDRA BANK ====================
+  { id:'kotak-cashback-plus', name:'Kotak Cashback+', bank:'Kotak Bank', network:'Visa', color:'#3b82f6', joiningFee:750, annualFee:750, monthlyCap:500,
+    rates:{dining:5,groceries:5,fuel:3,travel:0.5,online:0.5,entertainment:5,utilities:0,general:0.5},
+    notes:'5% on online grocery, food delivery & entertainment. 3% on fuel (all brands). 0.5% on others. Cap 500 pts/cycle on accelerated categories. No utility/rent/insurance/wallet rewards. BOGO PVR.' },
+  { id:'kotak-delight-platinum', name:'Kotak Delight Platinum', bank:'Kotak Bank', network:'Visa', color:'#ec4899', joiningFee:0, annualFee:0, monthlyCap:600,
+    rates:{dining:10,groceries:1,fuel:0,travel:10,online:1,entertainment:10,utilities:1,general:1},
+    notes:'Up to 10% on dining, travel & movies (cap ₹600/cycle for dining under ₹4K). 1% others. Lifetime Free.' },
+  { id:'kotak-811', name:'Kotak 811 #DreamDifferent', bank:'Kotak Bank', network:'Visa', color:'#ef4444', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.3,groceries:0.3,fuel:0,travel:0.3,online:0.3,entertainment:0.3,utilities:0.3,general:0.3},
+    notes:'3 RP/₹100 (1,000 RP = ₹100 → ~0.3%). Lifetime Free. Entry-level secured card. Min limit ₹5,000.' },
+  { id:'kotak-urbane-gold', name:'Kotak Urbane Gold', bank:'Kotak Bank', network:'Visa', color:'#eab308', joiningFee:0, annualFee:199, monthlyCap:0,
+    rates:{dining:0.3,groceries:0.3,fuel:0,travel:0.3,online:0.3,entertainment:0.3,utilities:0.3,general:0.3},
+    notes:'3 RP/₹100 (1,000 RP = ₹100 → ~0.3%). 4 PVR tickets or 10,000 RP on ₹1L annual spend. 1% fuel surcharge waiver.' },
+  { id:'kotak-league-platinum', name:'Kotak League Platinum', bank:'Kotak Bank', network:'Visa', color:'#8b5cf6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.2,groceries:0.1,fuel:0,travel:0.1,online:0.2,entertainment:0.1,utilities:0.1,general:0.1},
+    notes:'2 RP/₹100 online (~0.2%). 1 RP/₹100 others (~0.1%). 1% fuel surcharge waiver. Lifetime Free entry-level card.' },
+  { id:'kotak-white', name:'Kotak White', bank:'Kotak Bank', network:'Visa', color:'#f1f5f9', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'White Pass value redeemable for luxury brand vouchers (~1.5%). 8 domestic lounge visits/yr. 2% forex markup. Premium lifestyle card.' },
+  { id:'kotak-privy-league', name:'Kotak Privy League Signature', bank:'Kotak Bank', network:'Visa', color:'#334155', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1.33,groceries:1.33,fuel:0,travel:1.33,online:1.33,entertainment:1.33,utilities:1.33,general:1.33},
+    notes:'8x RP/₹150 on special categories, 4x on others up to ₹2L, 8x on all above ₹2L (~1.33% avg). 2% forex markup on paid variant. Privy League customers.' },
+  { id:'kotak-mojo', name:'Kotak Mojo', bank:'Kotak Bank', network:'Visa', color:'#ec4899', joiningFee:999, annualFee:999, monthlyCap:0,
+    rates:{dining:0.25,groceries:0.25,fuel:0,travel:0.25,online:0.5,entertainment:0.25,utilities:0.25,general:0.25},
+    notes:'2.5 Mojo pts/₹100 online (~0.5%). 1 Mojo pt/₹100 others (~0.25%). 8 domestic lounge/yr. Fee waived on ₹1L spend.' },
+  { id:'kotak-myntra', name:'Kotak Myntra', bank:'Kotak Bank', network:'Visa', color:'#ec4899', joiningFee:599, annualFee:599, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'Up to 5% cashback on Myntra. Welcome ₹500 Myntra voucher. Myntra Insider membership. 1% on others. Fee waived on spend threshold.' },
+  { id:'kotak-indigo-xl', name:'Kotak IndiGo 6E Rewards XL Signature', bank:'Kotak Bank', network:'Visa', color:'#3b82f6', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:3.5,online:1,entertainment:1,utilities:1,general:1},
+    notes:'Up to 21 IndiGo BluChips/₹100 on IndiGo (~3.5% travel). IndiGo vouchers worth ₹16,000/yr. 8 lounge visits.' },
+  { id:'kotak-indigo-platinum', name:'Kotak IndiGo 6E Rewards Platinum', bank:'Kotak Bank', network:'Visa', color:'#3b82f6', joiningFee:2500, annualFee:2500, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:2.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Up to 19 IndiGo BluChips/₹100 on IndiGo (~2.5% travel). Welcome ticket ₹3,000. Priority boarding.' },
+  { id:'kotak-silk-inspire', name:'Kotak Silk Inspire', bank:'Kotak Bank', network:'Visa', color:'#ec4899', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.3,groceries:0.3,fuel:0,travel:0.3,online:0.3,entertainment:0.3,utilities:0.3,general:0.3},
+    notes:'Designed for women. ~0.3% rewards. Lifestyle privileges. Lifetime Free.' },
+  { id:'kotak-indianoil', name:'Kotak IndianOil', bank:'Kotak Bank', network:'RuPay', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:4,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Up to 4% fuel savings at IndianOil outlets. 0.5% on others. 1% fuel surcharge waiver.' },
+  { id:'kotak-pvr', name:'PVR Kotak Platinum', bank:'Kotak Bank', network:'Visa', color:'#ef4444', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1,groceries:0.3,fuel:0,travel:0.3,online:0.3,entertainment:5,utilities:0.3,general:0.3},
+    notes:'2 free PVR tickets/mo. 15% cashback on F&B at PVR. 5% on PVR ticket purchases. ~0.3% on others.' },
+
+  // ==================== IDFC FIRST BANK ====================
+  { id:'idfc-select', name:'IDFC FIRST Select', bank:'IDFC FIRST Bank', network:'Visa', color:'#3b82f6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:0,travel:2,online:2,entertainment:2,utilities:0,general:2},
+    notes:'3x up to ₹20K/mo, 10x after (1 RP/₹125 @ ₹0.25). Effective ~0.6% base, up to 2% on high spends. Lifetime Free. No fuel/utility/rent/gaming. Never-expiring RP.' },
+  { id:'idfc-wealth', name:'IDFC FIRST Wealth', bank:'IDFC FIRST Bank', network:'Visa', color:'#334155', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:2.5,groceries:2.5,fuel:0,travel:2.5,online:2.5,entertainment:2.5,utilities:0,general:2.5},
+    notes:'Best IDFC card. 10x = 2.5% (1 RP/₹100 @ ₹0.25). 1.5% forex markup. Lifetime Free. No fuel/utility/rent/gaming.' },
+  { id:'idfc-millennia', name:'IDFC FIRST Millennia', bank:'IDFC FIRST Bank', network:'Visa', color:'#14b8a6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1.67,groceries:1.67,fuel:0,travel:1.67,online:1.67,entertainment:1.67,utilities:0,general:1.67},
+    notes:'10x = 1.67% (1 RP/₹150 @ ₹0.25). 3x base ~0.5%. Lifetime Free. Entry-level. No fuel/utility/rent.' },
+  { id:'idfc-classic', name:'IDFC FIRST Classic', bank:'IDFC FIRST Bank', network:'Visa', color:'#94a3b8', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0,general:0.5},
+    notes:'Entry-level ~0.5% base. Lifetime Free. Lower income eligibility (₹25K/mo). No fuel/utility/rent.' },
+  { id:'idfc-ashva', name:'IDFC FIRST Ashva', bank:'IDFC FIRST Bank', network:'Visa', color:'#8b5cf6', joiningFee:2999, annualFee:2999, monthlyCap:0,
+    rates:{dining:2.5,groceries:2.5,fuel:0,travel:2.5,online:2.5,entertainment:2.5,utilities:0,general:2.5},
+    notes:'Premium card ~2.5%. Lounge access. Rewards never expire. No fuel/utility/rent/gaming.' },
+  { id:'idfc-hpcl', name:'IDFC FIRST HPCL Power+', bank:'IDFC FIRST Bank', network:'Visa', color:'#f97316', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:5,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Accelerated rewards on HPCL fuel (~5%). 0.5% on others. Lifetime Free. Fuel surcharge waiver.' },
+
+  // ==================== RBL BANK ====================
+  { id:'rbl-indianoil-xtra', name:'IndianOil RBL XTRA', bank:'RBL Bank', network:'Mastercard', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:7.5,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'10 Fuel Points/₹100 at IOCL (~7.5%). 1 FP/₹100 others (~0.5%). Top fuel card for IndianOil. Fee waived on ₹2.5L spend.' },
+  { id:'rbl-duet-plus', name:'RBL Paisabazaar Duet Plus', bank:'RBL Bank', network:'Mastercard', color:'#8b5cf6', joiningFee:0, annualFee:0, monthlyCap:500,
+    rates:{dining:2.5,groceries:1,fuel:0,travel:2.5,online:1,entertainment:1,utilities:1,general:1},
+    notes:'2.5% on travel & dining. 1% on others. Cap ₹500/mo. Lifetime Free.' },
+  { id:'rbl-shoprite', name:'RBL ShopRite', bank:'RBL Bank', network:'Mastercard', color:'#22c55e', joiningFee:500, annualFee:500, monthlyCap:0,
+    rates:{dining:1,groceries:3,fuel:1,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'Accelerated RP on grocery & fuel. ~3% groceries. ~1% fuel. 0.5% others.' },
+  { id:'rbl-world-safari', name:'RBL World Safari', bank:'RBL Bank', network:'Mastercard', color:'#334155', joiningFee:3000, annualFee:3000, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:2.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'5 RP/₹100 on travel (~2.5%). 2 RP/₹100 domestic (~0.5%). Zero forex markup. Premium travel card.' },
+
+  // ==================== FEDERAL BANK ====================
+  { id:'scapia-federal', name:'Scapia Federal Bank', bank:'Federal Bank', network:'Visa', color:'#14b8a6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:2,travel:4,online:2,entertainment:2,utilities:2,general:2},
+    notes:'2% on all spends (incl. insurance & jewellery — rare). 4% on Scapia app travel bookings. Zero forex. Lifetime Free. Unlimited lounge access.' },
+
+  // ==================== AMERICAN EXPRESS ====================
+  { id:'amex-smartearn', name:'Amex SmartEarn', bank:'American Express', network:'Amex', color:'#3b82f6', joiningFee:495, annualFee:495, monthlyCap:0,
+    rates:{dining:5,groceries:0.5,fuel:0,travel:0.5,online:5,entertainment:0.5,utilities:0,general:0.5},
+    notes:'10x MR on Zomato/Ajio/Nykaa/BookMyShow/Uber (~5%). 5x on Amazon (~2.5%). 1 MR/₹50 base (~0.5%). Fee waived on ₹40K spend. No fuel/utility.' },
+  { id:'amex-mrcc', name:'Amex Membership Rewards (MRCC)', bank:'American Express', network:'Amex', color:'#eab308', joiningFee:1000, annualFee:4500, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:0,travel:2,online:2,entertainment:2,utilities:0,general:2},
+    notes:'1 MR/₹50 (~0.5% base). BUT milestone bonuses: 1,000 MR on 4x ₹1,500 txns/mo + 1,000 on ₹20K/mo → effective ~6% at ₹20K/mo spend. MR points never expire. No fuel/utility.' },
+  { id:'amex-plat-travel', name:'Amex Platinum Travel', bank:'American Express', network:'Amex', color:'#334155', joiningFee:5000, annualFee:5000, monthlyCap:0,
+    rates:{dining:0.6,groceries:0.6,fuel:0,travel:4,online:0.6,entertainment:0.6,utilities:0,general:0.6},
+    notes:'1 MR/₹50 base (~0.6%). Milestones: 7,500 MR on ₹1.9L + 10,000 MR on ₹4L + Taj voucher ₹10K. Effective ~4% on travel-heavy spending. Changes coming Mar 2026.' },
+  { id:'amex-gold', name:'Amex Gold (Charge Card)', bank:'American Express', network:'Amex', color:'#eab308', joiningFee:9000, annualFee:9000, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:2,travel:2,online:2,entertainment:2,utilities:2,general:2},
+    notes:'4,000 MR welcome. 1,000 bonus MR on 6x ₹1K txns/mo. Earns on fuel too. 10x via Reward Multiplier portal. ~2% effective. MR never expire. Charge card (pay in full).' },
+
+  // ==================== INDUSIND BANK ====================
+  { id:'indusind-legend', name:'IndusInd Legend', bank:'IndusInd Bank', network:'Visa', color:'#3b82f6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2 RP/₹100 weekends (=₹1 → 1%). 1 RP/₹100 weekdays (=₹0.50 → 0.5%). 1 RP=₹0.50 cash. Lifetime Free. RP never expire. Cash redemption cap 5,000 RP/mo.' },
+  { id:'indusind-tiger', name:'IndusInd Tiger', bank:'IndusInd Bank', network:'Visa', color:'#f97316', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:2.4,groceries:2.4,fuel:0,travel:2.4,online:2.4,entertainment:2.4,utilities:2.4,general:2.4},
+    notes:'Up to 6 RP/₹100 @ ₹0.40 (=2.4%). Tier-based: 1.2% up to ₹1L, 7.2% above ₹5L/yr. Lifetime Free. Cash cap 5,000 RP/mo.' },
+  { id:'indusind-platinum', name:'IndusInd Platinum', bank:'IndusInd Bank', network:'Visa', color:'#94a3b8', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.4,groceries:0.4,fuel:0,travel:0.4,online:0.4,entertainment:0.4,utilities:0.4,general:0.4},
+    notes:'Up to 8x RP/₹100 (~0.4% base). Discount vouchers of top brands. Lifetime Free entry-level.' },
+  { id:'indusind-eazydiner', name:'EazyDiner IndusInd', bank:'IndusInd Bank', network:'Visa', color:'#ef4444', joiningFee:2999, annualFee:2999, monthlyCap:0,
+    rates:{dining:4,groceries:1,fuel:0,travel:1,online:2,entertainment:2,utilities:1,general:1},
+    notes:'10 RP/₹100 on dining/shopping/entertainment (~4% dining). Up to 50% off dining via EazyDiner Prime. Premium dining card.' },
+  { id:'indusind-nexxt', name:'IndusInd Nexxt', bank:'IndusInd Bank', network:'Visa', color:'#8b5cf6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:2.5,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'India\'s first interactive card with buttons. 1%-2.5% rewards. Lifetime Free.' },
+
+  // ==================== YES BANK ====================
+  { id:'yes-paisasave', name:'YES BANK PaisaSave', bank:'YES Bank', network:'Visa', color:'#3b82f6', joiningFee:0, annualFee:499, monthlyCap:0,
+    rates:{dining:6,groceries:1,fuel:0,travel:6,online:1,entertainment:1,utilities:1,general:1},
+    notes:'6% on dining & travel (12 RP/₹200 @ 1:1). 1% others. Fee waived on ₹1.2L spend. Top dining+travel card.' },
+  { id:'yes-prosperity-cashback', name:'YES Prosperity Cashback', bank:'YES Bank', network:'Visa', color:'#22c55e', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'~1% cashback on all spends. Lifetime Free. Basic entry-level card from YES Bank.' },
+  { id:'yes-first-exclusive', name:'YES FIRST Exclusive', bank:'YES Bank', network:'Visa', color:'#334155', joiningFee:10000, annualFee:10000, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:3,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'9 RP/₹200 on travel (~3%). 6 RP/₹200 base (~1.5%). Unlimited domestic lounge. Golf. Premium card from YES Bank.' },
+
+  // ==================== STANDARD CHARTERED ====================
+  { id:'sc-ultimate', name:'Standard Chartered Ultimate', bank:'Standard Chartered', network:'Visa', color:'#3b82f6', joiningFee:5000, annualFee:5000, monthlyCap:0,
+    rates:{dining:3.3,groceries:3.3,fuel:0,travel:3.3,online:3.3,entertainment:3.3,utilities:3.3,general:3.3},
+    notes:'~3.3% reward rate across all categories. Unlimited lounge access. Premium card. Fee waived on ₹6L spend. No fuel rewards.' },
+  { id:'sc-easemytrip', name:'SC EaseMyTrip', bank:'Standard Chartered', network:'Visa', color:'#ef4444', joiningFee:999, annualFee:999, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:5,online:1,entertainment:1,utilities:1,general:1},
+    notes:'Up to 12x points on EaseMyTrip (~5% travel). Base rewards on others (~1%). Good travel co-brand.' },
+  { id:'sc-digismart', name:'SC DigiSmart', bank:'Standard Chartered', network:'Visa', color:'#14b8a6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:2,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'5% cashback on online spend categories (avg ~2%). 0.5% others. Lifetime Free. Digital-first card.' },
+
+  // ==================== HSBC ====================
+  { id:'hsbc-travelone', name:'HSBC TravelOne', bank:'HSBC', network:'Visa', color:'#ef4444', joiningFee:3500, annualFee:3500, monthlyCap:0,
+    rates:{dining:2,groceries:2,fuel:0,travel:4,online:2,entertainment:2,utilities:2,general:2},
+    notes:'4 RP/₹100 on flights, travel, international (=4%). 2 RP/₹100 others (=2%). Zero forex markup. Fee waived on ₹4L spend.' },
+  { id:'hsbc-live-plus', name:'HSBC Live+', bank:'HSBC', network:'Visa', color:'#22c55e', joiningFee:999, annualFee:999, monthlyCap:0,
+    rates:{dining:10,groceries:10,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
+    notes:'10% cashback on dining, grocery & food delivery. 1% others. Fee waived on ₹2L spend. Great for dining & groceries.' },
+  { id:'hsbc-cashback', name:'HSBC Cashback', bank:'HSBC', network:'Visa', color:'#3b82f6', joiningFee:750, annualFee:750, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'1.5% cashback across all categories. No caps on cashback. Fee waived on ₹1L spend. Simple & straightforward.' },
+  { id:'hsbc-smart-value', name:'HSBC Smart Value', bank:'HSBC', network:'Visa', color:'#f97316', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:2.5,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2.5% on fuel. 1% on dining & groceries. 0.5% others. Lifetime Free. Fuel surcharge waiver.' },
+  { id:'hsbc-taj', name:'HSBC Taj Card', bank:'HSBC', network:'Visa', color:'#eab308', joiningFee:10000, annualFee:10000, monthlyCap:0,
+    rates:{dining:5,groceries:1.5,fuel:0,travel:5,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'5 RP/₹100 at Taj/Vivanta/Ginger hotels (=5%). 1.5 RP/₹100 others (=1.5%). 2 Taj stays + 1 Taj Palace stay on activation. Ultra-premium hotel card.' },
+
+  // ==================== BANK OF BARODA ====================
+  { id:'bob-cashback', name:'BOBCARD Cashback', bank:'Bank of Baroda', network:'Visa', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:1500,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
+    notes:'5% on select online (4% accelerated + 1% base). 1% on others. Accelerated cap ₹1,500/mo (min 4 txns). 1% fuel surcharge waiver.' },
+  { id:'bob-easy', name:'BOBCARD Easy', bank:'Bank of Baroda', network:'Visa', color:'#22c55e', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'~0.5% rewards on all spends. Lifetime Free entry-level card. Fuel surcharge waiver.' },
+  { id:'bob-premier', name:'BOBCARD Premier', bank:'Bank of Baroda', network:'Visa', color:'#8b5cf6', joiningFee:2999, annualFee:2999, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
+    notes:'~1.5% rewards. Lounge access. Milestone benefits. Premium BOB card.' },
+
+  // ==================== CANARA BANK ====================
+  { id:'canara-visa-classic', name:'Canara Bank Visa Classic', bank:'Canara Bank', network:'Visa', color:'#3b82f6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2 RP/₹100 (1 RP=₹0.25 → 0.5%). Flat rate across all categories. Lifetime Free. Up to 50 days interest-free. No fuel rewards.' },
+  { id:'canara-mc-world', name:'Canara Bank MasterCard World', bank:'Canara Bank', network:'Mastercard', color:'#334155', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2 RP/₹100 (0.5%). LTF but ₹354 inactivity fee if spend <₹1L/yr. Domestic lounge: 3 self+2 guest/qtr. International: 2 self+2 guest/yr. 1% fuel surcharge waiver. GoIbibo: 12% off flights, 15% off hotels.' },
+  { id:'canara-rupay-platinum', name:'Canara Bank RuPay Platinum', bank:'Canara Bank', network:'RuPay', color:'#94a3b8', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:0.5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:0.5,general:0.5},
+    notes:'2 RP/₹100 (0.5%). Lifetime Free. Basic RuPay card. Can be linked to UPI for CC-on-UPI payments. RuPay benefits apply.' },
+  { id:'canara-rupay-select', name:'Canara Bank RuPay Select', bank:'Canara Bank', network:'RuPay', color:'#8b5cf6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:5,general:0.5},
+    notes:'5% cashback on dining & utility bills (cap ₹50/mo each → effective on first ₹1,000/mo per category). 0.5% on others. LTF (₹300 inactivity fee if spend <₹10K/yr). Domestic lounge 2/qtr. International 2/yr. 1% fuel surcharge waiver. RuPay CC on UPI supported.' },
+  { id:'canara-rupay-select-secured', name:'Canara Bank RuPay Select Secured', bank:'Canara Bank', network:'RuPay', color:'#22c55e', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:5,groceries:0.5,fuel:0,travel:0.5,online:0.5,entertainment:0.5,utilities:5,general:0.5},
+    notes:'Secured (FD-backed) variant. 5% cashback on dining & utility bills (cap ₹50/mo each). 0.5% on others. Limit ₹1L-50L based on FD. Lounge access. Concierge. RuPay CC on UPI supported.' },
+
+  // ==================== OTHERS ====================
+  { id:'onecard', name:'OneCard', bank:'OneCard (FPL)', network:'Visa', color:'#334155', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1.25,groceries:1.25,fuel:0,travel:0.25,online:1.25,entertainment:0.25,utilities:0.25,general:0.25},
+    notes:'5x on top 2 spend categories (~1.25%). 1x others (~0.25%). Auto-detected. Lifetime Free metal card. No fuel rewards.' },
+  { id:'au-lit', name:'AU LIT Credit Card', bank:'AU Small Finance', network:'Visa', color:'#14b8a6', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:3.5,general:1},
+    notes:'3.5% on utility/bill payments. 1% all others. Lifetime Free.' },
+  { id:'au-altura', name:'AU Altura Credit Card', bank:'AU Small Finance', network:'Visa', color:'#8b5cf6', joiningFee:499, annualFee:499, monthlyCap:0,
+    rates:{dining:1,groceries:1,fuel:0,travel:1,online:2,entertainment:1,utilities:2,general:1},
+    notes:'2% on online & utility spends. 1% others. Lounge access. Fee waived on ₹1L spend.' },
+  { id:'au-altura-plus', name:'AU Altura Plus', bank:'AU Small Finance', network:'Visa', color:'#8b5cf6', joiningFee:999, annualFee:999, monthlyCap:0,
+    rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:2.5,entertainment:1.5,utilities:2.5,general:1.5},
+    notes:'2.5% on online & utility. 1.5% others. 4 lounge visits/qtr. Fee waived on ₹3L spend.' },
+  { id:'fi-federal', name:'Fi Federal Bank (powered by OneCard)', bank:'Federal Bank', network:'Visa', color:'#eab308', joiningFee:0, annualFee:0, monthlyCap:0,
+    rates:{dining:1.25,groceries:1.25,fuel:0,travel:0.25,online:1.25,entertainment:0.25,utilities:0.25,general:0.25},
+    notes:'5x on top 2 categories (~1.25%). 1x others (~0.25%). Powered by OneCard. Lifetime Free. No fuel rewards.' },
+];
+
+// ===================== SMARTBUY RATES (HDFC portal) =====================
+// rate = effective %, cap = max bonus RP per month (incremental 9x portion)
+// Infinia/Diners Black: 15,000 bonus RP/mo. Regalia: similar caps. Valid till Mar 2026.
+const SMARTBUY_RATES = {
+  'hdfc-infinia':      { rate:33.3, capPerMonth:15000 },
+  'hdfc-diners-black': { rate:33.3, capPerMonth:15000 },
+  'hdfc-regalia':      { rate:13.3, capPerMonth:7500 },
+  'hdfc-regalia-gold': { rate:13.3, capPerMonth:7500 },
+  'hdfc-regalia-first':{ rate:6.7,  capPerMonth:5000 },
+  'hdfc-millennia':    { rate:5,    capPerMonth:5000 },
+  'hdfc-moneyback-plus':{ rate:5,   capPerMonth:2500 },
+  'hdfc-tata-neu-infinity':{ rate:5,capPerMonth:5000 },
+  'hdfc-diners-privilege':{ rate:6.7,capPerMonth:7500 },
+  'hdfc-pixel-play':   { rate:5,    capPerMonth:5000 },
+};
+
+// ===================== ROUTE TEMPLATES =====================
+const ROUTE_TEMPLATES = [
+  // --- Amazon Gift Card routes ---
+  { id:'amazon-gc-bills', name:'Amazon Gift Card \u2192 Pay on Amazon',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder','fastag_recharge','insurance_premium'],
+    steps:[
+      { label:'Buy Amazon Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Use GC balance to pay bill/recharge on Amazon', cardCat:null }
+    ],
+    tip:'Amazon GC purchase codes as online shopping. Your card\'s online rate applies instead of utility rate. GC valid for 1 year.',
+    notes:'Check Amazon Pay > Offers for additional cashback. Some billers may charge ₹5-15 convenience fee.'
+  },
+  { id:'amazon-gc-shopping', name:'Amazon Gift Card \u2192 Amazon Shopping',
+    purchaseTypes:['amazon_shopping'],
+    steps:[
+      { label:'Buy Amazon Gift Card with best online-rate card', cardCat:'online' },
+      { label:'Shop on Amazon using GC balance', cardCat:null }
+    ],
+    tip:'Useful if you have a card with higher online rate than Amazon Pay ICICI (5%). Also helps when your primary card is at monthly cap.',
+    notes:'Compare with direct payment via Amazon Pay ICICI (5% for Prime members).'
+  },
+  { id:'amazon-gc-swiggy', name:'Swiggy GC via Amazon \u2192 Swiggy',
+    purchaseTypes:['food_swiggy','swiggy_instamart'],
+    steps:[
+      { label:'Buy Swiggy Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Use Swiggy GC for food delivery / Instamart', cardCat:null }
+    ],
+    tip:'Uses your online rate instead of dining/grocery rate. Compare with HDFC Swiggy card (10% direct on Swiggy).',
+    notes:'Swiggy GCs available on Amazon. Check expiry before buying large amounts.'
+  },
+  { id:'amazon-gc-zomato', name:'Zomato GC via Amazon \u2192 Zomato',
+    purchaseTypes:['food_zomato'],
+    steps:[
+      { label:'Buy Zomato Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Use Zomato GC for food delivery', cardCat:null }
+    ],
+    tip:'Uses online rate instead of dining rate. Good when your online card rate > dining rate.',
+    notes:'Zomato GCs sold on Amazon.'
+  },
+  { id:'amazon-gc-bms', name:'BookMyShow GC via Amazon \u2192 Movies',
+    purchaseTypes:['movie_tickets'],
+    steps:[
+      { label:'Buy BookMyShow Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Book movie tickets with BMS GC', cardCat:null }
+    ],
+    tip:'Some cards offer BOGO on BookMyShow directly (ICICI Coral, SBI ELITE 2 free/mo). Compare total value including BOGO.',
+    notes:'Uses online rate instead of entertainment rate.'
+  },
+  { id:'amazon-gc-bigbasket', name:'BigBasket GC via Amazon \u2192 Groceries',
+    purchaseTypes:['grocery_bigbasket'],
+    steps:[
+      { label:'Buy BigBasket Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Use GC for grocery shopping on BigBasket', cardCat:null }
+    ],
+    tip:'HDFC Tata Neu cards give 5% on BigBasket via Tata Neu app. Compare both routes.',
+    notes:'Uses online rate instead of grocery rate.'
+  },
+  { id:'amazon-gc-ott', name:'Amazon GC \u2192 OTT via Amazon Pay',
+    purchaseTypes:['ott_subscription'],
+    steps:[
+      { label:'Buy Amazon Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Pay OTT subscription via Amazon Pay balance', cardCat:null }
+    ],
+    tip:'Netflix, Hotstar, Prime Video etc. can be paid via Amazon Pay.',
+    notes:'Uses online rate instead of entertainment rate. Check if your OTT accepts Amazon Pay.'
+  },
+
+  // --- Flipkart Gift Card routes ---
+  { id:'flipkart-gc', name:'Flipkart Gift Card \u2192 Flipkart Shopping',
+    purchaseTypes:['flipkart_shopping'],
+    steps:[
+      { label:'Buy Flipkart Gift Card on Flipkart.com', cardCat:'online' },
+      { label:'Shop on Flipkart using GC balance', cardCat:null }
+    ],
+    tip:'Compare with Flipkart SBI (5%) or Axis Flipkart (5%) direct rates.',
+    notes:'GC purchase codes as online shopping.'
+  },
+  { id:'flipkart-gc-myntra', name:'Myntra GC via Flipkart \u2192 Myntra',
+    purchaseTypes:['myntra_shopping'],
+    steps:[
+      { label:'Buy Myntra Gift Card on Flipkart.com', cardCat:'online' },
+      { label:'Shop on Myntra using GC', cardCat:null }
+    ],
+    tip:'HDFC Regalia Gold gives 5x on Myntra directly. Axis Flipkart gives 7.5% on Myntra.',
+    notes:'Uses online rate. Myntra GCs available on Flipkart.'
+  },
+  { id:'flipkart-gc-cleartrip', name:'Flipkart GC \u2192 Cleartrip Flight',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Buy Flipkart Gift Card on Flipkart.com', cardCat:'online' },
+      { label:'Book flight on Cleartrip using Flipkart GC', cardCat:null }
+    ],
+    tip:'Cleartrip is Flipkart-owned and accepts Flipkart GC/SuperCoins.',
+    notes:'Uses online rate instead of travel rate for the GC purchase step.'
+  },
+  { id:'flipkart-gc-recharge', name:'Flipkart GC \u2192 Recharge on Flipkart',
+    purchaseTypes:['mobile_recharge','dth_recharge'],
+    steps:[
+      { label:'Buy Flipkart Gift Card on Flipkart.com', cardCat:'online' },
+      { label:'Recharge on Flipkart using GC balance', cardCat:null }
+    ],
+    tip:'Flipkart offers mobile and DTH recharges.',
+    notes:'Uses online rate instead of utility rate.'
+  },
+
+  // --- HDFC SmartBuy routes ---
+  { id:'smartbuy-amazon-gc', name:'HDFC SmartBuy \u2192 Amazon Voucher',
+    purchaseTypes:['amazon_shopping','mobile_recharge','electricity_bill','dth_recharge','broadband_bill','insurance_premium','ott_subscription'],
+    steps:[
+      { label:'Buy Amazon voucher via HDFC SmartBuy portal', cardCat:'_smartbuy' },
+      { label:'Use Amazon voucher for purchase', cardCat:null }
+    ],
+    bankRequired:'HDFC',
+    tip:'Infinia/Diners Black earn ~33% via SmartBuy (10x points). Regalia ~13%. Best stacking route in India.',
+    notes:'Only for HDFC credit card holders. SmartBuy Amazon voucher cap: ₹10,000/txn (buy multiple). Check SmartBuy availability.'
+  },
+  { id:'smartbuy-flipkart-gc', name:'HDFC SmartBuy \u2192 Flipkart Voucher',
+    purchaseTypes:['flipkart_shopping','myntra_shopping'],
+    steps:[
+      { label:'Buy Flipkart voucher via HDFC SmartBuy', cardCat:'_smartbuy' },
+      { label:'Use Flipkart voucher for shopping', cardCat:null }
+    ],
+    bankRequired:'HDFC',
+    tip:'Same 10x multiplier as Amazon voucher route. Infinia/Diners Black ~33%.',
+    notes:'Only for HDFC card holders.'
+  },
+  { id:'smartbuy-flights', name:'HDFC SmartBuy \u2192 Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight via HDFC SmartBuy portal', cardCat:'_smartbuy' }
+    ],
+    bankRequired:'HDFC',
+    tip:'Infinia/Diners Black: ~33% effective via 10x points. Even Regalia gets ~13%.',
+    notes:'Only for HDFC card holders. SmartBuy partners: EaseMyTrip, Cleartrip etc.'
+  },
+  { id:'smartbuy-hotels', name:'HDFC SmartBuy \u2192 Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book hotel via HDFC SmartBuy portal', cardCat:'_smartbuy' }
+    ],
+    bankRequired:'HDFC',
+    tip:'10x reward points on SmartBuy hotel bookings with premium HDFC cards.',
+    notes:'Only for HDFC card holders.'
+  },
+  { id:'smartbuy-trains', name:'HDFC SmartBuy \u2192 Train Booking',
+    purchaseTypes:['train_irctc'],
+    steps:[
+      { label:'Book train via HDFC SmartBuy IRCTC', cardCat:'_smartbuy' }
+    ],
+    bankRequired:'HDFC',
+    tip:'SmartBuy has IRCTC integration. 10x points for Infinia/Diners Black.',
+    notes:'Only for HDFC card holders.'
+  },
+
+  // --- Tata Neu ecosystem ---
+  { id:'tataneu-bigbasket', name:'Tata Neu App \u2192 BigBasket',
+    purchaseTypes:['grocery_bigbasket'],
+    steps:[
+      { label:'Order BigBasket via Tata Neu app', cardCat:'online' },
+      { label:'Earn NeuCoins from Tata Neu platform (+1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'HDFC Tata Neu Infinity card gives 5% NeuCoins on all Tata ecosystem purchases via this app.',
+    notes:'~1% additional NeuCoins from Tata Neu platform. Best with HDFC Tata Neu cards.'
+  },
+  { id:'tataneu-croma', name:'Tata Neu App \u2192 Croma',
+    purchaseTypes:['croma_shopping'],
+    steps:[
+      { label:'Order on Croma via Tata Neu app', cardCat:'online' },
+      { label:'Earn NeuCoins from Tata Neu platform (+1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'HDFC Tata Neu Infinity gives 5% on Croma via Tata Neu.',
+    notes:'~1% additional NeuCoins from platform.'
+  },
+
+  // --- PhonePe / Google Pay routes ---
+  { id:'phonpe-bills', name:'Pay via PhonePe (Credit Card on UPI)',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder'],
+    steps:[
+      { label:'Pay bill/recharge on PhonePe using credit card', cardCat:'utilities' }
+    ],
+    tip:'Axis ACE gives 5% on all utility bills paid via PhonePe/Google Pay. Check if your card supports CC on UPI.',
+    notes:'RuPay cards can be linked to UPI directly. Visa/Mastercard CC on UPI support expanding.'
+  },
+  { id:'gpay-bills', name:'Pay via Google Pay (Credit Card)',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill'],
+    steps:[
+      { label:'Pay bill/recharge on Google Pay using credit card', cardCat:'utilities' }
+    ],
+    tip:'Axis ACE & Axis Google Pay cards give enhanced rewards on Google Pay. Google Pay occasionally offers scratch cards.',
+    notes:'Check CC on UPI availability with your bank.'
+  },
+
+  // --- Airtel Thanks ---
+  { id:'airtel-recharge', name:'Airtel Thanks App \u2192 Recharge',
+    purchaseTypes:['mobile_recharge','dth_recharge','broadband_bill'],
+    steps:[
+      { label:'Pay via Airtel Thanks app using credit card', cardCat:'utilities' }
+    ],
+    tip:'Axis Airtel card gives 25% on Airtel recharges and 10% on utility bills via Airtel Thanks. Only for Airtel subscribers.',
+    notes:'Best with Axis Airtel card. Other cards get standard utility rate.'
+  },
+
+  // --- Platform-specific travel ---
+  { id:'cleartrip-flights', name:'Cleartrip \u2192 Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight on Cleartrip using credit card', cardCat:'travel' }
+    ],
+    tip:'Flipkart SBI card gives 5% on Cleartrip. Axis Flipkart also gives enhanced rates.',
+    notes:'Cleartrip is Flipkart-owned.'
+  },
+  { id:'easemytrip-flights', name:'EaseMyTrip \u2192 Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight on EaseMyTrip using credit card', cardCat:'travel' }
+    ],
+    tip:'SC EaseMyTrip card gives ~5% on EaseMyTrip bookings.',
+    notes:'Good for Standard Chartered EaseMyTrip card holders.'
+  },
+  { id:'irctc-direct', name:'IRCTC Direct \u2192 Train Ticket',
+    purchaseTypes:['train_irctc'],
+    steps:[
+      { label:'Book on IRCTC using credit card', cardCat:'travel' }
+    ],
+    tip:'SBI IRCTC Premier gives 10% value back on AC classes. HDFC IRCTC RuPay gives 5%.',
+    notes:'IRCTC charges ₹15-30 convenience fee per transaction.'
+  },
+
+  // --- Rent payment (with fees) ---
+  { id:'cred-rent', name:'CRED RentPay \u2192 Rent',
+    purchaseTypes:['rent_payment'],
+    steps:[
+      { label:'Pay rent via CRED RentPay', cardCat:'general', feePercent:2 }
+    ],
+    tip:'Only worth it if your card\'s general rate > 2% platform fee. CRED also offers cashback/coins occasionally.',
+    notes:'Platform charges ~2% fee. Net reward = card rate - 2%. Many cards exclude rent from rewards.'
+  },
+  { id:'nobroker-rent', name:'NoBroker Pay \u2192 Rent',
+    purchaseTypes:['rent_payment'],
+    steps:[
+      { label:'Pay rent via NoBroker', cardCat:'general', feePercent:1.5 }
+    ],
+    tip:'Slightly lower fee than CRED. Ensure your card gives rewards on rent transactions.',
+    notes:'Platform charges ~1.5% fee. Net reward = card rate - 1.5%.'
+  },
+
+  // --- Nykaa via Amazon ---
+  { id:'amazon-gc-nykaa', name:'Nykaa GC via Amazon \u2192 Nykaa',
+    purchaseTypes:['nykaa_shopping'],
+    steps:[
+      { label:'Buy Nykaa Gift Card on Amazon.in', cardCat:'online' },
+      { label:'Shop on Nykaa using GC', cardCat:null }
+    ],
+    tip:'Amex SmartEarn gives 10x on Nykaa directly (~5%). Compare with GC route.',
+    notes:'Nykaa GCs available on Amazon.'
+  },
+
+  // --- Scapia travel ---
+  { id:'scapia-travel', name:'Scapia App \u2192 Travel Booking',
+    purchaseTypes:['flight_booking','hotel_booking'],
+    steps:[
+      { label:'Book via Scapia app using Scapia Federal card', cardCat:'travel' }
+    ],
+    tip:'Scapia Federal gives 4% on travel via Scapia app (vs 2% elsewhere). Zero forex markup.',
+    notes:'Only for Scapia Federal Bank card holders.'
+  },
+
+  // ===== UPI ROUTES (RuPay CC on UPI + CC on UPI) =====
+
+  // --- RuPay CC on UPI: offline merchants ---
+  { id:'rupay-upi-offline', name:'RuPay CC on UPI \u2192 Offline Store Payment',
+    purchaseTypes:['grocery_offline','restaurant','general_purchase'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay via UPI QR using RuPay credit card linked to PhonePe/GPay', cardCat:'general' }
+    ],
+    tip:'RuPay credit cards work on UPI at any QR code merchant. Earn card rewards even at small shops that don\'t accept card swipes.',
+    notes:'Link RuPay CC to PhonePe, Google Pay, CRED, or Paytm. Card\'s general/category rate applies. NPCI occasionally runs RuPay UPI cashback schemes.'
+  },
+  { id:'rupay-upi-grocery', name:'RuPay CC on UPI \u2192 Grocery Store',
+    purchaseTypes:['grocery_offline'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay at grocery store via UPI QR using RuPay CC', cardCat:'groceries' }
+    ],
+    tip:'Works at kirana stores, supermarkets, any UPI QR. Your card\'s grocery rate applies even at shops that don\'t have a POS machine.',
+    notes:'RuPay CC on UPI supported on PhonePe, Google Pay, CRED, Paytm.'
+  },
+  { id:'rupay-upi-dining', name:'RuPay CC on UPI \u2192 Restaurant',
+    purchaseTypes:['restaurant'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay at restaurant via UPI QR using RuPay CC', cardCat:'dining' }
+    ],
+    tip:'Earn dining rewards at restaurants that only accept UPI. Card\'s dining rate applies.',
+    notes:'RuPay CC on UPI accepted at all UPI QR merchants.'
+  },
+  { id:'rupay-upi-fuel', name:'RuPay CC on UPI \u2192 Fuel Station',
+    purchaseTypes:['fuel_indianoil','fuel_hpcl','fuel_bpcl'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay at fuel station via UPI using RuPay CC', cardCat:'fuel' }
+    ],
+    tip:'Pay at any fuel station UPI QR. Avoids fuel surcharge that applies on card swipe. Card\'s fuel rate applies.',
+    notes:'UPI payment avoids the 1% fuel surcharge (up to ₹500-1000 cap) charged on POS swipe. Net saving could be higher.'
+  },
+
+  // --- RuPay CC on UPI: bills & recharges ---
+  { id:'rupay-upi-recharge', name:'RuPay CC on UPI \u2192 Recharge/Bills',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay bill/recharge via PhonePe/GPay using RuPay CC on UPI', cardCat:'utilities' }
+    ],
+    tip:'RuPay CC on UPI works seamlessly for bill payments on PhonePe, Google Pay, Paytm. Same card rewards as POS/online.',
+    notes:'NPCI sometimes runs additional cashback for RuPay CC on UPI transactions (₹50-150/month). Check npci.org.in for active offers.'
+  },
+
+  // --- RuPay CC on UPI: online shopping ---
+  { id:'rupay-upi-online', name:'RuPay CC on UPI \u2192 Online Shopping',
+    purchaseTypes:['amazon_shopping','flipkart_shopping','myntra_shopping','other_online','food_swiggy','food_zomato','grocery_bigbasket','grocery_blinkit','swiggy_instamart'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay online using UPI with RuPay CC linked', cardCat:'online' }
+    ],
+    tip:'Select UPI as payment method on Amazon/Flipkart/Swiggy/Zomato and pay with RuPay CC linked to your UPI app. Card\'s online rate applies.',
+    notes:'Many online merchants offer UPI-specific discounts that stack with your card rewards. RuPay CC on UPI is widely accepted.'
+  },
+
+  // --- CC on UPI (general - Visa/MC/RuPay where supported) ---
+  { id:'cc-upi-bills', name:'CC on UPI \u2192 Bill Payment',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder'],
+    steps:[
+      { label:'Pay bill on PhonePe/GPay using credit card via UPI', cardCat:'utilities' }
+    ],
+    tip:'Credit card on UPI now supports Visa/Mastercard on select banks (Axis, HDFC, ICICI, Kotak etc.) in addition to RuPay. Check your bank\'s support.',
+    notes:'CC on UPI expanding: RuPay (full support), Visa/MC (Axis, HDFC, ICICI, Kotak, SBI). Merchant must support UPI autopay or CC-on-UPI.'
+  },
+  { id:'cc-upi-offline', name:'CC on UPI \u2192 Offline Merchant',
+    purchaseTypes:['grocery_offline','restaurant','general_purchase'],
+    steps:[
+      { label:'Pay at UPI QR merchant using credit card on UPI', cardCat:'general' }
+    ],
+    tip:'Earn card rewards at UPI-only merchants. Visa/MC CC on UPI rolling out on Axis, HDFC, ICICI, Kotak banks.',
+    notes:'Check if your bank supports CC on UPI for your card network. RuPay has widest support.'
+  },
+
+  // --- NPCI RuPay cashback route ---
+  { id:'rupay-npci-cashback', name:'RuPay UPI + NPCI Cashback Scheme',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','grocery_offline','restaurant','general_purchase','fuel_indianoil','fuel_hpcl','fuel_bpcl'],
+    networkRequired:'RuPay',
+    steps:[
+      { label:'Pay via RuPay CC on UPI', cardCat:'general' },
+      { label:'NPCI RuPay UPI cashback (when active)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'NPCI periodically runs RuPay credit card on UPI promotional cashback of ₹50-150/month. Check current offers on npci.org.in or your UPI app.',
+    notes:'Estimated ~0.5% average platform bonus when NPCI scheme is active. Varies by period — verify current offer before relying on this.'
+  },
+];
+
+// ===================== CARD DB LOADER =====================
+// Set this to your GitHub raw URL once hosted, e.g.:
+// 'https://raw.githubusercontent.com/YourUsername/cardpick-db/main/cards.json'
+const DB_URL = 'https://raw.githubusercontent.com/rinzler-oss/CardPick/main/cards.json';
+
+let DB_VERSION = 'embedded';
+let DB_LAST_UPDATED = null;
+
+async function loadCardDB(url) {
+  const statusEl = document.getElementById('db-status');
+  try {
+    const resp = await fetch(url || DB_URL, { cache: 'no-cache' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    if (data.cards && data.cards.length > 0) {
+      // Replace CARD_DB contents
+      CARD_DB.length = 0;
+      data.cards.forEach(c => CARD_DB.push(c));
+      // Replace SMARTBUY_RATES
+      if (data.smartbuyRates) {
+        Object.keys(SMARTBUY_RATES).forEach(k => delete SMARTBUY_RATES[k]);
+        Object.assign(SMARTBUY_RATES, data.smartbuyRates);
+      }
+      DB_VERSION = data.version || '?';
+      DB_LAST_UPDATED = data.lastUpdated || null;
+      statusEl.innerHTML = '<span class="db-ok">Card DB v' + esc(DB_VERSION) + '</span> &middot; Updated: ' + esc(DB_LAST_UPDATED || 'unknown') + ' &middot; ' + CARD_DB.length + ' cards loaded';
+      // Re-populate dropdown if open
+      if (searchInput) searchInput.dispatchEvent(new Event('input'));
+    } else {
+      throw new Error('Empty or invalid card data');
+    }
+  } catch (e) {
+    console.warn('CardDB fetch failed, using embedded data:', e.message);
+    statusEl.innerHTML = '<span class="db-warn">Using embedded card data</span> &middot; ' + CARD_DB.length + ' cards &middot; <span style="color:#475569">Fetch failed: ' + esc(e.message) + '</span>';
+  }
+}
+
+function refreshCardDB() {
+  const statusEl = document.getElementById('db-status');
+  statusEl.innerHTML = 'Checking for updates&hellip;';
+  loadCardDB().then(() => {
+    // Refresh the user's card list display in case DB data changed
+    renderCards();
+  });
+}
+
+// ===================== STATE =====================
+let cards = JSON.parse(localStorage.getItem('cc_cards') || '[]');
+let editingIdx = -1;
+let selectedDbCard = null;
+
+function save() { localStorage.setItem('cc_cards', JSON.stringify(cards)); }
+
+// ===================== TABS =====================
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.panel).classList.add('active');
+  });
+});
+
+// ===================== RENDER CARDS =====================
+function renderCards() {
+  const list = document.getElementById('cards-list');
+  if (cards.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">&#128179;</div><p>No cards added yet.</p><p style="font-size:0.85rem">Add your credit cards to start comparing rewards.</p></div>';
+    return;
+  }
+  list.innerHTML = cards.map((c, i) => {
+    const tags = CATEGORIES.filter(cat => c.rates[cat.key] > 0).map(cat => {
+      return '<span class="reward-tag">' + cat.label.split('/')[0].trim() + ' <span>' + c.rates[cat.key] + '%</span></span>';
+    }).join('');
+    return '<div class="card-entry">' +
+      '<div class="card-color-bar" style="background:' + (c.color || COLORS[0]) + '"></div>' +
+      '<div class="card-body">' +
+        '<div class="card-header">' +
+          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(c.network) + '</span></span>' +
+          '<span>' +
+            '<button class="btn btn-danger" onclick="editCard(' + i + ')" style="margin-right:4px;color:#38bdf8;border-color:#38bdf833">Edit</button>' +
+            '<button class="btn btn-danger" onclick="deleteCard(' + i + ')">Delete</button>' +
+          '</span>' +
+        '</div>' +
+        '<div class="card-rewards">' + (tags || '<span style="color:#475569;font-size:0.85rem">No reward rates set</span>') + '</div>' +
+        (c.ltf ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' :
+          ((c.joiningFee > 0 ? '<div class="annual-note">Joining fee: ' + fmt(c.joiningFee) + '</div>' : '') +
+           (c.annualFee > 0 ? '<div class="annual-note">Annual fee: ' + fmt(c.annualFee) + '</div>' : '') +
+           (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' : ''))) +
+        (c.monthlyCap > 0 ? '<div class="annual-note">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>' : '') +
+        (c.notes ? '<div class="card-notes">' + esc(c.notes) + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ===================== SEARCH DROPDOWN =====================
+const searchInput = document.getElementById('card-search');
+const dropdown = document.getElementById('card-dropdown');
+let highlightedIdx = -1;
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (q.length === 0) { dropdown.classList.remove('open'); return; }
+
+  const matches = CARD_DB.filter(c =>
+    c.name.toLowerCase().includes(q) ||
+    c.bank.toLowerCase().includes(q) ||
+    (c.notes && c.notes.toLowerCase().includes(q))
+  );
+
+  if (matches.length === 0) {
+    dropdown.innerHTML = '<div class="search-item"><span class="si-name" style="color:#475569">No matching cards found</span></div>';
+    dropdown.classList.add('open');
+    return;
+  }
+
+  // Group by bank
+  const byBank = {};
+  matches.forEach(c => {
+    if (!byBank[c.bank]) byBank[c.bank] = [];
+    byBank[c.bank].push(c);
+  });
+
+  let html = '';
+  for (const bank in byBank) {
+    html += '<div class="search-divider">' + esc(bank) + '</div>';
+    byBank[bank].forEach(c => {
+      const topRate = Math.max(...Object.values(c.rates));
+      const topCat = CATEGORIES.find(cat => c.rates[cat.key] === topRate);
+      html += '<div class="search-item" data-id="' + c.id + '">' +
+        '<div><span class="si-name">' + esc(c.name) + '</span><span class="si-bank">' + esc(c.network) + '</span>' +
+        (c.annualFee === 0 && (c.joiningFee || 0) === 0 ? ' <span style="color:#22c55e;font-size:0.7rem;font-weight:600">LTF</span>' : '') +
+        '</div>' +
+        '<div class="si-desc">Best: ' + topRate + '% on ' + (topCat ? topCat.label.split('/')[0].trim() : 'N/A') +
+        (c.annualFee > 0 ? ' | Fee: &#8377;' + c.annualFee : '') + '</div>' +
+      '</div>';
+    });
+  }
+
+  dropdown.innerHTML = html;
+  dropdown.classList.add('open');
+  highlightedIdx = -1;
+
+  dropdown.querySelectorAll('.search-item[data-id]').forEach(el => {
+    el.addEventListener('click', () => selectDbCard(el.dataset.id));
+  });
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  const items = dropdown.querySelectorAll('.search-item[data-id]');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    highlightedIdx = Math.min(highlightedIdx + 1, items.length - 1);
+    items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightedIdx));
+    items[highlightedIdx]?.scrollIntoView({ block: 'nearest' });
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    highlightedIdx = Math.max(highlightedIdx - 1, 0);
+    items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightedIdx));
+    items[highlightedIdx]?.scrollIntoView({ block: 'nearest' });
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (highlightedIdx >= 0 && items[highlightedIdx]) {
+      selectDbCard(items[highlightedIdx].dataset.id);
+    }
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('card-search-wrap').contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+function selectDbCard(id) {
+  selectedDbCard = CARD_DB.find(c => c.id === id);
+  if (!selectedDbCard) return;
+
+  dropdown.classList.remove('open');
+  searchInput.value = selectedDbCard.name;
+
+  // Show manual fields and auto-fill
+  toggleManualFields(true);
+
+  document.getElementById('m-name').value = selectedDbCard.name;
+  document.getElementById('m-network').value = selectedDbCard.network === 'Diners' ? 'Diners' :
+    (selectedDbCard.network === 'RuPay' ? 'RuPay' : selectedDbCard.network);
+  // Fee fields
+  const dbIsLtf = selectedDbCard.annualFee === 0 && (selectedDbCard.joiningFee || 0) === 0;
+  document.getElementById('m-ltf').checked = dbIsLtf;
+  document.getElementById('m-joining-fee').value = selectedDbCard.joiningFee || '';
+  document.getElementById('m-annual-fee').value = selectedDbCard.annualFee || '';
+  toggleFeeFields();
+  document.getElementById('m-cap').value = selectedDbCard.monthlyCap || '';
+  document.getElementById('m-notes').value = selectedDbCard.notes || '';
+
+  CATEGORIES.forEach(cat => {
+    const el = document.getElementById('rate-' + cat.key);
+    if (el) el.value = selectedDbCard.rates[cat.key] || '';
+  });
+
+  document.querySelectorAll('.color-dot').forEach(d => {
+    d.classList.toggle('selected', d.dataset.color === selectedDbCard.color);
+  });
+
+  // Flash the fields to show auto-fill
+  document.getElementById('manual-fields').style.animation = 'none';
+  document.getElementById('manual-fields').offsetHeight; // reflow
+}
+
+// ===================== MANUAL FIELDS TOGGLE =====================
+function toggleManualFields(show) {
+  document.getElementById('manual-fields').style.display = show ? 'block' : 'none';
+  document.getElementById('manual-toggle').textContent = show ? 'hide manual fields' : 'or enter details manually';
+  document.getElementById('manual-toggle').onclick = () => toggleManualFields(!show);
+}
+
+// ===================== MODAL =====================
+function openModal(idx) {
+  editingIdx = idx !== undefined ? idx : -1;
+  selectedDbCard = null;
+  const modal = document.getElementById('modal');
+
+  document.getElementById('modal-title').textContent = editingIdx >= 0 ? 'Edit Credit Card' : 'Add Credit Card';
+  document.getElementById('modal-save').textContent = editingIdx >= 0 ? 'Save Changes' : 'Add Card';
+
+  // Build rate rows
+  document.getElementById('m-rates').innerHTML = CATEGORIES.map(cat =>
+    '<div class="rate-row"><label>' + cat.label + '</label><input type="number" id="rate-' + cat.key + '" placeholder="0" min="0" step="any"></div>'
+  ).join('');
+
+  // Build color dots
+  document.getElementById('m-colors').innerHTML = COLORS.map((c, i) =>
+    '<div class="color-dot' + (i === 0 ? ' selected' : '') + '" style="background:' + c + '" data-color="' + c + '" onclick="pickColor(this)"></div>'
+  ).join('');
+
+  // Reset search
+  searchInput.value = '';
+  dropdown.classList.remove('open');
+
+  if (editingIdx >= 0) {
+    // Editing existing card — show fields with current data
+    const c = cards[editingIdx];
+    toggleManualFields(true);
+    document.getElementById('card-search-wrap').style.display = 'none';
+    document.getElementById('manual-toggle').style.display = 'none';
+
+    document.getElementById('m-name').value = c.name;
+    document.getElementById('m-network').value = c.network;
+    // Fee fields
+    document.getElementById('m-ltf').checked = !!c.ltf;
+    document.getElementById('m-joining-fee').value = c.joiningFee || '';
+    document.getElementById('m-annual-fee').value = c.annualFee || '';
+    toggleFeeFields();
+    document.getElementById('m-cap').value = c.monthlyCap || '';
+    document.getElementById('m-notes').value = c.notes || '';
+    CATEGORIES.forEach(cat => {
+      document.getElementById('rate-' + cat.key).value = c.rates[cat.key] || '';
+    });
+    document.querySelectorAll('.color-dot').forEach(d => {
+      d.classList.toggle('selected', d.dataset.color === (c.color || COLORS[0]));
+    });
+  } else {
+    // Adding new card — show search, hide manual until selected
+    toggleManualFields(false);
+    document.getElementById('card-search-wrap').style.display = 'block';
+    document.getElementById('manual-toggle').style.display = 'block';
+    document.getElementById('m-name').value = '';
+    document.getElementById('m-network').value = 'Visa';
+    document.getElementById('m-ltf').checked = false;
+    document.getElementById('m-joining-fee').value = '';
+    document.getElementById('m-annual-fee').value = '';
+    toggleFeeFields();
+    document.getElementById('m-cap').value = '';
+    document.getElementById('m-notes').value = '';
+  }
+
+  modal.classList.add('open');
+  if (editingIdx < 0) setTimeout(() => searchInput.focus(), 100);
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function pickColor(el) {
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleFeeFields() {
+  const isLtf = document.getElementById('m-ltf').checked;
+  document.getElementById('fee-fields').style.display = isLtf ? 'none' : 'block';
+  if (isLtf) {
+    document.getElementById('m-joining-fee').value = '';
+    document.getElementById('m-annual-fee').value = '';
+  }
+}
+
+function saveCard() {
+  const name = document.getElementById('m-name').value.trim();
+  if (!name) { alert('Please enter a card name or select one from the search.'); return; }
+
+  const rates = {};
+  CATEGORIES.forEach(cat => {
+    rates[cat.key] = parseFloat(document.getElementById('rate-' + cat.key).value) || 0;
+  });
+
+  const isLtf = document.getElementById('m-ltf').checked;
+
+  const card = {
+    name,
+    network: document.getElementById('m-network').value,
+    rates,
+    ltf: isLtf,
+    joiningFee: isLtf ? 0 : (parseFloat(document.getElementById('m-joining-fee').value) || 0),
+    annualFee: isLtf ? 0 : (parseFloat(document.getElementById('m-annual-fee').value) || 0),
+    monthlyCap: parseFloat(document.getElementById('m-cap').value) || 0,
+    notes: document.getElementById('m-notes').value.trim(),
+    color: document.querySelector('.color-dot.selected')?.dataset.color || COLORS[0],
+    dbId: selectedDbCard ? selectedDbCard.id : (editingIdx >= 0 && cards[editingIdx].dbId ? cards[editingIdx].dbId : null),
+    bank: selectedDbCard ? selectedDbCard.bank : (editingIdx >= 0 && cards[editingIdx].bank ? cards[editingIdx].bank : ''),
+  };
+
+  if (editingIdx >= 0) {
+    cards[editingIdx] = card;
+  } else {
+    cards.push(card);
+  }
+  save();
+  renderCards();
+  closeModal();
+}
+
+function editCard(i) { openModal(i); }
+
+function deleteCard(i) {
+  if (confirm('Delete "' + cards[i].name + '"?')) {
+    cards.splice(i, 1);
+    save();
+    renderCards();
+  }
+}
+
+// ===================== POPULATE PURCHASE SELECT =====================
+(function initPurchaseSelect() {
+  const sel = document.getElementById('inp-purchase');
+  const groups = {};
+  PURCHASE_TYPES.forEach(pt => {
+    if (!groups[pt.group]) groups[pt.group] = [];
+    groups[pt.group].push(pt);
+  });
+  for (const g in groups) {
+    const og = document.createElement('optgroup');
+    og.label = g;
+    groups[g].forEach(pt => {
+      const o = document.createElement('option');
+      o.value = pt.key;
+      o.textContent = pt.label;
+      if (pt.key === 'general_purchase') o.selected = true;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  }
+})();
+
+// ===================== ROUTE ENGINE =====================
+function getCardRate(card, category, amount) {
+  const rate = card.rates[category] || 0;
+  let reward = amount * rate / 100;
+  if (card.monthlyCap > 0) reward = Math.min(reward, card.monthlyCap);
+  return { rate, reward };
+}
+
+function getSmartBuyRate(card, amount) {
+  if (!card.dbId || !SMARTBUY_RATES[card.dbId]) return null;
+  const sb = SMARTBUY_RATES[card.dbId];
+  let reward = amount * sb.rate / 100;
+  // Cap reward based on monthly RP cap (approximate: bonus RP × ₹1 value)
+  if (sb.capPerMonth && reward > sb.capPerMonth) reward = sb.capPerMonth;
+  return { rate: sb.rate, reward };
+}
+
+function cardMatchesBank(card, bankRequired) {
+  if (!bankRequired) return true;
+  const b = (card.bank || card.name || '').toUpperCase();
+  return b.includes(bankRequired.toUpperCase());
+}
+
+function cardMatchesNetwork(card, networkFilter) {
+  if (!networkFilter || networkFilter === 'all') return true;
+  return (card.network || '').toLowerCase() === networkFilter.toLowerCase();
+}
+
+function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
+  const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
+  if (!pt) return [];
+  const all = [];
+
+  // Filter cards by selected network
+  const filteredCards = cards.filter(c => cardMatchesNetwork(c, networkFilter));
+  if (filteredCards.length === 0) return [];
+
+  // 1. DIRECT routes — each card paying directly
+  filteredCards.forEach(card => {
+    const { rate, reward } = getCardRate(card, pt.directCat, amount);
+    all.push({
+      type: 'direct',
+      name: 'Direct with ' + card.name,
+      totalReward: reward,
+      effectiveRate: rate,
+      card: card,
+      steps: [{ label: 'Pay directly with credit card (' + (card.network || 'Card') + ')', card: card, rate: rate, reward: reward }],
+      tip: null, notes: null
+    });
+  });
+
+  // 2. ROUTE-based options
+  ROUTE_TEMPLATES.forEach(route => {
+    if (!route.purchaseTypes.includes(purchaseKey)) return;
+
+    // Check if route requires a specific network (e.g., RuPay UPI routes)
+    if (route.networkRequired) {
+      const hasMatchingCard = filteredCards.some(c => (c.network || '').toLowerCase() === route.networkRequired.toLowerCase());
+      if (!hasMatchingCard) return;
+    }
+
+    // Find best card for each card-required step
+    let totalReward = 0;
+    const stepDetails = [];
+    let viable = true;
+
+    // Candidate cards: if route needs specific network, only those; else all filtered
+    const routeCards = route.networkRequired
+      ? filteredCards.filter(c => (c.network || '').toLowerCase() === route.networkRequired.toLowerCase())
+      : filteredCards;
+
+    route.steps.forEach(step => {
+      if (step.cardCat === null) {
+        // Non-card step (using GC balance / platform bonus)
+        const bonus = (step.platformBonus || 0) * amount / 100;
+        totalReward += bonus;
+        stepDetails.push({ label: step.label, card: null, rate: step.platformBonus || 0, reward: bonus });
+      } else if (step.cardCat === '_smartbuy') {
+        // SmartBuy — find best HDFC card with SmartBuy rates from filtered set
+        let bestCard = null, bestReward = 0, bestRate = 0;
+        routeCards.forEach(card => {
+          if (!cardMatchesBank(card, 'HDFC')) return;
+          const sb = getSmartBuyRate(card, amount);
+          if (sb && sb.reward > bestReward) {
+            bestCard = card; bestReward = sb.reward; bestRate = sb.rate;
+          }
+        });
+        if (!bestCard) { viable = false; return; }
+        totalReward += bestReward;
+        stepDetails.push({ label: step.label, card: bestCard, rate: bestRate, reward: bestReward });
+      } else {
+        // Regular card category step
+        let bestCard = null, bestReward = 0, bestRate = 0;
+        routeCards.forEach(card => {
+          if (route.bankRequired && !cardMatchesBank(card, route.bankRequired)) return;
+          const { rate, reward } = getCardRate(card, step.cardCat, amount);
+          const fee = step.feePercent ? amount * step.feePercent / 100 : 0;
+          const net = reward - fee;
+          if (net > bestReward) { bestCard = card; bestReward = net; bestRate = rate; }
+        });
+        if (!bestCard) { viable = false; return; }
+        const fee = step.feePercent ? amount * step.feePercent / 100 : 0;
+        totalReward += bestReward;
+        stepDetails.push({
+          label: step.label + (step.feePercent ? ' (fee: ' + step.feePercent + '%)' : ''),
+          card: bestCard,
+          rate: bestRate,
+          reward: bestReward,
+          fee: fee
+        });
+      }
+    });
+
+    if (!viable || totalReward <= 0) return;
+
+    all.push({
+      type: 'route',
+      name: route.name,
+      totalReward: totalReward,
+      effectiveRate: (totalReward / amount) * 100,
+      steps: stepDetails,
+      tip: route.tip || null,
+      notes: route.notes || null,
+      card: stepDetails.find(s => s.card)?.card || null
+    });
+  });
+
+  // Sort descending, deduplicate same-name routes keeping best
+  all.sort((a, b) => b.totalReward - a.totalReward);
+  const seen = new Set();
+  return all.filter(r => {
+    const key = r.name + '|' + (r.card?.name || '');
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+// ===================== COMPARE =====================
+function compare() {
+  const purchaseKey = document.getElementById('inp-purchase').value;
+  const networkFilter = document.getElementById('inp-network').value;
+  const amount = parseFloat(document.getElementById('inp-amount').value) || 0;
+  const resultsEl = document.getElementById('results');
+  const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
+
+  if (cards.length === 0) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>Add your credit cards first in the "My Cards" tab.</p></div>';
+    return;
+  }
+  if (amount <= 0) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>Enter a purchase amount to compare.</p></div>';
+    return;
+  }
+
+  const ranked = evaluateAllRoutes(purchaseKey, amount, networkFilter);
+
+  if (ranked.length === 0 && networkFilter !== 'all') {
+    resultsEl.innerHTML = '<div class="empty-state"><p>No ' + esc(networkFilter) + ' cards found. Try "All Cards" or add a ' + esc(networkFilter) + ' card in "My Cards" tab.</p></div>';
+    return;
+  }
+
+  if (ranked.length === 0) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>No routes found for this purchase type.</p></div>';
+    return;
+  }
+
+  const bestReward = ranked[0].totalReward;
+  // Find best direct-only for savings comparison
+  const bestDirect = ranked.find(r => r.type === 'direct');
+  const directReward = bestDirect ? bestDirect.totalReward : 0;
+  const extraSavings = bestReward - directReward;
+
+  const netLabel = networkFilter !== 'all' ? ' (' + esc(networkFilter) + ' only)' : '';
+  let headerHtml = '<div class="results-header"><h3>Results for ' + fmt(amount) + ' on ' + esc(pt.label) + netLabel + '</h3>';
+  if (extraSavings > 0.01 && ranked[0].type === 'route') {
+    headerHtml += '<div class="savings-summary">Smart route saves ' + fmt(extraSavings) + ' more than direct payment!</div>';
+  }
+  headerHtml += '</div>';
+
+  resultsEl.innerHTML = headerHtml + ranked.map((r, i) => {
+    const isBest = i === 0 && r.totalReward > 0;
+    const isRoute = r.type === 'route';
+    const typeTag = isRoute
+      ? '<span class="type-tag route">ROUTE</span>'
+      : '<span class="type-tag direct">DIRECT</span>';
+
+    let stepsHtml = '';
+    if (r.steps.length > 0) {
+      stepsHtml = '<div class="route-steps">' +
+        r.steps.map((s, si) =>
+          '<div class="route-step">' +
+            '<div class="step-num">' + (si + 1) + '</div>' +
+            '<div class="step-body">' +
+              '<div class="step-action">' + esc(s.label) + '</div>' +
+              (s.card ? '<div class="step-card-used">Use: ' + esc(s.card.name) + ' <span style="opacity:0.6">[' + esc(s.card.network || '?') + ']</span> (' + s.rate.toFixed(1) + '%)</div>' : '') +
+            '</div>' +
+            '<div class="step-reward">' + (s.reward > 0 ? '+' + fmt(s.reward) : (s.reward < 0 ? fmt(s.reward) : '')) + '</div>' +
+          '</div>'
+        ).join('') +
+      '</div>';
+    }
+
+    let tipHtml = r.tip ? '<div class="route-tip">' + esc(r.tip) + '</div>' : '';
+    let notesHtml = r.notes ? '<div class="route-notes">' + esc(r.notes) + '</div>' : '';
+
+    return '<div class="route-card' + (isBest ? ' best' : '') + '">' +
+      '<div class="route-header">' +
+        '<div class="route-rank">#' + (i + 1) + '</div>' +
+        '<div class="route-title">' +
+          '<span class="name">' + esc(r.name) +
+            (isBest ? '<span class="best-badge">BEST</span>' : '') +
+            typeTag +
+          '</span>' +
+        '</div>' +
+        '<div class="route-reward">' +
+          '<div class="amount">' + fmt(r.totalReward) + '</div>' +
+          '<div class="label">' + r.effectiveRate.toFixed(2) + '% return</div>' +
+        '</div>' +
+      '</div>' +
+      stepsHtml + tipHtml + notesHtml +
+    '</div>';
+  }).join('');
+}
+
+// ===================== HELPERS =====================
+function fmt(n) {
+  return '&#8377;' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// Auto-compare on enter
+document.getElementById('inp-amount').addEventListener('keydown', e => { if (e.key === 'Enter') compare(); });
+
+renderCards();
+
+// Load external card DB (falls back to embedded CARD_DB on failure)
+loadCardDB();
+</script>
+</body>
+</html>
