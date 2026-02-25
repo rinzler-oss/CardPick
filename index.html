@@ -204,6 +204,40 @@
   .fee-toggle { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
   .fee-toggle label { margin: 0; font-size: 0.8rem; color: #94a3b8; cursor: pointer; }
   .fee-toggle input { width: auto; cursor: pointer; accent-color: #3b82f6; }
+
+  /* Perks tags */
+  .perk-tag { display: inline-block; background: #8b5cf622; color: #a78bfa; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; margin-right: 4px; margin-top: 4px; }
+
+  /* Import/Export */
+  .io-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .btn-io { background: #334155; color: #94a3b8; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; border: 1px solid #475569; cursor: pointer; transition: all 0.2s; }
+  .btn-io:hover { background: #475569; color: #e2e8f0; }
+
+  /* Spend Tracker */
+  .tracker-month { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .tracker-month select { width: auto; min-width: 140px; }
+  .tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .tracker-field label { font-size: 0.82rem; color: #94a3b8; margin-bottom: 2px; display: block; margin-top: 0; }
+  .tracker-field input { width: 100%; }
+  .tracker-summary { background: #0f172a; border-radius: 10px; padding: 16px; margin-top: 12px; }
+  .tracker-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1e293b; }
+  .tracker-row:last-child { border-bottom: none; }
+  .tracker-cat { font-size: 0.85rem; color: #cbd5e1; }
+  .tracker-amt { font-size: 0.85rem; color: #38bdf8; font-weight: 600; }
+  .tracker-total { display: flex; justify-content: space-between; padding: 10px 0 0; margin-top: 6px; border-top: 2px solid #334155; font-weight: 700; }
+  .tracker-insight { background: #22c55e0a; border: 1px solid #22c55e33; border-radius: 10px; padding: 14px; margin-top: 14px; }
+  .tracker-insight h4 { font-size: 0.85rem; color: #22c55e; margin-bottom: 8px; }
+  .tracker-insight p { font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; }
+  .tracker-insight .highlight { color: #22c55e; font-weight: 700; }
+  .tracker-insight .missed { color: #f87171; font-weight: 600; }
+  .tracker-history { margin-top: 16px; }
+  .tracker-history h4 { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; }
+  .history-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #1e293b; border-radius: 8px; margin-bottom: 6px; font-size: 0.82rem; }
+  .history-row .h-month { color: #cbd5e1; }
+  .history-row .h-spend { color: #94a3b8; }
+  .history-row .h-reward { color: #22c55e; font-weight: 600; }
+  .history-row .h-delete { color: #f87171; cursor: pointer; font-size: 0.75rem; margin-left: 8px; }
+  .excluded-tag { display: inline-block; background: #f8717122; color: #f87171; font-size: 0.65rem; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
 </style>
 </head>
 <body>
@@ -215,6 +249,7 @@
   <div class="tabs">
     <div class="tab active" data-panel="compare">Compare</div>
     <div class="tab" data-panel="recommend">Recommend</div>
+    <div class="tab" data-panel="tracker">Tracker</div>
     <div class="tab" data-panel="mycards">My Cards</div>
   </div>
 
@@ -282,8 +317,41 @@
     <div id="rec-results"></div>
   </div>
 
+  <!-- TRACKER PANEL -->
+  <div class="panel" id="panel-tracker">
+    <div class="compare-box">
+      <h3 style="font-size:1rem;color:#cbd5e1;margin-bottom:4px;">Monthly Spend Tracker</h3>
+      <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">Log your actual spending to see how much you're earning vs. how much you could earn with optimal routes.</p>
+      <div class="tracker-month">
+        <label for="trk-month" style="margin:0;white-space:nowrap;">Month:</label>
+        <input type="month" id="trk-month" style="width:auto;">
+      </div>
+      <div class="tracker-grid">
+        <div class="tracker-field"><label>Dining (&#8377;)</label><input type="number" id="trk-dining" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Groceries (&#8377;)</label><input type="number" id="trk-groceries" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Fuel (&#8377;)</label><input type="number" id="trk-fuel" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Travel (&#8377;)</label><input type="number" id="trk-travel" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Online Shopping (&#8377;)</label><input type="number" id="trk-online" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Entertainment (&#8377;)</label><input type="number" id="trk-entertainment" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>Utilities (&#8377;)</label><input type="number" id="trk-utilities" placeholder="0" min="0"></div>
+        <div class="tracker-field"><label>General / Other (&#8377;)</label><input type="number" id="trk-general" placeholder="0" min="0"></div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="saveTrackerMonth()">Save Month</button>
+        <button class="btn btn-secondary" onclick="analyzeTracker()">Analyze</button>
+      </div>
+    </div>
+    <div id="tracker-results"></div>
+    <div id="tracker-history"></div>
+  </div>
+
   <!-- MY CARDS PANEL -->
   <div class="panel" id="panel-mycards">
+    <div class="io-bar">
+      <button class="btn-io" onclick="exportCards()">&#11147; Export Cards</button>
+      <button class="btn-io" onclick="document.getElementById('import-file').click()">&#11149; Import Cards</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importCards(event)">
+    </div>
     <div id="cards-list"></div>
     <button class="btn-add" onclick="openModal()">+ Add Credit Card</button>
   </div>
@@ -1678,10 +1746,20 @@ function deleteCard(i) {
 
 // ===================== ROUTE ENGINE =====================
 function getCardRate(card, category, amount) {
+  const cardId = card.dbId || card.id || '';
+  // Check exclusions
+  if (EXCLUSIONS[cardId] && EXCLUSIONS[cardId].includes(category)) {
+    return { rate: 0, reward: 0, excluded: true };
+  }
   const rate = card.rates[category] || 0;
   let reward = amount * rate / 100;
+  // Per-category cap
+  if (CATEGORY_CAPS[cardId] && CATEGORY_CAPS[cardId][category]) {
+    reward = Math.min(reward, CATEGORY_CAPS[cardId][category]);
+  }
+  // Overall monthly cap
   if (card.monthlyCap > 0) reward = Math.min(reward, card.monthlyCap);
-  return { rate, reward };
+  return { rate, reward, excluded: false };
 }
 
 function getSmartBuyRate(card, amount) {
@@ -2048,6 +2126,104 @@ const MILESTONES = {
   ],
 };
 
+// ===================== CARD EXCLUSIONS =====================
+// Categories where the card gives 0% even if the rate table shows otherwise
+// Mapped by card ID → array of excluded categories
+const EXCLUSIONS = {
+  'sbi-cashback': ['utilities','fuel','general'], // Utility, Insurance, Fuel, Rent, Wallet, Education, Jewellery, Railways
+  'hdfc-infinia': ['fuel'],
+  'hdfc-diners-black': ['fuel'],
+  'hdfc-diners-privilege': ['fuel'],
+  'hdfc-regalia': ['fuel'],
+  'hdfc-regalia-gold': ['fuel'],
+  'hdfc-regalia-first': ['fuel'],
+  'hdfc-millennia': ['fuel'],
+  'hdfc-swiggy': ['fuel'],
+  'hdfc-freedom': ['fuel'],
+  'icici-amazon-pay': ['fuel'],
+  'axis-ace': ['fuel'], // Fuel surcharge waiver only, no reward points on fuel
+};
+
+// ===================== PER-CATEGORY CAPS =====================
+// Monthly reward cap per specific category (in ₹)
+// card ID → { category: capAmount }
+const CATEGORY_CAPS = {
+  'hdfc-swiggy': { dining: 1500 }, // 10% on Swiggy capped at ₹1,500/mo
+  'hdfc-millennia': { online: 750 }, // 5% on select online capped
+  'sbi-simplyclick': { online: 500 }, // 10x on partners capped
+  'axis-flipkart': { online: 500 }, // 5% on Flipkart capped
+  'canara-rupay-select': { dining: 50, utilities: 50 }, // 5% dining/utility cap ₹50/mo each
+  'idfc-select': { dining: 1000, travel: 1000 }, // category caps on select categories
+};
+
+// ===================== NON-PERCENTAGE PERKS =====================
+// card ID → array of { type, label, value (estimated ₹/month) }
+const PERKS = {
+  'hdfc-infinia': [
+    { type: 'lounge', label: 'Unlimited domestic+intl lounge', value: 500 },
+    { type: 'concierge', label: '24/7 concierge service', value: 0 },
+    { type: 'golf', label: 'Complimentary golf', value: 250 },
+  ],
+  'hdfc-diners-black': [
+    { type: 'lounge', label: 'Unlimited lounge (10+companion/qtr)', value: 500 },
+    { type: 'membership', label: 'Club Marriott + Swiggy One + Prime', value: 400 },
+    { type: 'golf', label: '2 golf games/qtr', value: 200 },
+  ],
+  'hdfc-diners-privilege': [
+    { type: 'lounge', label: '12 lounge visits/qtr', value: 300 },
+    { type: 'movie', label: 'BookMyShow BOGO (2 free/mo, Fri-Sun, max ₹250)', value: 500 },
+    { type: 'dining', label: 'ITC Hotels F&B 15% off', value: 0 },
+  ],
+  'hdfc-regalia': [
+    { type: 'lounge', label: '12 lounge visits/yr', value: 100 },
+    { type: 'concierge', label: 'Concierge service', value: 0 },
+    { type: 'dining', label: 'Swiggy Dineout 7.5%', value: 0 },
+  ],
+  'hdfc-regalia-gold': [
+    { type: 'lounge', label: '12 lounge/yr', value: 100 },
+    { type: 'membership', label: 'Swiggy One + MMT Black Gold', value: 300 },
+  ],
+  'sbi-elite': [
+    { type: 'movie', label: '2 free movie tickets/mo (BMS, ~₹500)', value: 500 },
+    { type: 'lounge', label: 'Priority Pass (6 intl/yr)', value: 200 },
+    { type: 'concierge', label: 'Concierge service', value: 0 },
+  ],
+  'sbi-prime': [
+    { type: 'golf', label: '4 golf rounds free/yr', value: 100 },
+    { type: 'membership', label: 'ITC Hotels membership', value: 50 },
+    { type: 'lounge', label: '4 domestic lounge/qtr', value: 100 },
+  ],
+  'icici-emeralde': [
+    { type: 'lounge', label: 'Unlimited lounge (domestic+intl)', value: 500 },
+    { type: 'concierge', label: 'Concierge + golf + spa', value: 250 },
+  ],
+  'icici-sapphiro': [
+    { type: 'lounge', label: '4 intl lounge/yr + domestic', value: 200 },
+    { type: 'concierge', label: 'Concierge service', value: 0 },
+  ],
+  'icici-coral': [
+    { type: 'movie', label: 'BookMyShow BOGO (1 free/mo)', value: 250 },
+    { type: 'lounge', label: '4 domestic lounge/yr', value: 50 },
+  ],
+  'axis-magnus': [
+    { type: 'lounge', label: 'Unlimited lounge (8 intl/yr)', value: 400 },
+    { type: 'concierge', label: 'Concierge + golf', value: 200 },
+    { type: 'dining', label: '40% off dining partners', value: 0 },
+  ],
+  'axis-atlas': [
+    { type: 'lounge', label: '8 lounge/qtr', value: 200 },
+    { type: 'travel', label: 'Atlas miles for flights', value: 0 },
+  ],
+  'amex-plat-travel': [
+    { type: 'lounge', label: 'Domestic lounge access', value: 100 },
+    { type: 'travel', label: 'Travel insurance', value: 0 },
+  ],
+  'sc-ultimate': [
+    { type: 'lounge', label: 'Priority Pass (unlimited)', value: 500 },
+    { type: 'concierge', label: 'Concierge + travel insurance', value: 0 },
+  ],
+};
+
 // ===================== RECOMMEND CARD ENGINE =====================
 function recommendCard() {
   const cats = ['dining','groceries','fuel','travel','online','entertainment','utilities','general'];
@@ -2068,32 +2244,37 @@ function recommendCard() {
   // Score each card in the database
   const scored = CARD_DB.map(card => {
     let monthlyReward = 0;
+    const excludedCats = [];
     cats.forEach(cat => {
       if (spends[cat] > 0) {
-        const rate = card.rates[cat] || 0;
-        let reward = spends[cat] * rate / 100;
-        monthlyReward += reward;
+        const result = getCardRate({ ...card, dbId: card.id }, cat, spends[cat]);
+        if (result.excluded) excludedCats.push(cat);
+        monthlyReward += result.reward;
       }
     });
     // Apply monthly cap
     if (card.monthlyCap > 0) monthlyReward = Math.min(monthlyReward, card.monthlyCap);
 
+    // Add estimated perk value
+    const cardPerks = PERKS[card.id] || [];
+    const perkValue = cardPerks.reduce((sum, p) => sum + (p.value || 0), 0);
+
     // Fee adjustment
     const annualFee = card.annualFee || 0;
     const monthlyFee = feeAdjust ? annualFee / 12 : 0;
-    const netMonthly = monthlyReward - monthlyFee;
+    const netMonthly = monthlyReward + perkValue - monthlyFee;
     const yearlyReward = monthlyReward * 12;
     const yearlyNet = netMonthly * 12;
 
     // Best categories for this card
     const topCats = cats
-      .filter(c => spends[c] > 0 && (card.rates[c] || 0) > 0)
+      .filter(c => spends[c] > 0 && (card.rates[c] || 0) > 0 && !excludedCats.includes(c))
       .sort((a, b) => (card.rates[b] || 0) - (card.rates[a] || 0))
       .slice(0, 3);
 
     return {
       card, monthlyReward, netMonthly, yearlyReward, yearlyNet,
-      annualFee, topCats, totalSpend
+      annualFee, topCats, totalSpend, excludedCats, perkValue, cardPerks
     };
   });
 
@@ -2141,6 +2322,20 @@ function recommendCard() {
         feeNote = '<div class="rec-fee" style="color:#22c55e;">Lifetime Free</div>';
       }
 
+      // Exclusions display
+      let excludeHtml = s.excludedCats.length > 0
+        ? '<div style="margin-top:4px;">' + s.excludedCats.map(c => '<span class="excluded-tag">No ' + catLabels[c] + '</span>').join(' ') + '</div>'
+        : '';
+
+      // Perks display
+      let perksHtml = '';
+      if (s.cardPerks.length > 0) {
+        perksHtml = '<div style="margin-top:6px;">' +
+          s.cardPerks.map(p => '<span class="perk-tag">' + esc(p.label) + '</span>').join('') +
+          (s.perkValue > 0 ? '<div style="font-size:0.7rem;color:#a78bfa;margin-top:4px;">Est. perk value: ' + fmt(s.perkValue) + '/mo</div>' : '') +
+        '</div>';
+      }
+
       return '<div class="rec-card' + (isTop ? ' top-pick' : '') + '">' +
         '<div class="rec-rank">' + (isTop ? 'TOP PICK' : '#' + (i + 1)) + '</div>' +
         '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(card.network) + '</span></div>' +
@@ -2151,7 +2346,7 @@ function recommendCard() {
           '<div class="rec-stat"><div class="stat-label">Eff. Rate</div><div class="stat-value">' + (s.netMonthly / s.totalSpend * 100).toFixed(2) + '%</div></div>' +
         '</div>' +
         '<div style="margin-top:8px;">' + topCatsHtml + '</div>' +
-        feeNote +
+        excludeHtml + perksHtml + feeNote +
         (card.notes ? '<div class="rec-notes">' + esc(card.notes) + '</div>' : '') +
         milestoneHtml +
         (APPLY_LINKS[card.id] ? '<div class="apply-row">' + applyBtn(card.id, false) + '</div>' : '') +
@@ -2159,7 +2354,219 @@ function recommendCard() {
     }).join('');
 }
 
+// ===================== IMPORT / EXPORT =====================
+function exportCards() {
+  if (cards.length === 0) { alert('No cards to export.'); return; }
+  const data = JSON.stringify({ cardpick: true, version: 1, cards: cards }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cardpick-cards.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importCards(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      let imported = [];
+      if (data.cardpick && data.cards) {
+        imported = data.cards;
+      } else if (Array.isArray(data)) {
+        imported = data;
+      } else {
+        alert('Invalid CardPick export file.'); return;
+      }
+      if (imported.length === 0) { alert('No cards found in file.'); return; }
+      const count = imported.length;
+      imported.forEach(c => {
+        // Avoid exact duplicates by name
+        if (!cards.some(x => x.name === c.name)) cards.push(c);
+      });
+      save();
+      renderCards();
+      alert('Imported ' + count + ' card(s).');
+    } catch (err) {
+      alert('Error reading file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = ''; // Reset so same file can be imported again
+}
+
+// ===================== SPEND TRACKER =====================
+let trackerData = JSON.parse(localStorage.getItem('cp_tracker') || '{}');
+
+function saveTracker() { localStorage.setItem('cp_tracker', JSON.stringify(trackerData)); }
+
+// Set default month to current
+(function() {
+  const now = new Date();
+  const m = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  document.getElementById('trk-month').value = m;
+})();
+
+function saveTrackerMonth() {
+  const month = document.getElementById('trk-month').value;
+  if (!month) { alert('Select a month first.'); return; }
+  const cats = ['dining','groceries','fuel','travel','online','entertainment','utilities','general'];
+  const entry = {};
+  let total = 0;
+  cats.forEach(c => {
+    entry[c] = parseFloat(document.getElementById('trk-' + c).value) || 0;
+    total += entry[c];
+  });
+  if (total <= 0) { alert('Enter spending in at least one category.'); return; }
+  trackerData[month] = entry;
+  saveTracker();
+  renderTrackerHistory();
+  analyzeTracker();
+}
+
+function deleteTrackerMonth(month) {
+  delete trackerData[month];
+  saveTracker();
+  renderTrackerHistory();
+  document.getElementById('tracker-results').innerHTML = '';
+}
+
+function loadTrackerMonth(month) {
+  document.getElementById('trk-month').value = month;
+  const entry = trackerData[month] || {};
+  const cats = ['dining','groceries','fuel','travel','online','entertainment','utilities','general'];
+  cats.forEach(c => { document.getElementById('trk-' + c).value = entry[c] || ''; });
+}
+
+function renderTrackerHistory() {
+  const el = document.getElementById('tracker-history');
+  const months = Object.keys(trackerData).sort().reverse();
+  if (months.length === 0) { el.innerHTML = ''; return; }
+
+  const catLabels = { dining:'Dining', groceries:'Groceries', fuel:'Fuel', travel:'Travel', online:'Online', entertainment:'Entertain', utilities:'Utilities', general:'General' };
+
+  el.innerHTML = '<div class="tracker-history"><h4>Saved Months</h4>' +
+    months.map(m => {
+      const entry = trackerData[m];
+      const total = Object.values(entry).reduce((a, b) => a + b, 0);
+      // Calculate reward with user's cards
+      let reward = 0;
+      if (cards.length > 0) {
+        const cats = Object.keys(entry);
+        cats.forEach(cat => {
+          if (entry[cat] > 0) {
+            let best = 0;
+            cards.forEach(card => {
+              const r = getCardRate(card, cat, entry[cat]);
+              if (r.reward > best) best = r.reward;
+            });
+            reward += best;
+          }
+        });
+      }
+      return '<div class="history-row">' +
+        '<span class="h-month" style="cursor:pointer;" onclick="loadTrackerMonth(\'' + m + '\')">' + m + '</span>' +
+        '<span class="h-spend">Spent: ' + fmt(total) + '</span>' +
+        '<span class="h-reward">Earned: ~' + fmt(reward) + '</span>' +
+        '<span class="h-delete" onclick="deleteTrackerMonth(\'' + m + '\')">&#10005;</span>' +
+      '</div>';
+    }).join('') + '</div>';
+}
+
+function analyzeTracker() {
+  const month = document.getElementById('trk-month').value;
+  const entry = trackerData[month];
+  const resultsEl = document.getElementById('tracker-results');
+  if (!entry) {
+    resultsEl.innerHTML = '<div class="empty-state"><p>Save a month first to see analysis.</p></div>';
+    return;
+  }
+
+  const cats = ['dining','groceries','fuel','travel','online','entertainment','utilities','general'];
+  const catLabels = { dining:'Dining', groceries:'Groceries', fuel:'Fuel', travel:'Travel', online:'Online Shopping', entertainment:'Entertainment', utilities:'Utilities', general:'General' };
+
+  let totalSpend = 0;
+  let actualReward = 0;
+  let bestPossibleReward = 0;
+  const catBreakdown = [];
+
+  cats.forEach(cat => {
+    const spent = entry[cat] || 0;
+    totalSpend += spent;
+    if (spent <= 0) return;
+
+    // Actual reward with user's cards
+    let bestActual = 0, bestActualCard = null;
+    cards.forEach(card => {
+      const r = getCardRate(card, cat, spent);
+      if (r.reward > bestActual) { bestActual = r.reward; bestActualCard = card; }
+    });
+    actualReward += bestActual;
+
+    // Best possible with ANY card from DB
+    let bestDB = 0, bestDBCard = null;
+    CARD_DB.forEach(card => {
+      const r = getCardRate({ ...card, dbId: card.id }, cat, spent);
+      if (r.reward > bestDB) { bestDB = r.reward; bestDBCard = card; }
+    });
+    bestPossibleReward += bestDB;
+
+    catBreakdown.push({
+      cat, label: catLabels[cat], spent, actualReward: bestActual, actualCard: bestActualCard,
+      bestReward: bestDB, bestCard: bestDBCard, gap: bestDB - bestActual
+    });
+  });
+
+  const missedReward = bestPossibleReward - actualReward;
+
+  let summaryHtml = '<div class="tracker-summary"><h4 style="font-size:0.9rem;color:#cbd5e1;margin-bottom:10px;">Spending Breakdown — ' + esc(month) + '</h4>';
+  catBreakdown.forEach(cb => {
+    summaryHtml += '<div class="tracker-row">' +
+      '<span class="tracker-cat">' + cb.label + '</span>' +
+      '<span class="tracker-amt">' + fmt(cb.spent) + '</span>' +
+    '</div>';
+  });
+  summaryHtml += '<div class="tracker-total"><span>Total Spend</span><span style="color:#38bdf8;">' + fmt(totalSpend) + '</span></div>';
+  summaryHtml += '</div>';
+
+  let insightHtml = '<div class="tracker-insight">';
+  insightHtml += '<h4>Reward Analysis</h4>';
+
+  if (cards.length > 0) {
+    insightHtml += '<p>Your cards earned: <span class="highlight">' + fmt(actualReward) + '</span> (' + (totalSpend > 0 ? (actualReward / totalSpend * 100).toFixed(2) : '0') + '% effective rate)</p>';
+    insightHtml += '<p>Best possible (any card): <span class="highlight">' + fmt(bestPossibleReward) + '</span> (' + (totalSpend > 0 ? (bestPossibleReward / totalSpend * 100).toFixed(2) : '0') + '%)</p>';
+    if (missedReward > 1) {
+      insightHtml += '<p>You missed: <span class="missed">' + fmt(missedReward) + '</span> in potential rewards</p>';
+      // Show top gaps
+      const gaps = catBreakdown.filter(cb => cb.gap > 1).sort((a, b) => b.gap - a.gap).slice(0, 3);
+      if (gaps.length > 0) {
+        insightHtml += '<p style="margin-top:8px;font-weight:600;color:#cbd5e1;">Where you can improve:</p>';
+        gaps.forEach(g => {
+          insightHtml += '<p>' + g.label + ': ' + (g.actualCard ? esc(g.actualCard.name) : 'No card') + ' earned ' + fmt(g.actualReward) +
+            ' &rarr; <span class="highlight">' + esc(g.bestCard.name) + '</span> would earn ' + fmt(g.bestReward) +
+            ' (+' + fmt(g.gap) + ') ' +
+            (APPLY_LINKS[g.bestCard.id] ? applyBtn(g.bestCard.id, true) : '') + '</p>';
+        });
+      }
+    } else {
+      insightHtml += '<p style="color:#22c55e;font-weight:600;">You\'re already maximizing your rewards!</p>';
+    }
+  } else {
+    insightHtml += '<p>Add your cards in the "My Cards" tab to see how much you\'re earning.</p>';
+    insightHtml += '<p>Best possible (any card from DB): <span class="highlight">' + fmt(bestPossibleReward) + '</span></p>';
+  }
+
+  insightHtml += '</div>';
+
+  resultsEl.innerHTML = summaryHtml + insightHtml;
+}
+
 renderCards();
+renderTrackerHistory();
 
 // Load external card DB (falls back to embedded CARD_DB on failure)
 loadCardDB();

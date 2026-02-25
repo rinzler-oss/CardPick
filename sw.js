@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cardpick-v1.2';
+const CACHE_NAME = 'cardpick-v1.3';
 const ASSETS = [
   '/CardPick/',
   '/CardPick/index.html',
