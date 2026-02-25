@@ -111,6 +111,13 @@
 
   .data-source { text-align: center; font-size: 0.7rem; color: #334155; padding: 20px 0 8px; }
   .data-source a { color: #475569; }
+
+  /* Apply / Affiliate buttons */
+  .btn-apply { display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #1e293b; font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; white-space: nowrap; }
+  .btn-apply:hover { background: linear-gradient(135deg, #fbbf24, #f59e0b); transform: translateY(-1px); }
+  .btn-apply-sm { font-size: 0.68rem; padding: 3px 10px; }
+  .apply-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .apply-row .apply-hint { font-size: 0.68rem; color: #475569; font-style: italic; }
   .db-ok { color: #22c55e; }
   .db-warn { color: #eab308; }
   .db-err { color: #f87171; }
@@ -719,6 +726,76 @@ const SMARTBUY_RATES = {
   'hdfc-pixel-play':   { rate:5,    capPerMonth:5000 },
 };
 
+// ===================== APPLY / AFFILIATE LINKS =====================
+// Replace these with your affiliate tracking URLs once you sign up with partners
+const APPLY_LINKS = {
+  // HDFC Bank
+  'hdfc-infinia':           'https://www.hdfcbank.com/personal/pay/cards/credit-cards/infinia-credit-card',
+  'hdfc-diners-black':      'https://www.hdfcbank.com/personal/pay/cards/credit-cards/diners-club-black-credit-card',
+  'hdfc-diners-privilege':  'https://www.hdfcbank.com/personal/pay/cards/credit-cards/diners-club-privilege-credit-card',
+  'hdfc-regalia':           'https://www.hdfcbank.com/personal/pay/cards/credit-cards/regalia-credit-card',
+  'hdfc-regalia-gold':      'https://www.hdfcbank.com/personal/pay/cards/credit-cards/regalia-gold-credit-card',
+  'hdfc-regalia-first':     'https://www.hdfcbank.com/personal/pay/cards/credit-cards/regalia-first-credit-card',
+  'hdfc-millennia':         'https://www.hdfcbank.com/personal/pay/cards/credit-cards/millennia-credit-card',
+  'hdfc-swiggy':            'https://www.hdfcbank.com/personal/pay/cards/credit-cards/swiggy-hdfc-bank-credit-card',
+  'hdfc-tata-neu-plus':     'https://www.hdfcbank.com/personal/pay/cards/credit-cards/tata-neu-plus-hdfc-bank-credit-card',
+  'hdfc-tata-neu-infinity': 'https://www.hdfcbank.com/personal/pay/cards/credit-cards/tata-neu-infinity-hdfc-bank-credit-card',
+  'hdfc-moneyback-plus':    'https://www.hdfcbank.com/personal/pay/cards/credit-cards/moneyback-plus-credit-card',
+  'hdfc-pixel-play':        'https://www.hdfcbank.com/personal/pay/cards/credit-cards/pixel-play-credit-card',
+  'hdfc-freedom':           'https://www.hdfcbank.com/personal/pay/cards/credit-cards/freedom-credit-card',
+  'hdfc-indianoil':         'https://www.hdfcbank.com/personal/pay/cards/credit-cards/indianoil-hdfc-bank-credit-card',
+  // SBI Card
+  'sbi-cashback':           'https://www.sbicard.com/en/personal/credit-cards/cashback/cashback-sbi-card.page',
+  'sbi-elite':              'https://www.sbicard.com/en/personal/credit-cards/premium/sbi-card-elite.page',
+  'sbi-prime':              'https://www.sbicard.com/en/personal/credit-cards/premium/sbi-card-prime.page',
+  'sbi-simplyclick':        'https://www.sbicard.com/en/personal/credit-cards/shopping/simplyclick-sbi-card.page',
+  'sbi-simplysave':         'https://www.sbicard.com/en/personal/credit-cards/shopping/simplysave-sbi-card.page',
+  'sbi-bpcl':               'https://www.sbicard.com/en/personal/credit-cards/travel-fuel/bpcl-sbi-card.page',
+  'sbi-pulse':              'https://www.sbicard.com/en/personal/credit-cards/premium/sbi-card-pulse.page',
+  'sbi-flipkart':           'https://www.sbicard.com/en/personal/credit-cards/shopping/flipkart-sbi-card.page',
+  // ICICI Bank
+  'icici-amazon-pay':       'https://www.icicibank.com/card/credit-cards/amazon-pay-credit-card',
+  'icici-emeralde':         'https://www.icicibank.com/card/credit-cards/emeralde-credit-card',
+  'icici-sapphiro':         'https://www.icicibank.com/card/credit-cards/sapphiro-credit-card',
+  'icici-coral':            'https://www.icicibank.com/card/credit-cards/coral-credit-card',
+  'icici-rubyx':            'https://www.icicibank.com/card/credit-cards/rubyx-credit-card',
+  'icici-platinum-chip':    'https://www.icicibank.com/card/credit-cards/platinum-chip-credit-card',
+  'icici-mmt':              'https://www.icicibank.com/card/credit-cards/makemytrip-icici-bank-credit-card',
+  // Axis Bank
+  'axis-magnus':            'https://www.axisbank.com/credit-card/magnus-credit-card',
+  'axis-atlas':             'https://www.axisbank.com/credit-card/atlas-credit-card',
+  'axis-ace':               'https://www.axisbank.com/credit-card/ace-credit-card',
+  'axis-flipkart':          'https://www.axisbank.com/credit-card/flipkart-axis-bank-credit-card',
+  'axis-myzone':            'https://www.axisbank.com/credit-card/my-zone-credit-card',
+  'axis-vistara':           'https://www.axisbank.com/credit-card/vistara-credit-card',
+  // Kotak
+  'kotak-811-1':            'https://www.kotak.com/en/personal-banking/cards/credit-cards/811-credit-card.html',
+  'kotak-league-platinum':  'https://www.kotak.com/en/personal-banking/cards/credit-cards/league-platinum-credit-card.html',
+  // IDFC FIRST
+  'idfc-classic':           'https://www.idfcfirstbank.com/credit-card/classic',
+  'idfc-select':            'https://www.idfcfirstbank.com/credit-card/select',
+  'idfc-millennia':         'https://www.idfcfirstbank.com/credit-card/millennia',
+  'idfc-wealth':            'https://www.idfcfirstbank.com/credit-card/wealth',
+  // Amex
+  'amex-mrcc':              'https://www.americanexpress.com/in/credit-cards/membership-rewards-credit-card/',
+  'amex-smartearn':         'https://www.americanexpress.com/in/credit-cards/smartearn-credit-card/',
+  'amex-plat-travel':       'https://www.americanexpress.com/in/credit-cards/platinum-travel-credit-card/',
+  'amex-gold':              'https://www.americanexpress.com/in/credit-cards/gold-card/',
+  // Others
+  'onecard':                'https://www.getonecard.app/',
+  'au-lit':                 'https://www.aubank.in/credit-card/lit-credit-card',
+  'au-vetta':               'https://www.aubank.in/credit-card/vetta-credit-card',
+  'scapia':                 'https://scapia.com/',
+  'rbl-shoprite':           'https://www.rblbank.com/credit-cards/shoprite-credit-card',
+  'indusind-legend':        'https://www.indusind.com/in/en/personal/cards/credit-card/legend-credit-card.html',
+  'hsbc-cashback':          'https://www.hsbc.co.in/credit-cards/cashback/',
+  'bob-eterna':             'https://www.bankofbaroda.in/personal-banking/digital-products/cards/credit-card/bob-eterna-credit-card',
+  'yes-marquee':            'https://www.yesbank.in/personal-banking/yes-first/credit-cards/yes-first-marquee',
+  'sc-ultimate':            'https://www.sc.com/in/credit-cards/ultimate/',
+  'canara-rupay-select':    'https://canarabank.com/User_page.aspx?otherlinkid=228',
+  'canara-rupay-platinum':  'https://canarabank.com/User_page.aspx?otherlinkid=228',
+};
+
 // ===================== ROUTE TEMPLATES =====================
 const ROUTE_TEMPLATES = [
   // --- Amazon Gift Card routes ---
@@ -1102,6 +1179,11 @@ async function loadCardDB(url) {
         Object.keys(SMARTBUY_RATES).forEach(k => delete SMARTBUY_RATES[k]);
         Object.assign(SMARTBUY_RATES, data.smartbuyRates);
       }
+      // Replace APPLY_LINKS
+      if (data.applyLinks) {
+        Object.keys(APPLY_LINKS).forEach(k => delete APPLY_LINKS[k]);
+        Object.assign(APPLY_LINKS, data.applyLinks);
+      }
       DB_VERSION = data.version || '?';
       DB_LAST_UPDATED = data.lastUpdated || null;
       statusEl.innerHTML = '<span class="db-ok">Card DB v' + esc(DB_VERSION) + '</span> &middot; Updated: ' + esc(DB_LAST_UPDATED || 'unknown') + ' &middot; ' + CARD_DB.length + ' cards loaded';
@@ -1170,6 +1252,7 @@ function renderCards() {
            (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' : ''))) +
         (c.monthlyCap > 0 ? '<div class="annual-note">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>' : '') +
         (c.notes ? '<div class="card-notes">' + esc(c.notes) + '</div>' : '') +
+        (c.dbId && APPLY_LINKS[c.dbId] ? '<div class="apply-row">' + applyBtn(c.dbId, false) + '<span class="apply-hint">Don\'t have this card yet?</span></div>' : '') +
       '</div>' +
     '</div>';
   }).join('');
@@ -1640,7 +1723,7 @@ function compare() {
             '<div class="step-num">' + (si + 1) + '</div>' +
             '<div class="step-body">' +
               '<div class="step-action">' + esc(s.label) + '</div>' +
-              (s.card ? '<div class="step-card-used">Use: ' + esc(s.card.name) + ' <span style="opacity:0.6">[' + esc(s.card.network || '?') + ']</span> (' + s.rate.toFixed(1) + '%)</div>' : '') +
+              (s.card ? '<div class="step-card-used">Use: ' + esc(s.card.name) + ' <span style="opacity:0.6">[' + esc(s.card.network || '?') + ']</span> (' + s.rate.toFixed(1) + '%) ' + applyBtn(s.card.dbId, true) + '</div>' : '') +
             '</div>' +
             '<div class="step-reward">' + (s.reward > 0 ? '+' + fmt(s.reward) : (s.reward < 0 ? fmt(s.reward) : '')) + '</div>' +
           '</div>'
@@ -1650,6 +1733,19 @@ function compare() {
 
     let tipHtml = r.tip ? '<div class="route-tip">' + esc(r.tip) + '</div>' : '';
     let notesHtml = r.notes ? '<div class="route-notes">' + esc(r.notes) + '</div>' : '';
+
+    // Collect unique cards used in this route that have apply links
+    const applyCards = [];
+    const seenApply = new Set();
+    r.steps.forEach(s => {
+      if (s.card && s.card.dbId && APPLY_LINKS[s.card.dbId] && !seenApply.has(s.card.dbId)) {
+        seenApply.add(s.card.dbId);
+        applyCards.push(s.card);
+      }
+    });
+    let applyHtml = applyCards.length > 0 ? '<div class="apply-row">' +
+      applyCards.map(c => applyBtn(c.dbId, false)).join(' ') +
+      '<span class="apply-hint">Don\'t have ' + (applyCards.length === 1 ? 'this card' : 'these cards') + '? Apply now</span></div>' : '';
 
     return '<div class="route-card' + (isBest ? ' best' : '') + '">' +
       '<div class="route-header">' +
@@ -1665,7 +1761,7 @@ function compare() {
           '<div class="label">' + r.effectiveRate.toFixed(2) + '% return</div>' +
         '</div>' +
       '</div>' +
-      stepsHtml + tipHtml + notesHtml +
+      stepsHtml + tipHtml + notesHtml + applyHtml +
     '</div>';
   }).join('');
 }
@@ -1679,6 +1775,13 @@ function esc(s) {
   const d = document.createElement('div');
   d.textContent = s;
   return d.innerHTML;
+}
+
+function applyBtn(cardId, small) {
+  const url = APPLY_LINKS[cardId];
+  if (!url) return '';
+  const cls = small ? 'btn-apply btn-apply-sm' : 'btn-apply';
+  return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer" class="' + cls + '">Apply Now &#8594;</a>';
 }
 
 // Auto-compare on enter
