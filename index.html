@@ -1350,11 +1350,11 @@ function refreshCardDB() {
 }
 
 // ===================== STATE =====================
-let cards = JSON.parse(localStorage.getItem('cc_cards') || '[]');
+let cards = [];
 let editingIdx = -1;
 let selectedDbCard = null;
 
-function save() { localStorage.setItem('cc_cards', JSON.stringify(cards)); }
+function save() { /* no persistence — resets on refresh */ }
 
 // ===================== TABS =====================
 document.querySelectorAll('.tab').forEach(t => {
