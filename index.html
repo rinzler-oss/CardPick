@@ -6,10 +6,10 @@
 <title>CardPick - Best Card for Every Purchase</title>
 <meta name="description" content="CardPick - Free credit card reward optimizer for India. Find the best card and multi-step routes to maximize cashback on every purchase.">
 <!-- Favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%233b82f6'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>CP</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='22' width='100' height='100' fill='%23e8503a'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>CP</text></svg>">
 <!-- PWA -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3b82f6">
+<meta name="theme-color" content="#e8503a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -19,288 +19,401 @@
 <!-- Google AdSense — Replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID after approval -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+/* ====== Monzo-inspired Design System ====== */
+/* Warm, friendly, light theme with hot coral accent */
+:root {
+  --bg: #f7f5f0; --bg-sub: #ffffff; --bg-card: #ffffff; --bg-hover: #faf8f4;
+  --bg-inset: #f0ede6; --bg-surface: #f5f3ed;
+  --border: #e4e0d8; --border-hover: #d4d0c8; --border-active: #c0bbb1;
+  --text-1: #1a2233; --text-2: #556070; --text-3: #8e99a8;
+  --accent: #e8503a; --accent-dim: #e8503a15; --accent-hover: #d4442f;
+  --blue: #2d7ff9; --green: #00a67e; --green-dim: #00a67e10; --green-border: #00a67e28;
+  --red: #e8503a; --yellow: #f5a623; --orange: #e87d2f;
+  --r: 14px; --r-lg: 20px; --r-sm: 10px; --r-pill: 100px;
+  --shadow: 0 1px 3px rgba(26,34,51,0.06), 0 4px 12px rgba(26,34,51,0.04);
+  --shadow-lg: 0 8px 30px rgba(26,34,51,0.1), 0 2px 8px rgba(26,34,51,0.04);
+  --ease: cubic-bezier(.4,0,.2,1); --dur: .2s;
+}
 
-  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; }
 
-  h1 { text-align: center; font-size: 1.8rem; padding: 24px 0 8px; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .subtitle { text-align: center; color: #64748b; margin-bottom: 28px; font-size: 0.9rem; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c0bbb180; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #a09a90; }
 
-  /* Tabs */
-  .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: #1e293b; border-radius: 12px; padding: 4px; }
-  .tab { flex: 1; text-align: center; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s; color: #94a3b8; }
-  .tab.active { background: #334155; color: #f1f5f9; }
-  .tab:hover:not(.active) { color: #cbd5e1; }
+::selection { background: var(--accent-dim); color: var(--text-1); }
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+/* ====== Container ====== */
+.container { max-width: 860px; margin: 0 auto; padding: 0 24px 28px; }
 
-  /* Cards list */
-  .card-entry { background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #334155; display: flex; align-items: stretch; }
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .card-name { font-size: 1.1rem; font-weight: 600; }
-  .card-rewards { display: flex; flex-wrap: wrap; gap: 6px; }
-  .reward-tag { background: #334155; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; color: #94a3b8; }
-  .reward-tag span { color: #38bdf8; font-weight: 600; }
-  .card-color-bar { width: 5px; border-radius: 3px; align-self: stretch; margin-right: 10px; flex-shrink: 0; }
-  .card-body { flex: 1; }
-  .card-notes { font-size: 0.75rem; color: #64748b; margin-top: 6px; font-style: italic; }
+/* ====== Header ====== */
+.app-header { padding: 44px 0 32px; text-align: center; position: relative; }
+h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.04em; color: var(--text-1); display: inline-block; }
+h1::after { content: '.'; color: var(--accent); }
+.subtitle { color: var(--text-3); font-size: 0.92rem; margin-top: 8px; font-weight: 400; letter-spacing: -0.01em; }
 
-  /* Buttons */
-  .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
-  .btn-primary { background: #3b82f6; color: white; }
-  .btn-primary:hover { background: #2563eb; }
-  .btn-danger { background: transparent; color: #f87171; border: 1px solid #f8717133; font-size: 0.8rem; padding: 6px 12px; }
-  .btn-danger:hover { background: #f8717122; }
-  .btn-add { width: 100%; padding: 14px; background: #1e293b; border: 2px dashed #334155; color: #64748b; border-radius: 12px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
-  .btn-add:hover { border-color: #3b82f6; color: #3b82f6; }
+/* ====== Tabs ====== */
+.tabs { display: flex; gap: 4px; margin-bottom: 28px; padding: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); }
+.tab { flex: 1; text-align: center; padding: 11px 8px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.84rem; color: var(--text-3); transition: all var(--dur) var(--ease); display: flex; align-items: center; justify-content: center; gap: 7px; user-select: none; }
+.tab .tab-icon { font-size: 1rem; }
+.tab .tab-label {}
+.tab:hover:not(.active) { color: var(--text-2); background: var(--bg-surface); }
+.tab.active { color: #fff; background: var(--accent); box-shadow: 0 2px 8px rgba(232,80,58,0.3); }
+@media(max-width:480px) { .tab .tab-label { display:none; } .tab .tab-icon { font-size:1.15rem; } }
 
-  /* Modal */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: #0f172aee; z-index: 100; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: #1e293b; border-radius: 16px; padding: 28px; width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto; border: 1px solid #334155; }
-  .modal h2 { margin-bottom: 20px; font-size: 1.2rem; }
+.panel { display: none; }
+.panel.active { display: block; animation: panelIn .3s var(--ease); }
+@keyframes panelIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-  label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; margin-top: 14px; }
-  input, select { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; }
-  input:focus, select:focus { outline: none; border-color: #3b82f6; }
+/* ====== Form elements ====== */
+label { display: block; font-size: 0.78rem; color: var(--text-3); margin-bottom: 6px; margin-top: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+input, select { width: 100%; padding: 12px 14px; background: var(--bg-sub); border: 2px solid var(--border); border-radius: var(--r-sm); color: var(--text-1); font-size: 0.92rem; transition: all var(--dur) var(--ease); font-family: inherit; }
+input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+input::placeholder { color: var(--text-3); }
+select { cursor: pointer; }
+select option { background: var(--bg-card); color: var(--text-1); }
 
-  .category-rates { margin-top: 16px; }
-  .category-rates h3 { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 4px; }
-  .category-rates p { font-size: 0.78rem; color: #64748b; margin-bottom: 12px; }
-  .rate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .rate-row label { margin: 0; flex: 1; font-size: 0.9rem; color: #cbd5e1; }
-  .rate-row input { width: 90px; flex: none; text-align: right; }
+/* ====== Buttons ====== */
+.btn { padding: 11px 22px; border: none; border-radius: var(--r-pill); cursor: pointer; font-weight: 700; font-size: 0.88rem; transition: all var(--dur) var(--ease); font-family: inherit; letter-spacing: -0.01em; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 10px rgba(232,80,58,0.25); }
+.btn-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 18px rgba(232,80,58,0.35); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-secondary { background: var(--bg-surface); color: var(--text-2); border: 2px solid var(--border); }
+.btn-secondary:hover { color: var(--text-1); background: var(--bg-hover); border-color: var(--border-hover); }
+.btn-danger { background: transparent; color: var(--red); border: 2px solid rgba(232,80,58,0.15); font-size: 0.78rem; padding: 5px 14px; border-radius: var(--r-pill); }
+.btn-danger:hover { background: rgba(232,80,58,0.06); border-color: rgba(232,80,58,0.25); }
+.btn-add { width: 100%; padding: 18px; background: transparent; border: 2px dashed var(--border); color: var(--text-3); border-radius: var(--r); cursor: pointer; font-size: 0.92rem; font-weight: 600; transition: all var(--dur) var(--ease); font-family: inherit; }
+.btn-add:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-  .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
-  .btn-secondary { background: #334155; color: #e2e8f0; }
-  .btn-secondary:hover { background: #475569; }
+/* ====== Compare box ====== */
+.compare-box { background: var(--bg-card); border-radius: var(--r-lg); padding: 28px; margin-bottom: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.compare-row { display: flex; gap: 14px; align-items: end; flex-wrap: wrap; }
+.compare-row .field { flex: 1; min-width: 180px; }
+.compare-row .field-sm { flex: 0 0 140px; }
 
-  /* Search dropdown */
-  .search-wrap { position: relative; }
-  .search-wrap input { padding-left: 36px; }
-  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #475569; pointer-events: none; font-size: 0.95rem; }
-  .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0f172a; border: 1px solid #334155; border-radius: 8px; max-height: 340px; overflow-y: auto; z-index: 10; display: none; margin-top: 4px; }
-  .search-dropdown.open { display: block; }
-  .search-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #1e293b; transition: background 0.15s; }
-  .search-item:hover, .search-item.highlighted { background: #1e293b; }
-  .search-item .si-name { font-weight: 600; font-size: 0.92rem; }
-  .search-item .si-bank { color: #64748b; font-size: 0.8rem; margin-left: 6px; }
-  .search-item .si-desc { font-size: 0.75rem; color: #475569; margin-top: 2px; }
-  .search-divider { padding: 6px 14px; font-size: 0.72rem; color: #3b82f6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: #1e293b22; border-bottom: 1px solid #1e293b; }
-  .autofill-badge { display: inline-block; background: #3b82f622; color: #38bdf8; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+/* ====== Card entry (My Cards) ====== */
+.card-entry { background: var(--bg-card); border-radius: var(--r); padding: 20px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: stretch; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.card-entry:hover { border-color: var(--border-hover); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.card-name { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-1); }
+.card-rewards { display: flex; flex-wrap: wrap; gap: 5px; }
+.reward-tag { background: var(--bg-inset); padding: 4px 10px; border-radius: var(--r-pill); font-size: 0.72rem; color: var(--text-2); border: 1px solid var(--border); }
+.reward-tag span { color: var(--accent); font-weight: 700; }
+.card-color-bar { width: 5px; border-radius: 5px; align-self: stretch; margin-right: 14px; flex-shrink: 0; }
+.card-body { flex: 1; }
+.card-notes { font-size: 0.72rem; color: var(--text-3); margin-top: 6px; }
+.annual-note { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
 
-  /* Compare panel */
-  .compare-box { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
-  .compare-row { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
-  .compare-row .field { flex: 1; min-width: 180px; }
-  .compare-row .field-sm { flex: 0 0 140px; }
+/* ====== Modal ====== */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,34,51,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg-sub); border-radius: var(--r-lg); padding: 32px; width: 92%; max-width: 540px; max-height: 88vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: var(--shadow-lg); animation: modalPop .25s var(--ease); }
+@keyframes modalPop { from { opacity:0; transform:scale(.96) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.modal h2 { margin-bottom: 22px; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-1); }
+.modal-actions { display: flex; gap: 10px; margin-top: 26px; justify-content: flex-end; }
+.category-rates { margin-top: 18px; }
+.category-rates h3 { font-size: 0.92rem; color: var(--text-1); margin-bottom: 4px; font-weight: 700; }
+.category-rates p { font-size: 0.78rem; color: var(--text-3); margin-bottom: 14px; }
+.rate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.rate-row label { margin: 0; flex: 1; font-size: 0.84rem; color: var(--text-2); text-transform: none; letter-spacing: 0; }
+.rate-row input { width: 90px; flex: none; text-align: right; }
 
-  /* Results */
-  .results { margin-top: 20px; }
-  .result-card { background: #1e293b; border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; border: 1px solid #334155; display: flex; align-items: center; transition: all 0.2s; }
-  .result-card.best { border-color: #22c55e; background: #22c55e0d; }
-  .result-rank { font-size: 1.4rem; font-weight: 700; color: #475569; width: 40px; flex-shrink: 0; }
-  .result-card.best .result-rank { color: #22c55e; }
-  .result-info { flex: 1; min-width: 0; }
-  .result-info .name { font-weight: 600; font-size: 1.05rem; }
-  .result-info .detail { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
-  .result-info .notes { font-size: 0.73rem; color: #475569; margin-top: 3px; font-style: italic; }
-  .result-reward { text-align: right; flex-shrink: 0; margin-left: 12px; }
-  .result-reward .amount { font-size: 1.3rem; font-weight: 700; color: #38bdf8; }
-  .result-card.best .result-reward .amount { color: #22c55e; }
-  .result-reward .label { font-size: 0.75rem; color: #64748b; }
-  .best-badge { display: inline-block; background: #22c55e22; color: #22c55e; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+/* ====== Search dropdown ====== */
+.search-wrap { position: relative; }
+.search-wrap input { padding-left: 38px; }
+.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; font-size: 0.92rem; }
+.search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-sub); border: 1px solid var(--border); border-radius: var(--r); max-height: 360px; overflow-y: auto; z-index: 10; display: none; margin-top: 6px; box-shadow: var(--shadow-lg); }
+.search-dropdown.open { display: block; }
+.search-item { padding: 11px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background .12s; display: flex; align-items: center; gap: 10px; }
+.search-item:last-child { border-bottom: none; }
+.search-item:hover, .search-item.highlighted { background: var(--bg-inset); }
+.search-item .si-name { font-weight: 700; font-size: 0.88rem; color: var(--text-1); }
+.search-item .si-bank { color: var(--text-3); font-size: 0.75rem; margin-left: 6px; }
+.search-item .si-desc { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+.si-info { flex: 1; min-width: 0; }
+.search-divider { padding: 8px 16px; font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: var(--accent-dim); border-bottom: 1px solid var(--border); }
+.autofill-badge { display: inline-block; background: var(--accent-dim); color: var(--accent); font-size: 0.66rem; padding: 2px 8px; border-radius: var(--r-pill); margin-left: 6px; font-weight: 700; }
+.manual-link { display: block; text-align: center; color: var(--text-3); font-size: 0.82rem; margin-top: 10px; cursor: pointer; padding: 6px; transition: color var(--dur); }
+.manual-link:hover { color: var(--accent); }
 
-  .empty-state { text-align: center; padding: 48px 20px; color: #475569; }
-  .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
-  .empty-state p { margin-bottom: 6px; }
+/* ====== Results & Routes ====== */
+.results { margin-top: 22px; }
+.results-header { margin-bottom: 16px; }
+.results-header h3 { font-size: 0.95rem; color: var(--text-2); margin-bottom: 4px; font-weight: 700; }
+.results-header .savings-summary { font-size: 0.84rem; color: var(--green); font-weight: 700; }
 
-  .annual-note { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+.route-card { background: var(--bg-card); border-radius: var(--r); padding: 20px 22px; margin-bottom: 10px; border: 1px solid var(--border); transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.route-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.route-card.best { border-color: var(--green-border); background: var(--green-dim); border-left: 4px solid var(--green); }
+.route-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.route-rank { font-size: 1.2rem; font-weight: 800; color: var(--text-3); width: 34px; flex-shrink: 0; letter-spacing: -0.02em; }
+.route-card.best .route-rank { color: var(--green); }
+.route-title { flex: 1; min-width: 0; }
+.route-title .name { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--text-1); }
+.route-title .type-tag { display: inline-block; font-size: 0.62rem; padding: 3px 9px; border-radius: var(--r-pill); margin-left: 8px; font-weight: 700; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.04em; }
+.route-title .type-tag.direct { background: #2d7ff915; color: var(--blue); border: 1px solid #2d7ff925; }
+.route-title .type-tag.route { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(232,80,58,0.18); }
+.route-reward { text-align: right; flex-shrink: 0; }
+.route-reward .amount { font-size: 1.3rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+.route-card.best .route-reward .amount { color: var(--green); }
+.route-reward .label { font-size: 0.72rem; color: var(--text-3); }
+.best-badge { display: inline-block; background: var(--green-dim); color: var(--green); font-size: 0.62rem; font-weight: 700; padding: 3px 10px; border-radius: var(--r-pill); margin-left: 8px; vertical-align: middle; border: 1px solid var(--green-border); text-transform: uppercase; letter-spacing: 0.04em; }
 
-  .color-options { display: flex; gap: 8px; margin-top: 6px; }
-  .color-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; }
-  .color-dot.selected { border-color: white; transform: scale(1.15); }
+.route-steps { margin-top: 14px; padding: 16px; background: var(--bg-inset); border-radius: var(--r-sm); border: 1px solid var(--border); }
+.route-step { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
+.route-step:not(:last-child) { border-bottom: 1px solid var(--border); }
+.step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-body { flex: 1; }
+.step-action { font-size: 0.84rem; color: var(--text-2); }
+.step-card-used { font-size: 0.74rem; color: var(--blue); margin-top: 2px; font-weight: 600; }
+.step-reward { font-size: 0.8rem; font-weight: 700; color: var(--green); flex-shrink: 0; }
+.route-tip { margin-top: 12px; padding: 12px 16px; background: #f5a62308; border: 1px solid #f5a62320; border-radius: var(--r-sm); font-size: 0.76rem; color: #b07a1a; }
+.route-tip::before { content: 'TIP '; font-weight: 800; letter-spacing: 0.04em; margin-right: 4px; }
+.route-notes { font-size: 0.74rem; color: var(--text-3); margin-top: 6px; }
+.route-savings { margin-top: 8px; font-size: 0.82rem; color: var(--green); font-weight: 700; }
 
-  .data-source { text-align: center; font-size: 0.7rem; color: #334155; padding: 20px 0 8px; }
-  .data-source a { color: #475569; }
+.result-card { background: var(--bg-card); border-radius: var(--r); padding: 18px 22px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: center; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.result-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.result-card.best { border-color: var(--green-border); background: var(--green-dim); border-left: 4px solid var(--green); }
+.result-rank { font-size: 1.3rem; font-weight: 800; color: var(--text-3); width: 36px; flex-shrink: 0; }
+.result-card.best .result-rank { color: var(--green); }
+.result-info { flex: 1; min-width: 0; }
+.result-info .name { font-weight: 700; font-size: 1rem; color: var(--text-1); }
+.result-info .detail { font-size: 0.82rem; color: var(--text-3); margin-top: 2px; }
+.result-info .notes { font-size: 0.74rem; color: var(--text-3); margin-top: 3px; }
+.result-reward { text-align: right; flex-shrink: 0; margin-left: 12px; }
+.result-reward .amount { font-size: 1.3rem; font-weight: 800; color: var(--accent); }
+.result-card.best .result-reward .amount { color: var(--green); }
+.result-reward .label { font-size: 0.72rem; color: var(--text-3); }
+.result-color-bar { width: 4px; border-radius: 3px; align-self: stretch; margin-right: 14px; min-height: 40px; flex-shrink: 0; }
 
-  /* Apply / Affiliate buttons */
-  .btn-apply { display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #1e293b; font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; white-space: nowrap; }
-  .btn-apply:hover { background: linear-gradient(135deg, #fbbf24, #f59e0b); transform: translateY(-1px); }
-  .btn-apply-sm { font-size: 0.68rem; padding: 3px 10px; }
-  .apply-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .apply-row .apply-hint { font-size: 0.68rem; color: #475569; font-style: italic; }
-  .db-ok { color: #22c55e; }
-  .db-warn { color: #eab308; }
-  .db-err { color: #f87171; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-3); }
+.empty-state .icon { font-size: 2.8rem; margin-bottom: 14px; opacity: 0.35; }
+.empty-state p { margin-bottom: 6px; font-size: 0.9rem; }
 
-  .result-color-bar { width: 4px; border-radius: 2px; align-self: stretch; margin-right: 14px; min-height: 40px; flex-shrink: 0; }
+/* ====== Share ====== */
+.btn-share { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-card); color: var(--text-2); font-size: 0.78rem; font-weight: 600; padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--border); cursor: pointer; transition: all var(--dur) var(--ease); }
+.btn-share:hover { background: var(--bg-hover); color: var(--text-1); border-color: var(--border-hover); box-shadow: var(--shadow); }
+.btn-share.copied { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
 
-  .manual-link { display: block; text-align: center; color: #475569; font-size: 0.82rem; margin-top: 10px; cursor: pointer; padding: 6px; }
-  .manual-link:hover { color: #64748b; }
+/* ====== Recommend ====== */
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.rec-field label { font-size: 0.72rem; color: var(--text-3); margin-bottom: 3px; display: block; margin-top: 0; }
+.rec-field input { width: 100%; }
+.rec-card { background: var(--bg-card); border-radius: var(--r); padding: 22px; border: 1px solid var(--border); margin-bottom: 10px; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.rec-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.rec-card.top-pick { border-color: var(--green-border); background: var(--green-dim); border-left: 4px solid var(--green); }
+.rec-card .rec-rank { font-size: 0.7rem; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+.rec-card.top-pick .rec-rank { color: var(--green); }
+.rec-card .rec-name { font-size: 1.08rem; font-weight: 800; margin: 4px 0; letter-spacing: -0.02em; color: var(--text-1); }
+.rec-card .rec-bank { font-size: 0.8rem; color: var(--text-3); }
+.rec-card .rec-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.rec-stat { background: var(--bg-inset); border-radius: var(--r-sm); padding: 12px 14px; flex: 1; min-width: 90px; border: 1px solid var(--border); }
+.rec-stat .stat-label { font-size: 0.66rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.rec-stat .stat-value { font-size: 1.05rem; font-weight: 800; color: var(--accent); margin-top: 3px; letter-spacing: -0.02em; }
+.rec-card .rec-fee { font-size: 0.78rem; color: var(--text-3); margin-top: 12px; }
+.rec-card .rec-notes { font-size: 0.74rem; color: var(--text-3); margin-top: 6px; }
+.rec-card .rec-milestones { margin-top: 14px; }
+.milestone-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.milestone-track { flex: 1; height: 6px; background: var(--bg-inset); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+.milestone-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--green)); transition: width .4s var(--ease); }
+.milestone-label { font-size: 0.7rem; color: var(--text-3); white-space: nowrap; }
+.milestone-reward { font-size: 0.7rem; color: var(--green); font-weight: 700; white-space: nowrap; }
 
-  /* Route results */
-  .route-card { background: #1e293b; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; border: 1px solid #334155; transition: all 0.2s; }
-  .route-card.best { border-color: #22c55e; background: #22c55e0a; }
-  .route-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .route-rank { font-size: 1.3rem; font-weight: 700; color: #475569; width: 36px; flex-shrink: 0; }
-  .route-card.best .route-rank { color: #22c55e; }
-  .route-title { flex: 1; min-width: 0; }
-  .route-title .name { font-weight: 600; font-size: 1rem; }
-  .route-title .type-tag { display: inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: 600; vertical-align: middle; }
-  .route-title .type-tag.direct { background: #3b82f622; color: #38bdf8; }
-  .route-title .type-tag.route { background: #8b5cf622; color: #a78bfa; }
-  .route-reward { text-align: right; flex-shrink: 0; }
-  .route-reward .amount { font-size: 1.3rem; font-weight: 700; color: #38bdf8; }
-  .route-card.best .route-reward .amount { color: #22c55e; }
-  .route-reward .label { font-size: 0.72rem; color: #64748b; }
-  .route-steps { margin-top: 12px; padding: 12px; background: #0f172a; border-radius: 8px; }
-  .route-step { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
-  .route-step:not(:last-child) { border-bottom: 1px dashed #1e293b; }
-  .step-num { width: 22px; height: 22px; border-radius: 50%; background: #334155; color: #94a3b8; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  .step-body { flex: 1; }
-  .step-action { font-size: 0.85rem; color: #cbd5e1; }
-  .step-card-used { font-size: 0.75rem; color: #38bdf8; margin-top: 2px; }
-  .step-reward { font-size: 0.78rem; font-weight: 600; color: #22c55e; flex-shrink: 0; }
-  .route-tip { margin-top: 10px; padding: 8px 12px; background: #eab30811; border: 1px solid #eab30833; border-radius: 8px; font-size: 0.75rem; color: #eab308; }
-  .route-tip::before { content: 'TIP: '; font-weight: 700; }
-  .route-notes { font-size: 0.73rem; color: #475569; margin-top: 6px; font-style: italic; }
-  .route-savings { margin-top: 8px; font-size: 0.8rem; color: #22c55e; font-weight: 600; }
-  .results-header { margin-bottom: 16px; }
-  .results-header h3 { font-size: 1rem; color: #94a3b8; margin-bottom: 4px; }
-  .results-header .savings-summary { font-size: 0.85rem; color: #22c55e; }
+/* ====== Fee toggle ====== */
+.fee-toggle { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.fee-toggle label { margin: 0; font-size: 0.8rem; color: var(--text-2); cursor: pointer; text-transform: none; letter-spacing: 0; }
+.fee-toggle input { width: auto; cursor: pointer; accent-color: var(--accent); }
 
-  /* Share button */
-  .btn-share { display: inline-flex; align-items: center; gap: 6px; background: #334155; color: #94a3b8; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; border: 1px solid #475569; cursor: pointer; transition: all 0.2s; }
-  .btn-share:hover { background: #475569; color: #e2e8f0; }
-  .btn-share.copied { background: #22c55e22; color: #22c55e; border-color: #22c55e44; }
+/* ====== Tags ====== */
+.perk-tag { display: inline-block; background: var(--accent-dim); color: var(--accent); font-size: 0.68rem; padding: 3px 9px; border-radius: var(--r-pill); margin-right: 3px; margin-top: 3px; font-weight: 600; }
+.excluded-tag { display: inline-block; background: rgba(232,80,58,0.06); color: var(--red); font-size: 0.66rem; padding: 2px 8px; border-radius: var(--r-pill); margin-left: 3px; font-weight: 600; }
 
-  /* Recommend panel */
-  .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .rec-field label { font-size: 0.82rem; color: #94a3b8; margin-bottom: 2px; display: block; margin-top: 0; }
-  .rec-field input { width: 100%; }
-  .rec-card { background: #1e293b; border-radius: 12px; padding: 18px; border: 1px solid #334155; margin-bottom: 12px; }
-  .rec-card.top-pick { border-color: #22c55e; background: #22c55e0a; }
-  .rec-card .rec-rank { font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
-  .rec-card.top-pick .rec-rank { color: #22c55e; }
-  .rec-card .rec-name { font-size: 1.1rem; font-weight: 700; margin: 4px 0; }
-  .rec-card .rec-bank { font-size: 0.82rem; color: #64748b; }
-  .rec-card .rec-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .rec-stat { background: #0f172a; border-radius: 8px; padding: 8px 12px; flex: 1; min-width: 100px; }
-  .rec-stat .stat-label { font-size: 0.68rem; color: #64748b; }
-  .rec-stat .stat-value { font-size: 1rem; font-weight: 700; color: #38bdf8; }
-  .rec-card .rec-fee { font-size: 0.78rem; color: #64748b; margin-top: 8px; }
-  .rec-card .rec-notes { font-size: 0.73rem; color: #475569; margin-top: 6px; font-style: italic; }
-  .rec-card .rec-milestones { margin-top: 10px; }
-  .milestone-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .milestone-track { flex: 1; height: 6px; background: #0f172a; border-radius: 3px; overflow: hidden; }
-  .milestone-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #3b82f6, #22c55e); transition: width 0.4s; }
-  .milestone-label { font-size: 0.7rem; color: #64748b; white-space: nowrap; }
-  .milestone-reward { font-size: 0.7rem; color: #22c55e; font-weight: 600; white-space: nowrap; }
+/* ====== Apply ====== */
+.btn-apply { display: inline-block; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 700; padding: 5px 14px; border-radius: var(--r-pill); text-decoration: none; transition: all var(--dur) var(--ease); border: none; cursor: pointer; white-space: nowrap; }
+.btn-apply:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(232,80,58,0.25); }
+.btn-apply-sm { font-size: 0.68rem; padding: 4px 12px; }
+.apply-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.apply-row .apply-hint { font-size: 0.68rem; color: var(--text-3); }
+.db-ok { color: var(--green); }
+.db-warn { color: var(--yellow); }
+.db-err { color: var(--red); }
 
-  /* Fee toggle */
-  .fee-toggle { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-  .fee-toggle label { margin: 0; font-size: 0.8rem; color: #94a3b8; cursor: pointer; }
-  .fee-toggle input { width: auto; cursor: pointer; accent-color: #3b82f6; }
+/* ====== Color picker ====== */
+.color-options { display: flex; gap: 8px; margin-top: 6px; }
+.color-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .15s; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.color-dot:hover { transform: scale(1.12); }
+.color-dot.selected { border-color: var(--text-1); transform: scale(1.18); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
-  /* Perks tags */
-  .perk-tag { display: inline-block; background: #8b5cf622; color: #a78bfa; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; margin-right: 4px; margin-top: 4px; }
+/* ====== IO ====== */
+.io-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.btn-io { background: var(--bg-card); color: var(--text-2); font-size: 0.78rem; font-weight: 600; padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--border); cursor: pointer; transition: all var(--dur) var(--ease); font-family: inherit; }
+.btn-io:hover { background: var(--bg-hover); color: var(--text-1); border-color: var(--border-hover); box-shadow: var(--shadow); }
 
-  /* Import/Export */
-  .io-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-  .btn-io { background: #334155; color: #94a3b8; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; border: 1px solid #475569; cursor: pointer; transition: all 0.2s; }
-  .btn-io:hover { background: #475569; color: #e2e8f0; }
+/* ====== Tracker ====== */
+.tracker-month { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.tracker-month select { width: auto; min-width: 140px; }
+.tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.tracker-field label { font-size: 0.72rem; color: var(--text-3); margin-bottom: 3px; display: block; margin-top: 0; }
+.tracker-field input { width: 100%; }
+.tracker-summary { background: var(--bg-card); border-radius: var(--r-sm); padding: 18px; margin-top: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.tracker-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.tracker-row:last-child { border-bottom: none; }
+.tracker-cat { font-size: 0.84rem; color: var(--text-2); }
+.tracker-amt { font-size: 0.84rem; color: var(--accent); font-weight: 700; }
+.tracker-total { display: flex; justify-content: space-between; padding: 10px 0 0; margin-top: 6px; border-top: 2px solid var(--border-hover); font-weight: 800; }
+.tracker-insight { background: var(--green-dim); border: 1px solid var(--green-border); border-radius: var(--r-sm); padding: 16px; margin-top: 16px; }
+.tracker-insight h4 { font-size: 0.84rem; color: var(--green); margin-bottom: 8px; font-weight: 700; }
+.tracker-insight p { font-size: 0.78rem; color: var(--text-2); margin-bottom: 4px; }
+.tracker-insight .highlight { color: var(--green); font-weight: 700; }
+.tracker-insight .missed { color: var(--red); font-weight: 700; }
+.tracker-history { margin-top: 18px; }
+.tracker-history h4 { font-size: 0.84rem; color: var(--text-2); margin-bottom: 8px; font-weight: 700; }
+.history-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: var(--r-sm); margin-bottom: 6px; font-size: 0.82rem; border: 1px solid var(--border); transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.history-row:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.history-row .h-month { color: var(--text-1); font-weight: 700; }
+.history-row .h-spend { color: var(--text-3); }
+.history-row .h-reward { color: var(--green); font-weight: 700; }
+.history-row .h-delete { color: var(--red); cursor: pointer; font-size: 0.74rem; margin-left: 8px; }
 
-  /* Spend Tracker */
-  .tracker-month { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  .tracker-month select { width: auto; min-width: 140px; }
-  .tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .tracker-field label { font-size: 0.82rem; color: #94a3b8; margin-bottom: 2px; display: block; margin-top: 0; }
-  .tracker-field input { width: 100%; }
-  .tracker-summary { background: #0f172a; border-radius: 10px; padding: 16px; margin-top: 12px; }
-  .tracker-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1e293b; }
-  .tracker-row:last-child { border-bottom: none; }
-  .tracker-cat { font-size: 0.85rem; color: #cbd5e1; }
-  .tracker-amt { font-size: 0.85rem; color: #38bdf8; font-weight: 600; }
-  .tracker-total { display: flex; justify-content: space-between; padding: 10px 0 0; margin-top: 6px; border-top: 2px solid #334155; font-weight: 700; }
-  .tracker-insight { background: #22c55e0a; border: 1px solid #22c55e33; border-radius: 10px; padding: 14px; margin-top: 14px; }
-  .tracker-insight h4 { font-size: 0.85rem; color: #22c55e; margin-bottom: 8px; }
-  .tracker-insight p { font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; }
-  .tracker-insight .highlight { color: #22c55e; font-weight: 700; }
-  .tracker-insight .missed { color: #f87171; font-weight: 600; }
-  .tracker-history { margin-top: 16px; }
-  .tracker-history h4 { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; }
-  .history-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #1e293b; border-radius: 8px; margin-bottom: 6px; font-size: 0.82rem; }
-  .history-row .h-month { color: #cbd5e1; }
-  .history-row .h-spend { color: #94a3b8; }
-  .history-row .h-reward { color: #22c55e; font-weight: 600; }
-  .history-row .h-delete { color: #f87171; cursor: pointer; font-size: 0.75rem; margin-left: 8px; }
-  .excluded-tag { display: inline-block; background: #f8717122; color: #f87171; font-size: 0.65rem; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+/* ====== Discontinued ====== */
+.discontinued-badge { display: inline-block; background: rgba(232,80,58,0.08); color: var(--red); font-size: 0.64rem; font-weight: 700; padding: 3px 9px; border-radius: var(--r-pill); margin-left: 6px; letter-spacing: 0.03em; text-transform: uppercase; vertical-align: middle; border: 1px solid rgba(232,80,58,0.15); }
+.discontinued-note { font-size: 0.72rem; color: var(--red); margin-top: 4px; opacity: 0.8; }
+.search-item.discontinued { opacity: 0.5; }
+.search-item.discontinued .card-mini { filter: grayscale(.7); }
+.suggest-card.discontinued { opacity: 0.45; border-color: rgba(232,80,58,0.15); }
+.suggest-card.discontinued .card-visual-lg { filter: grayscale(.7); }
+.card-entry.discontinued { opacity: 0.5; border-color: rgba(232,80,58,0.15); }
+.card-entry.discontinued .card-color-bar { filter: grayscale(.7); }
+.route-card .discontinued-inline { font-size: 0.68rem; color: var(--red); font-weight: 700; margin-left: 6px; }
+.route-card.discontinued { opacity: 0.55; border-color: rgba(232,80,58,0.15); }
+.rec-card.discontinued { opacity: 0.5; border-color: rgba(232,80,58,0.15); }
 
-  /* Discontinued badge */
-  .discontinued-badge { display: inline-block; background: #f8717133; color: #f87171; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.03em; text-transform: uppercase; vertical-align: middle; }
-  .discontinued-note { font-size: 0.72rem; color: #f87171; margin-top: 4px; font-style: italic; opacity: 0.85; }
-  .search-item.discontinued { opacity: 0.6; }
-  .search-item.discontinued .card-mini { filter: grayscale(0.7); }
-  .suggest-card.discontinued { opacity: 0.55; border-color: #f8717133; }
-  .suggest-card.discontinued .card-visual-lg { filter: grayscale(0.7); }
-  .card-entry.discontinued { opacity: 0.65; border-color: #f8717133; }
-  .card-entry.discontinued .card-color-bar { filter: grayscale(0.7); }
-  .route-card .discontinued-inline { font-size: 0.68rem; color: #f87171; font-weight: 600; margin-left: 6px; }
-  .route-card.discontinued { opacity: 0.7; border-color: #f8717133; }
-  .rec-card.discontinued { opacity: 0.6; border-color: #f8717133; }
+/* ====== Mini card visual ====== */
+.card-mini { width: 60px; height: 38px; border-radius: 6px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 5px; font-family: inherit; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.card-mini::before { content: ''; position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+.card-mini .cm-bank { font-size: 0.36rem; color: #ffffffcc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-mini .cm-name { font-size: 0.32rem; color: #ffffffaa; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-mini .cm-chip { width: 7px; height: 5px; border-radius: 1px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 9px; left: 5px; }
+.card-mini .cm-net { font-size: 0.34rem; color: #ffffff99; font-weight: 600; text-align: right; line-height: 1; }
 
-  /* Mini card visual */
-  .card-mini { width: 64px; height: 40px; border-radius: 6px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 6px; font-family: system-ui, sans-serif; position: relative; overflow: hidden; box-shadow: 0 1px 4px #0004; }
-  .card-mini::before { content: ''; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; border-radius: 50%; background: #fff1; }
-  .card-mini .cm-bank { font-size: 0.38rem; color: #fffc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-mini .cm-name { font-size: 0.34rem; color: #fffa; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-mini .cm-chip { width: 8px; height: 6px; border-radius: 1px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 10px; left: 6px; }
-  .card-mini .cm-net { font-size: 0.36rem; color: #fff9; font-weight: 600; text-align: right; line-height: 1; }
+/* ====== Suggestions ====== */
+.suggest-section { margin-top: 30px; padding-top: 24px; border-top: 2px solid var(--border); }
+.suggest-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.suggest-header h3 { font-size: 0.92rem; color: var(--text-1); margin: 0; font-weight: 700; }
+.suggest-header .suggest-badge { background: #e87d2f10; color: var(--orange); font-size: 0.66rem; font-weight: 700; padding: 3px 10px; border-radius: var(--r-pill); border: 1px solid #e87d2f20; text-transform: uppercase; letter-spacing: 0.04em; }
+.suggest-card { background: var(--bg-card); border-radius: var(--r); padding: 16px 18px; margin-bottom: 8px; border: 1px solid var(--border); display: flex; align-items: center; gap: 14px; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.suggest-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.suggest-card .card-visual-lg { width: 86px; height: 54px; border-radius: 8px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 7px; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+.suggest-card .card-visual-lg::before { content: ''; position: absolute; top: -12px; right: -12px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+.suggest-card .card-visual-lg .cv-bank { font-size: 0.5rem; color: #ffffffcc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.suggest-card .card-visual-lg .cv-name { font-size: 0.44rem; color: #ffffffaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.suggest-card .card-visual-lg .cv-chip { width: 10px; height: 7px; border-radius: 1px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 12px; left: 7px; }
+.suggest-card .card-visual-lg .cv-net { font-size: 0.46rem; color: #ffffff88; font-weight: 600; text-align: right; }
+.suggest-body { flex: 1; min-width: 0; }
+.suggest-body .sb-name { font-weight: 700; font-size: 0.92rem; color: var(--text-1); letter-spacing: -0.01em; }
+.suggest-body .sb-bank { font-size: 0.78rem; color: var(--text-3); }
+.suggest-body .sb-rates { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.suggest-body .sb-tag { background: var(--bg-inset); padding: 3px 9px; border-radius: var(--r-pill); font-size: 0.7rem; color: var(--text-2); border: 1px solid var(--border); }
+.suggest-body .sb-tag.best { background: var(--green-dim); color: var(--green); border-color: var(--green-border); font-weight: 600; }
+.suggest-body .sb-fee { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
+.suggest-reward { text-align: right; flex-shrink: 0; margin-left: 8px; }
+.suggest-reward .sr-amount { font-size: 1.15rem; font-weight: 800; color: var(--orange); letter-spacing: -0.02em; }
+.suggest-reward .sr-label { font-size: 0.7rem; color: var(--text-3); }
+.suggest-reward .sr-extra { font-size: 0.72rem; color: var(--green); font-weight: 700; }
 
-  /* Search dropdown with card visuals */
-  .search-item { display: flex; align-items: center; gap: 10px; }
-  .si-info { flex: 1; min-width: 0; }
+/* ====== Fuel Surcharge Calculator ====== */
+.fuel-header h3 { font-size: 1.05rem; font-weight: 800; color: var(--text-1); margin-bottom: 4px; letter-spacing: -0.02em; }
+.fuel-header p { font-size: 0.82rem; color: var(--text-3); margin-bottom: 18px; line-height: 1.5; }
+.fuel-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fuel-field label { margin-top: 0; }
+.fuel-info-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-top: 14px; font-size: 0.82rem; }
+.fuel-info-label { color: var(--text-3); font-weight: 500; }
+.fuel-info-value { color: var(--text-1); font-weight: 700; }
+.fuel-info-value.fuel-loss { color: var(--red); }
 
-  /* Suggestions section */
-  .suggest-section { margin-top: 28px; padding-top: 20px; border-top: 2px dashed #334155; }
-  .suggest-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .suggest-header h3 { font-size: 0.95rem; color: #94a3b8; margin: 0; }
-  .suggest-header .suggest-badge { background: #f59e0b22; color: #fbbf24; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 10px; }
-  .suggest-card { background: #1e293b; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #334155; display: flex; align-items: center; gap: 14px; transition: all 0.2s; }
-  .suggest-card:hover { border-color: #475569; }
-  .suggest-card .card-visual-lg { width: 90px; height: 56px; border-radius: 8px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 8px; position: relative; overflow: hidden; box-shadow: 0 2px 8px #0006; }
-  .suggest-card .card-visual-lg::before { content: ''; position: absolute; top: -15px; right: -15px; width: 45px; height: 45px; border-radius: 50%; background: #fff1; }
-  .suggest-card .card-visual-lg .cv-bank { font-size: 0.52rem; color: #fffc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .suggest-card .card-visual-lg .cv-name { font-size: 0.46rem; color: #fffa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .suggest-card .card-visual-lg .cv-chip { width: 12px; height: 9px; border-radius: 1.5px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 14px; left: 8px; }
-  .suggest-card .card-visual-lg .cv-net { font-size: 0.48rem; color: #fff9; font-weight: 600; text-align: right; }
-  .suggest-body { flex: 1; min-width: 0; }
-  .suggest-body .sb-name { font-weight: 600; font-size: 0.95rem; color: #e2e8f0; }
-  .suggest-body .sb-bank { font-size: 0.78rem; color: #64748b; }
-  .suggest-body .sb-rates { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-  .suggest-body .sb-tag { background: #334155; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; color: #94a3b8; }
-  .suggest-body .sb-tag.best { background: #22c55e22; color: #22c55e; }
-  .suggest-body .sb-fee { font-size: 0.72rem; color: #64748b; margin-top: 4px; }
-  .suggest-reward { text-align: right; flex-shrink: 0; margin-left: 8px; }
-  .suggest-reward .sr-amount { font-size: 1.15rem; font-weight: 700; color: #fbbf24; }
-  .suggest-reward .sr-label { font-size: 0.7rem; color: #64748b; }
-  .suggest-reward .sr-extra { font-size: 0.72rem; color: #22c55e; font-weight: 600; }
+.fuel-result-section { margin-top: 20px; }
+.fuel-result-section h4 { font-size: 0.84rem; font-weight: 700; color: var(--text-2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+.fuel-card-row { background: var(--bg-card); border-radius: var(--r); padding: 16px 18px; margin-bottom: 8px; border: 1px solid var(--border); display: flex; align-items: center; gap: 14px; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
+.fuel-card-row:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.fuel-card-row.fuel-best { border-left: 4px solid var(--green); background: var(--green-dim); }
+.fuel-card-row.fuel-yours { border-left: 4px solid var(--accent); }
+.fuel-card-info { flex: 1; min-width: 0; }
+.fuel-card-info .fc-name { font-weight: 700; font-size: 0.92rem; color: var(--text-1); letter-spacing: -0.01em; }
+.fuel-card-info .fc-bank { font-size: 0.76rem; color: var(--text-3); }
+.fuel-card-info .fc-conditions { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
+.fuel-card-info .fc-yours-tag { display: inline-block; background: var(--accent-dim); color: var(--accent); font-size: 0.62rem; font-weight: 700; padding: 2px 8px; border-radius: var(--r-pill); margin-left: 6px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.03em; }
+.fuel-card-savings { text-align: right; flex-shrink: 0; }
+.fuel-card-savings .fc-amount { font-size: 1.15rem; font-weight: 800; color: var(--green); letter-spacing: -0.02em; }
+.fuel-card-savings .fc-label { font-size: 0.68rem; color: var(--text-3); }
+.fuel-card-details { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.fuel-detail-tag { background: var(--bg-inset); padding: 3px 9px; border-radius: var(--r-pill); font-size: 0.68rem; color: var(--text-2); border: 1px solid var(--border); }
+.fuel-detail-tag span { font-weight: 700; }
+.fuel-detail-tag.savings span { color: var(--green); }
+.fuel-detail-tag.reward span { color: var(--accent); }
+.fuel-no-waiver { text-align: center; padding: 20px; color: var(--text-3); font-size: 0.84rem; }
+.fuel-explainer { background: var(--bg-inset); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 16px; margin-top: 16px; }
+.fuel-explainer h5 { font-size: 0.78rem; font-weight: 700; color: var(--text-2); margin-bottom: 6px; }
+.fuel-explainer p { font-size: 0.74rem; color: var(--text-3); line-height: 1.5; margin-bottom: 4px; }
+.fuel-explainer p:last-child { margin-bottom: 0; }
+.fuel-summary-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.fuel-summary-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 16px; flex: 1; min-width: 120px; box-shadow: var(--shadow); }
+.fuel-summary-stat .fss-label { font-size: 0.66rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.fuel-summary-stat .fss-value { font-size: 1.2rem; font-weight: 800; margin-top: 4px; letter-spacing: -0.02em; }
+.fuel-summary-stat .fss-value.loss { color: var(--red); }
+.fuel-summary-stat .fss-value.save { color: var(--green); }
+.fuel-summary-stat .fss-value.neutral { color: var(--text-1); }
+.fuel-summary-stat .fss-sub { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
+@media(max-width:640px) {
+  .fuel-inputs { grid-template-columns: 1fr; }
+  .fuel-info-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .fuel-info-row span[style] { margin-left: 0 !important; }
+  .fuel-summary-bar { flex-direction: column; }
+}
+
+/* ====== Footer ====== */
+.app-footer { text-align: center; padding: 32px 0 36px; }
+.app-footer .footer-links { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.btn-coffee { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-card); color: var(--yellow); font-weight: 700; font-size: 0.8rem; padding: 10px 20px; border-radius: var(--r-pill); text-decoration: none; transition: all var(--dur) var(--ease); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.btn-coffee:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.db-status-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; font-size: 0.72rem; color: var(--text-3); margin-top: 12px; }
+.db-status-bar .db-refresh { background: transparent; color: var(--accent); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 4px 12px; cursor: pointer; font-size: 0.7rem; font-weight: 700; transition: all var(--dur) var(--ease); font-family: inherit; }
+.db-status-bar .db-refresh:hover { border-color: var(--accent); background: var(--accent-dim); }
+.data-source { text-align: center; font-size: 0.7rem; color: var(--text-3); padding: 12px 0; }
+.data-source a { color: var(--accent); text-decoration: none; }
+.data-source a:hover { text-decoration: underline; }
+
+/* ====== Responsive ====== */
+@media(max-width:640px) {
+  .container { padding: 0 16px 20px; }
+  h1 { font-size: 1.8rem; }
+  .compare-row { flex-direction: column; gap: 10px; }
+  .compare-row .field, .compare-row .field-sm { flex: none; min-width: 0; width: 100%; }
+  .route-header { flex-wrap: wrap; gap: 8px; }
+  .suggest-card { flex-wrap: wrap; gap: 10px; }
+  .suggest-reward { text-align: left; margin-left: 0; }
+  .rec-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rec-stat { min-width: 80px; }
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>CardPick</h1>
-  <p class="subtitle">Find the best credit card for every purchase</p>
+  <div class="app-header">
+    <h1>CardPick</h1>
+    <p class="subtitle">Find the best credit card for every purchase</p>
+  </div>
 
   <div class="tabs">
-    <div class="tab active" data-panel="compare">Compare</div>
-    <div class="tab" data-panel="recommend">Recommend</div>
-    <div class="tab" data-panel="tracker">Tracker</div>
-    <div class="tab" data-panel="mycards">My Cards</div>
+    <div class="tab active" data-panel="compare"><span class="tab-icon">&#9878;</span><span class="tab-label">Compare</span></div>
+    <div class="tab" data-panel="recommend"><span class="tab-icon">&#9733;</span><span class="tab-label">Recommend</span></div>
+    <div class="tab" data-panel="tracker"><span class="tab-icon">&#9636;</span><span class="tab-label">Tracker</span></div>
+    <div class="tab" data-panel="fuel"><span class="tab-icon">&#9981;</span><span class="tab-label">Fuel</span></div>
+    <div class="tab" data-panel="mycards"><span class="tab-icon">&#128179;</span><span class="tab-label">My Cards</span></div>
   </div>
 
   <!-- COMPARE PANEL -->
@@ -344,8 +457,8 @@
   <!-- RECOMMEND PANEL -->
   <div class="panel" id="panel-recommend">
     <div class="compare-box">
-      <h3 style="font-size:1rem;color:#cbd5e1;margin-bottom:4px;">What's your monthly spending?</h3>
-      <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">Enter approximate monthly spend per category. We'll find the best card for you.</p>
+      <h3 style="font-size:1rem;color:var(--text-1);margin-bottom:4px;">What's your monthly spending?</h3>
+      <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:14px;">Enter approximate monthly spend per category. We'll find the best card for you.</p>
       <div class="rec-grid">
         <div class="rec-field"><label>Dining (&#8377;/mo)</label><input type="number" id="rec-dining" placeholder="0" min="0"></div>
         <div class="rec-field"><label>Groceries (&#8377;/mo)</label><input type="number" id="rec-groceries" placeholder="0" min="0"></div>
@@ -370,8 +483,8 @@
   <!-- TRACKER PANEL -->
   <div class="panel" id="panel-tracker">
     <div class="compare-box">
-      <h3 style="font-size:1rem;color:#cbd5e1;margin-bottom:4px;">Monthly Spend Tracker</h3>
-      <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">Log your actual spending to see how much you're earning vs. how much you could earn with optimal routes.</p>
+      <h3 style="font-size:1rem;color:var(--text-1);margin-bottom:4px;">Monthly Spend Tracker</h3>
+      <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:14px;">Log your actual spending to see how much you're earning vs. how much you could earn with optimal routes.</p>
       <div class="tracker-month">
         <label for="trk-month" style="margin:0;white-space:nowrap;">Month:</label>
         <input type="month" id="trk-month" style="width:auto;">
@@ -393,6 +506,34 @@
     </div>
     <div id="tracker-results"></div>
     <div id="tracker-history"></div>
+  </div>
+
+  <!-- FUEL SURCHARGE CALCULATOR PANEL -->
+  <div class="panel" id="panel-fuel">
+    <div class="compare-box">
+      <div class="fuel-header">
+        <h3>Fuel Surcharge Calculator</h3>
+        <p>Credit cards charge ~1% surcharge + GST on fuel transactions at petrol pumps. Many cards waive this. See how much you can save.</p>
+      </div>
+      <div class="fuel-inputs">
+        <div class="fuel-field">
+          <label for="fuel-monthly">Monthly Fuel Spend (&#8377;)</label>
+          <input type="number" id="fuel-monthly" placeholder="e.g. 5000" min="0">
+        </div>
+        <div class="fuel-field">
+          <label for="fuel-per-txn">Avg. Per Fill-up (&#8377;)</label>
+          <input type="number" id="fuel-per-txn" placeholder="e.g. 2000" min="0">
+        </div>
+      </div>
+      <div class="fuel-info-row">
+        <span class="fuel-info-label">Transactions/month:</span>
+        <span class="fuel-info-value" id="fuel-txn-count">--</span>
+        <span class="fuel-info-label" style="margin-left:16px;">Surcharge without waiver:</span>
+        <span class="fuel-info-value fuel-loss" id="fuel-total-surcharge">--</span>
+      </div>
+      <button class="btn btn-primary" onclick="calcFuelSurcharge()" style="margin-top:16px;">Calculate Savings</button>
+    </div>
+    <div id="fuel-results"></div>
   </div>
 
   <!-- MY CARDS PANEL -->
@@ -445,8 +586,8 @@
 
       <div class="fee-section">
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:16px;">
-          <input type="checkbox" id="m-ltf" style="width:auto;accent-color:#22c55e;cursor:pointer;" onchange="toggleFeeFields()">
-          <span style="font-size:0.95rem;color:#22c55e;font-weight:600;">Lifetime Free (LTF)</span>
+          <input type="checkbox" id="m-ltf" style="width:auto;accent-color:var(--green);cursor:pointer;" onchange="toggleFeeFields()">
+          <span style="font-size:0.95rem;color:var(--green);font-weight:600;">Lifetime Free (LTF)</span>
         </label>
         <div id="fee-fields">
           <label for="m-joining-fee">Joining Fee (&#8377;)</label>
@@ -481,13 +622,14 @@
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
-<div style="text-align:center;padding:20px 0 8px;">
-  <a href="https://buymeacoffee.com/rinzleross" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#FFDD00;color:#000;font-weight:700;font-size:0.85rem;padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.2s;">&#9749; Buy me a coffee</a>
-</div>
-
-<div class="data-source">
-  <div id="db-status">Reward data sourced from official bank websites. Loading card database&hellip;</div>
-  <button onclick="refreshCardDB()" style="background:#1e293b;color:#38bdf8;border:1px solid #334155;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.72rem;margin-top:4px;">Check for Updates</button>
+<div class="app-footer">
+  <div class="footer-links">
+    <a href="https://buymeacoffee.com/rinzleross" target="_blank" rel="noopener noreferrer" class="btn-coffee">&#9749; Buy me a coffee</a>
+  </div>
+  <div class="db-status-bar">
+    <span id="db-status">Loading card database&hellip;</span>
+    <button class="db-refresh" onclick="refreshCardDB()">Check for Updates</button>
+  </div>
 </div>
 
 <script>
@@ -537,9 +679,9 @@ const PURCHASE_TYPES = [
   { key:'cab_ride', label:'Cab / Auto (Uber/Ola)', group:'Travel', directCat:'travel' },
   { key:'bus_booking', label:'Bus Ticket (RedBus)', group:'Travel', directCat:'travel' },
 
-  { key:'fuel_indianoil', label:'Fuel - IndianOil', group:'Fuel', directCat:'fuel' },
-  { key:'fuel_hpcl', label:'Fuel - HP', group:'Fuel', directCat:'fuel' },
-  { key:'fuel_bpcl', label:'Fuel - BPCL', group:'Fuel', directCat:'fuel' },
+  { key:'fuel_indianoil', label:'Fuel - IndianOil', group:'Fuel', directCat:'fuel_indianoil' },
+  { key:'fuel_hpcl', label:'Fuel - HP', group:'Fuel', directCat:'fuel_hpcl' },
+  { key:'fuel_bpcl', label:'Fuel - BPCL', group:'Fuel', directCat:'fuel_bpcl' },
 
   { key:'movie_tickets', label:'Movie Tickets (BookMyShow/PVR)', group:'Entertainment', directCat:'entertainment' },
   { key:'ott_subscription', label:'OTT Subscription', group:'Entertainment', directCat:'entertainment' },
@@ -1446,7 +1588,7 @@ const ROUTE_TEMPLATES = [
     purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','grocery_offline','restaurant','general_purchase','fuel_indianoil','fuel_hpcl','fuel_bpcl'],
     networkRequired:'RuPay',
     steps:[
-      { label:'Pay via RuPay CC on UPI', cardCat:'general' },
+      { label:'Pay via RuPay CC on UPI', cardCat:'_inherit' },
       { label:'NPCI RuPay UPI cashback (when active)', cardCat:null, platformBonus:0.5 }
     ],
     tip:'NPCI periodically runs RuPay credit card on UPI promotional cashback of ₹50-150/month. Check current offers on npci.org.in or your UPI app.',
@@ -1457,7 +1599,7 @@ const ROUTE_TEMPLATES = [
   { id:'hppay-fuel', name:'HP Pay App → HPCL Fuel',
     purchaseTypes:['fuel_hpcl'],
     steps:[
-      { label:'Pay for fuel at HPCL via HP Pay app using credit card', cardCat:'fuel' },
+      { label:'Pay for fuel at HPCL via HP Pay app using credit card', cardCat:'fuel_hpcl' },
       { label:'HP Pay loyalty points + fuel surcharge waiver (~1%)', cardCat:null, platformBonus:1 }
     ],
     tip:'HP Pay avoids the 1% fuel surcharge charged on POS card swipe. Additional HP Pay loyalty rewards and seasonal cashback offers from the app.',
@@ -1466,7 +1608,7 @@ const ROUTE_TEMPLATES = [
   { id:'iocl-xtrarewards', name:'IndianOil XTRA Rewards → IOCL Fuel',
     purchaseTypes:['fuel_indianoil'],
     steps:[
-      { label:'Pay at IndianOil and earn XTRA Rewards with linked card', cardCat:'fuel' },
+      { label:'Pay at IndianOil and earn XTRA Rewards with linked card', cardCat:'fuel_indianoil' },
       { label:'XTRA Rewards loyalty points (~0.75%)', cardCat:null, platformBonus:0.75 }
     ],
     tip:'Register your card on IndianOil XTRA Rewards app to earn additional loyalty points on every fuel purchase, stacked with card rewards.',
@@ -1475,7 +1617,7 @@ const ROUTE_TEMPLATES = [
   { id:'bpcl-smartdrive', name:'BPCL SmartDrive → BPCL Fuel',
     purchaseTypes:['fuel_bpcl'],
     steps:[
-      { label:'Pay at BPCL station with SmartDrive linked card', cardCat:'fuel' },
+      { label:'Pay at BPCL station with SmartDrive linked card', cardCat:'fuel_bpcl' },
       { label:'BPCL SmartDrive loyalty points (~1%)', cardCat:null, platformBonus:1 }
     ],
     tip:'BPCL SmartDrive gives ~1% back as loyalty points on fuel. SBI BPCL card holders get 13x reward points at BPCL (~4.3% effective). Stack loyalty with card rewards.',
@@ -2032,7 +2174,7 @@ async function loadCardDB(url) {
     }
   } catch (e) {
     console.warn('CardDB fetch failed, using embedded data:', e.message);
-    statusEl.innerHTML = '<span class="db-warn">Using embedded card data</span> &middot; ' + CARD_DB.length + ' cards &middot; <span style="color:#475569">Fetch failed: ' + esc(e.message) + '</span>';
+    statusEl.innerHTML = '<span class="db-warn">Using embedded card data</span> &middot; ' + CARD_DB.length + ' cards &middot; <span style="color:var(--text-3)">Fetch failed: ' + esc(e.message) + '</span>';
   }
 }
 
@@ -2081,17 +2223,17 @@ function renderCards() {
       '<div class="card-color-bar" style="background:' + (c.color || COLORS[0]) + '"></div>' +
       '<div class="card-body">' +
         '<div class="card-header">' +
-          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(c.network) + '</span>' + dcBadge + '</span>' +
+          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:var(--text-3);font-weight:400">' + esc(c.network) + '</span>' + dcBadge + '</span>' +
           '<span>' +
-            '<button class="btn btn-danger" onclick="editCard(' + i + ')" style="margin-right:4px;color:#38bdf8;border-color:#38bdf833">Edit</button>' +
+            '<button class="btn btn-danger" onclick="editCard(' + i + ')" style="margin-right:4px;color:var(--blue);border-color:var(--border)">Edit</button>' +
             '<button class="btn btn-danger" onclick="deleteCard(' + i + ')">Delete</button>' +
           '</span>' +
         '</div>' +
-        '<div class="card-rewards">' + (tags || '<span style="color:#475569;font-size:0.85rem">No reward rates set</span>') + '</div>' +
-        (c.ltf ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' :
+        '<div class="card-rewards">' + (tags || '<span style="color:var(--text-3);font-size:0.85rem">No reward rates set</span>') + '</div>' +
+        (c.ltf ? '<div class="annual-note" style="color:var(--green)">Lifetime Free</div>' :
           ((c.joiningFee > 0 ? '<div class="annual-note">Joining fee: ' + fmt(c.joiningFee) + '</div>' : '') +
            (c.annualFee > 0 ? '<div class="annual-note">Annual fee: ' + fmt(c.annualFee) + '</div>' : '') +
-           (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' : ''))) +
+           (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:var(--green)">Lifetime Free</div>' : ''))) +
         (c.monthlyCap > 0 ? '<div class="annual-note">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>' : '') +
         dcNote +
         (c.notes ? '<div class="card-notes">' + esc(c.notes) + '</div>' : '') +
@@ -2191,7 +2333,7 @@ searchInput.addEventListener('input', () => {
   const matches = scored.map(s => s.card);
 
   if (matches.length === 0) {
-    dropdown.innerHTML = '<div class="search-item"><span class="si-name" style="color:#475569">No matching cards found</span></div>';
+    dropdown.innerHTML = '<div class="search-item"><span class="si-name" style="color:var(--text-3)">No matching cards found</span></div>';
     dropdown.classList.add('open');
     return;
   }
@@ -2216,7 +2358,7 @@ searchInput.addEventListener('input', () => {
         '<div class="si-info">' +
           '<div><span class="si-name">' + esc(c.name) + '</span>' +
           dcBadge +
-          (c.annualFee === 0 && (c.joiningFee || 0) === 0 && !c.discontinued ? ' <span style="color:#22c55e;font-size:0.7rem;font-weight:600">LTF</span>' : '') +
+          (c.annualFee === 0 && (c.joiningFee || 0) === 0 && !c.discontinued ? ' <span style="color:var(--green);font-size:0.7rem;font-weight:600">LTF</span>' : '') +
           '</div>' +
           '<div class="si-desc">' + (c.discontinued ? esc(c.discontinuedNote || 'No longer available for new applications') : 'Best: ' + topRate + '% on ' + (topCat ? topCat.label.split('/')[0].trim() : 'N/A') +
           (c.annualFee > 0 ? ' | Fee: &#8377;' + c.annualFee : '')) + '</div>' +
@@ -2453,18 +2595,48 @@ function deleteCard(i) {
   }
 })();
 
+// ===================== FUEL BRAND RATES =====================
+// Co-branded fuel cards: accelerated rate at their partner pump, base rate at others
+// cardId → { brand: 'fuel_bpcl'|'fuel_hpcl'|'fuel_indianoil', brandRate, otherRate }
+const FUEL_BRAND_RATES = {
+  'sbi-bpcl-octane':    { brand:'fuel_bpcl',     brandRate:7.25, otherRate:1 },
+  'sbi-bpcl':           { brand:'fuel_bpcl',     brandRate:5,    otherRate:1 },
+  'hdfc-indianoil':     { brand:'fuel_indianoil', brandRate:5,    otherRate:0.64 },
+  'indianoil-axis':     { brand:'fuel_indianoil', brandRate:4.25, otherRate:1 },
+  'kotak-indianoil':    { brand:'fuel_indianoil', brandRate:4,    otherRate:0.5 },
+  'idfc-hpcl':          { brand:'fuel_hpcl',     brandRate:5,    otherRate:0.5 },
+  'union-carbon-hpcl':  { brand:'fuel_hpcl',     brandRate:4,    otherRate:0.5 },
+};
+const FUEL_BRAND_CATS = ['fuel_indianoil','fuel_hpcl','fuel_bpcl'];
+
 // ===================== ROUTE ENGINE =====================
 function getCardRate(card, category, amount) {
   const cardId = card.dbId || card.id || '';
-  // Check exclusions
-  if (EXCLUSIONS[cardId] && EXCLUSIONS[cardId].includes(category)) {
-    return { rate: 0, reward: 0, excluded: true };
+  // Check exclusions — for fuel brand categories, also check generic 'fuel' exclusion
+  const exclList = EXCLUSIONS[cardId];
+  if (exclList) {
+    if (exclList.includes(category)) return { rate: 0, reward: 0, excluded: true };
+    if (FUEL_BRAND_CATS.includes(category) && exclList.includes('fuel')) return { rate: 0, reward: 0, excluded: true };
   }
-  const rate = card.rates[category] || 0;
+  // Resolve fuel brand categories to the correct rate
+  let rate;
+  if (FUEL_BRAND_CATS.includes(category)) {
+    const fb = FUEL_BRAND_RATES[cardId];
+    if (fb) {
+      // Co-branded fuel card: high rate at partner pump, base rate elsewhere
+      rate = (category === fb.brand) ? fb.brandRate : fb.otherRate;
+    } else {
+      // Regular card: use generic fuel rate for all pump brands
+      rate = card.rates['fuel'] || card.rates[category] || 0;
+    }
+  } else {
+    rate = card.rates[category] || 0;
+  }
   let reward = amount * rate / 100;
-  // Per-category cap
-  if (CATEGORY_CAPS[cardId] && CATEGORY_CAPS[cardId][category]) {
-    reward = Math.min(reward, CATEGORY_CAPS[cardId][category]);
+  // Per-category cap — check both specific and generic fuel
+  if (CATEGORY_CAPS[cardId]) {
+    const cap = CATEGORY_CAPS[cardId][category] || (FUEL_BRAND_CATS.includes(category) ? CATEGORY_CAPS[cardId]['fuel'] : undefined);
+    if (cap) reward = Math.min(reward, cap);
   }
   // Overall monthly cap
   if (card.monthlyCap > 0) reward = Math.min(reward, card.monthlyCap);
@@ -2492,6 +2664,11 @@ function cardMatchesNetwork(card, networkFilter) {
 }
 
 // Check if a card is discontinued (from card object or DB lookup by dbId)
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function isCardDiscontinued(card) {
   if (card.discontinued) return true;
   if (card.dbId) {
@@ -2509,6 +2686,242 @@ function getDiscontinuedNote(card) {
   }
   return '';
 }
+
+// ===================== FUEL SURCHARGE CALCULATOR =====================
+const FUEL_SURCHARGE_RATE = 1; // 1% surcharge
+const FUEL_GST_ON_SURCHARGE = 18; // 18% GST on the surcharge
+// Effective surcharge = 1% + (18% of 1%) = 1.18%
+const FUEL_EFFECTIVE_SURCHARGE = FUEL_SURCHARGE_RATE * (1 + FUEL_GST_ON_SURCHARGE / 100); // 1.18
+
+// Lookup: cardId → { minTxn, maxTxn, monthlyCap }
+// Most cards: waive 1% on ₹400-₹5000, cap ₹250/month
+const FUEL_WAIVER_DB = {
+  'hdfc-indianoil':       { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'hdfc-intermiles':      { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'sbi-bpcl-octane':      { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'sbi-flipkart':         { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'indianoil-axis':       { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'kotak-urbane-gold':    { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'kotak-league-platinum':{ minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'kotak-indianoil':      { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'idfc-hpcl':            { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'hsbc-smart-value':     { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'bob-cashback':         { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'bob-easy':             { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'canara-mc-world':      { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'canara-rupay-select':  { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'pnb-rupay-platinum':   { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'union-rupay-select':   { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'union-platinum':       { minTxn:200, maxTxn:5000, monthlyCap:250 },
+  'union-carbon-hpcl':    { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'indian-bank-gold':     { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'central-world':        { minTxn:400, maxTxn:4000, monthlyCap:250 },
+  'iob-rupay-select':     { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'iob-visa-classic':     { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'bajaj-rbl-platinum-prime':{ minTxn:400, maxTxn:5000, monthlyCap:100 },
+  'kotak-zen':            { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'hdfc-regalia-gold':    { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'hdfc-millennia':       { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'sbi-cashback':         { minTxn:400, maxTxn:5000, monthlyCap:250 },
+  'axis-ace':             { minTxn:400, maxTxn:5000, monthlyCap:250 },
+};
+
+function getFuelWaiver(card) {
+  // Check card object first (for user-added cards)
+  if (card.fuelSurchargeWaiver) return card.fuelSurchargeWaiver;
+  // Check lookup DB by card id or dbId
+  const id = card.dbId || card.id;
+  if (id && FUEL_WAIVER_DB[id]) return FUEL_WAIVER_DB[id];
+  return null;
+}
+
+function calcFuelSurcharge() {
+  const monthlySpend = parseFloat(document.getElementById('fuel-monthly').value) || 0;
+  const perTxn = parseFloat(document.getElementById('fuel-per-txn').value) || 0;
+  const resultsDiv = document.getElementById('fuel-results');
+
+  if (monthlySpend <= 0 || perTxn <= 0) {
+    resultsDiv.innerHTML = '<div class="empty-state"><div class="icon">&#9981;</div><p>Enter your monthly fuel spend and average fill-up amount to see savings.</p></div>';
+    return;
+  }
+
+  const txnCount = Math.ceil(monthlySpend / perTxn);
+  const totalSurcharge = monthlySpend * FUEL_EFFECTIVE_SURCHARGE / 100;
+
+  // Update info row
+  document.getElementById('fuel-txn-count').textContent = txnCount;
+  document.getElementById('fuel-total-surcharge').textContent = '₹' + totalSurcharge.toFixed(0);
+
+  // Build list of all cards with waiver info
+  const allResults = [];
+  const userCardIds = new Set();
+
+  // Process user's saved cards
+  cards.forEach(c => {
+    const id = c.dbId || c.id;
+    userCardIds.add(id);
+    const waiver = getFuelWaiver(c);
+    const fuelRate = (c.rates && c.rates.fuel) || 0;
+    const savings = calcWaiverSavings(waiver, perTxn, txnCount, monthlySpend);
+    const fuelReward = monthlySpend * fuelRate / 100;
+    allResults.push({
+      id: id,
+      name: c.name,
+      bank: c.bank || '',
+      color: c.color || '#888',
+      isUser: true,
+      waiver: waiver,
+      surchargeWaived: savings,
+      fuelRewardRate: fuelRate,
+      fuelReward: fuelReward,
+      totalBenefit: savings + fuelReward,
+      discontinued: isCardDiscontinued(c)
+    });
+  });
+
+  // Process all DB cards not in user's list
+  CARD_DB.forEach(c => {
+    if (userCardIds.has(c.id)) return;
+    const waiver = getFuelWaiver(c);
+    const fuelRate = (c.rates && c.rates.fuel) || 0;
+    if (!waiver && fuelRate <= 0) return; // skip cards with no fuel benefit at all
+    const savings = calcWaiverSavings(waiver, perTxn, txnCount, monthlySpend);
+    const fuelReward = monthlySpend * fuelRate / 100;
+    allResults.push({
+      id: c.id,
+      name: c.name,
+      bank: c.bank || '',
+      color: c.color || '#888',
+      isUser: false,
+      waiver: waiver,
+      surchargeWaived: savings,
+      fuelRewardRate: fuelRate,
+      fuelReward: fuelReward,
+      totalBenefit: savings + fuelReward,
+      discontinued: c.discontinued || false
+    });
+  });
+
+  // Sort by total benefit descending
+  allResults.sort((a, b) => b.totalBenefit - a.totalBenefit);
+
+  // Find best savings
+  const bestSaving = allResults.length > 0 ? allResults[0].totalBenefit : 0;
+  const bestWaiver = allResults.length > 0 ? allResults[0].surchargeWaived : 0;
+
+  // Render results
+  let html = '';
+
+  // Summary bar
+  html += '<div class="fuel-summary-bar">';
+  html += '<div class="fuel-summary-stat"><div class="fss-label">Monthly Fuel Spend</div><div class="fss-value neutral">₹' + monthlySpend.toLocaleString('en-IN') + '</div><div class="fss-sub">' + txnCount + ' transaction' + (txnCount > 1 ? 's' : '') + '</div></div>';
+  html += '<div class="fuel-summary-stat"><div class="fss-label">Surcharge (No Waiver)</div><div class="fss-value loss">-₹' + totalSurcharge.toFixed(0) + '</div><div class="fss-sub">1% + 18% GST = 1.18%</div></div>';
+  html += '<div class="fuel-summary-stat"><div class="fss-label">Best Total Benefit</div><div class="fss-value save">₹' + bestSaving.toFixed(0) + '/mo</div><div class="fss-sub">' + (bestWaiver > 0 ? '₹' + bestWaiver.toFixed(0) + ' waiver + rewards' : 'fuel rewards') + '</div></div>';
+  html += '</div>';
+
+  // User's cards section
+  const userResults = allResults.filter(r => r.isUser);
+  if (userResults.length > 0) {
+    html += '<div class="fuel-result-section">';
+    html += '<h4>Your Cards</h4>';
+    userResults.forEach((r, i) => html += renderFuelRow(r, i === 0 && r.totalBenefit > 0 && r.totalBenefit === allResults[0].totalBenefit));
+    html += '</div>';
+  }
+
+  // All other cards
+  const otherResults = allResults.filter(r => !r.isUser);
+  if (otherResults.length > 0) {
+    html += '<div class="fuel-result-section">';
+    html += '<h4>' + (userResults.length > 0 ? 'Other Cards with Fuel Benefits' : 'Cards with Fuel Benefits') + '</h4>';
+    otherResults.forEach((r, i) => html += renderFuelRow(r, !userResults.some(u => u.totalBenefit >= r.totalBenefit) && i === 0 && r.totalBenefit > 0));
+    html += '</div>';
+  }
+
+  if (allResults.length === 0) {
+    html += '<div class="fuel-no-waiver">No cards with fuel benefits found. Add your cards in the My Cards tab.</div>';
+  }
+
+  // Explainer
+  html += '<div class="fuel-explainer">';
+  html += '<h5>How fuel surcharge works</h5>';
+  html += '<p>When you swipe a credit card at a fuel station, a <strong>1% surcharge</strong> is added to the transaction, plus <strong>18% GST</strong> on that surcharge (effective ~1.18%).</p>';
+  html += '<p>Cards with fuel surcharge waiver reverse this charge, but only for transactions within a specific range (usually ₹400 - ₹5,000) and up to a monthly cap (usually ₹250).</p>';
+  html += '<p>Tip: Paying via <strong>UPI (CC on UPI)</strong> at fuel stations avoids the surcharge entirely, as UPI transactions don\'t attract fuel surcharge.</p>';
+  html += '</div>';
+
+  resultsDiv.innerHTML = html;
+}
+
+function calcWaiverSavings(waiver, perTxn, txnCount, monthlySpend) {
+  if (!waiver) return 0;
+  const { minTxn, maxTxn, monthlyCap } = waiver;
+  let totalWaived = 0;
+  for (let i = 0; i < txnCount; i++) {
+    // Check if transaction qualifies
+    if (perTxn >= minTxn && perTxn <= maxTxn) {
+      totalWaived += perTxn * FUEL_EFFECTIVE_SURCHARGE / 100;
+    }
+  }
+  // Apply monthly cap
+  if (monthlyCap > 0 && totalWaived > monthlyCap) {
+    totalWaived = monthlyCap;
+  }
+  return totalWaived;
+}
+
+function renderFuelRow(r, isBest) {
+  const dcClass = r.discontinued ? ' discontinued' : '';
+  const bestClass = isBest ? ' fuel-best' : '';
+  const yoursClass = r.isUser ? ' fuel-yours' : '';
+  let html = '<div class="fuel-card-row' + bestClass + yoursClass + dcClass + '">';
+  // Mini card visual
+  html += '<div class="card-mini" style="background:' + r.color + '"><div class="cm-bank">' + escHtml(r.bank) + '</div><div class="cm-chip"></div><div class="cm-name">' + escHtml(r.name) + '</div></div>';
+  // Info
+  html += '<div class="fuel-card-info">';
+  html += '<div class="fc-name">' + escHtml(r.name);
+  if (r.isUser) html += '<span class="fc-yours-tag">Your Card</span>';
+  if (isBest) html += '<span class="best-badge">Best</span>';
+  if (r.discontinued) html += '<span class="discontinued-badge">Discontinued</span>';
+  html += '</div>';
+  html += '<div class="fc-bank">' + escHtml(r.bank) + '</div>';
+  // Detail tags
+  html += '<div class="fuel-card-details">';
+  if (r.waiver) {
+    html += '<div class="fuel-detail-tag savings">Waiver: <span>₹' + r.surchargeWaived.toFixed(0) + '</span></div>';
+    html += '<div class="fuel-detail-tag">Range: ₹' + r.waiver.minTxn + '-₹' + r.waiver.maxTxn.toLocaleString('en-IN') + '</div>';
+    html += '<div class="fuel-detail-tag">Cap: ₹' + r.waiver.monthlyCap + '/mo</div>';
+  } else {
+    html += '<div class="fuel-detail-tag">No surcharge waiver</div>';
+  }
+  if (r.fuelRewardRate > 0) {
+    html += '<div class="fuel-detail-tag reward">Fuel reward: <span>' + r.fuelRewardRate + '%</span></div>';
+  }
+  html += '</div>';
+  html += '</div>';
+  // Savings
+  html += '<div class="fuel-card-savings">';
+  html += '<div class="fc-amount">₹' + r.totalBenefit.toFixed(0) + '</div>';
+  html += '<div class="fc-label">total benefit/mo</div>';
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+// Update txn count and surcharge on input change
+['fuel-monthly', 'fuel-per-txn'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    const m = parseFloat(document.getElementById('fuel-monthly').value) || 0;
+    const p = parseFloat(document.getElementById('fuel-per-txn').value) || 0;
+    if (m > 0 && p > 0) {
+      const t = Math.ceil(m / p);
+      document.getElementById('fuel-txn-count').textContent = t;
+      document.getElementById('fuel-total-surcharge').textContent = '₹' + (m * FUEL_EFFECTIVE_SURCHARGE / 100).toFixed(0);
+    } else {
+      document.getElementById('fuel-txn-count').textContent = '--';
+      document.getElementById('fuel-total-surcharge').textContent = '--';
+    }
+  });
+});
 
 function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
   const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
@@ -2574,10 +2987,14 @@ function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
         stepDetails.push({ label: step.label, card: bestCard, rate: bestRate, reward: bestReward });
       } else {
         // Regular card category step
+        // Resolve special cardCat values based on purchase type
+        let stepCat = step.cardCat;
+        if (stepCat === '_inherit' && pt) stepCat = pt.directCat;
+        if (stepCat === 'fuel' && pt && FUEL_BRAND_CATS.includes(pt.directCat)) stepCat = pt.directCat;
         let bestCard = null, bestReward = 0, bestRate = 0;
         routeCards.forEach(card => {
           if (route.bankRequired && !cardMatchesBank(card, route.bankRequired)) return;
-          const { rate, reward } = getCardRate(card, step.cardCat, amount);
+          const { rate, reward } = getCardRate(card, stepCat, amount);
           const fee = step.feePercent ? amount * step.feePercent / 100 : 0;
           const net = reward - fee;
           if (net > bestReward) { bestCard = card; bestReward = net; bestRate = rate; }
@@ -2727,7 +3144,7 @@ function compare() {
       applyCards.map(c => applyBtn(c.dbId, false)).join(' ') +
       '<span class="apply-hint">Don\'t have ' + (applyCards.length === 1 ? 'this card' : 'these cards') + '? Apply now</span></div>' : '';
 
-    let feeHtml = r.feeDeducted > 0 ? '<div class="route-notes" style="color:#f87171;">Annual fee impact: -' + fmt(r.feeDeducted) + '/mo deducted</div>' : '';
+    let feeHtml = r.feeDeducted > 0 ? '<div class="route-notes" style="color:var(--red);">Annual fee impact: -' + fmt(r.feeDeducted) + '/mo deducted</div>' : '';
 
     let dcHtml = routeHasDc ? '<div class="discontinued-note" style="margin:8px 12px 0;">' + esc(dcNote || 'This card is discontinued and not open for new applications.') + '</div>' : '';
 
@@ -2786,7 +3203,7 @@ function compare() {
         .map(cat => '<span class="sb-tag' + (cat.key === pt.directCat ? ' best' : '') + '">' + cat.label.split('/')[0].trim() + ' ' + c.rates[cat.key] + '%</span>')
         .join('');
       const feeText = c.annualFee === 0 && (c.joiningFee || 0) === 0
-        ? '<span style="color:#22c55e">Lifetime Free</span>'
+        ? '<span style="color:var(--green)">Lifetime Free</span>'
         : 'Fee: &#8377;' + (c.annualFee || 0) + '/yr';
       const sgDc = !!c.discontinued;
       const sgDcBadge = sgDc ? ' <span class="discontinued-badge">Discontinued</span>' : '';
@@ -3132,13 +3549,13 @@ function recommendCard() {
       let milestoneHtml = '';
       if (milestones.length > 0) {
         const yearlySpend = s.totalSpend * 12;
-        milestoneHtml = '<div class="rec-milestones"><div style="font-size:0.75rem;color:#94a3b8;margin-bottom:6px;font-weight:600;">Spend Milestones</div>' +
+        milestoneHtml = '<div class="rec-milestones"><div style="font-size:0.75rem;color:var(--text-3);margin-bottom:6px;font-weight:600;">Spend Milestones</div>' +
           milestones.map(m => {
             const pct = Math.min(100, (yearlySpend / m.spend) * 100);
             const reached = yearlySpend >= m.spend;
             return '<div class="milestone-bar">' +
               '<div class="milestone-label">' + m.label + '</div>' +
-              '<div class="milestone-track"><div class="milestone-fill" style="width:' + pct + '%;' + (reached ? 'background:#22c55e;' : '') + '"></div></div>' +
+              '<div class="milestone-track"><div class="milestone-fill" style="width:' + pct + '%;' + (reached ? 'background:var(--green);' : '') + '"></div></div>' +
               '<div class="milestone-reward">' + (reached ? '&#10003; ' : '') + m.reward + '</div>' +
             '</div>';
           }).join('') + '</div>';
@@ -3148,9 +3565,9 @@ function recommendCard() {
       if (card.annualFee > 0) {
         const ltf = card.joiningFee === 0 && card.annualFee === 0;
         feeNote = '<div class="rec-fee">Joining: ' + fmt(card.joiningFee || 0) + ' &middot; Annual: ' + fmt(card.annualFee) +
-          (feeAdjust ? ' &middot; <span style="color:#f87171;">-' + fmt(s.annualFee / 12) + '/mo deducted</span>' : '') + '</div>';
+          (feeAdjust ? ' &middot; <span style="color:var(--red);">-' + fmt(s.annualFee / 12) + '/mo deducted</span>' : '') + '</div>';
       } else {
-        feeNote = '<div class="rec-fee" style="color:#22c55e;">Lifetime Free</div>';
+        feeNote = '<div class="rec-fee" style="color:var(--green);">Lifetime Free</div>';
       }
 
       // Exclusions display
@@ -3163,7 +3580,7 @@ function recommendCard() {
       if (s.cardPerks.length > 0) {
         perksHtml = '<div style="margin-top:6px;">' +
           s.cardPerks.map(p => '<span class="perk-tag">' + esc(p.label) + '</span>').join('') +
-          (s.perkValue > 0 ? '<div style="font-size:0.7rem;color:#a78bfa;margin-top:4px;">Est. perk value: ' + fmt(s.perkValue) + '/mo</div>' : '') +
+          (s.perkValue > 0 ? '<div style="font-size:0.7rem;color:var(--accent);margin-top:4px;">Est. perk value: ' + fmt(s.perkValue) + '/mo</div>' : '') +
         '</div>';
       }
 
@@ -3171,7 +3588,7 @@ function recommendCard() {
       const recDcNote = card.discontinued && card.discontinuedNote ? '<div class="discontinued-note">' + esc(card.discontinuedNote) + '</div>' : '';
       return '<div class="rec-card' + (isTop ? ' top-pick' : '') + (card.discontinued ? ' discontinued' : '') + '">' +
         '<div class="rec-rank">' + (isTop ? 'TOP PICK' : '#' + (i + 1)) + '</div>' +
-        '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(card.network) + '</span>' + recDcBadge + '</div>' +
+        '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:var(--text-3);font-weight:400">' + esc(card.network) + '</span>' + recDcBadge + '</div>' +
         '<div class="rec-bank">' + esc(card.bank) + '</div>' +
         recDcNote +
         '<div class="rec-stats">' +
@@ -3357,14 +3774,14 @@ function analyzeTracker() {
 
   const missedReward = bestPossibleReward - actualReward;
 
-  let summaryHtml = '<div class="tracker-summary"><h4 style="font-size:0.9rem;color:#cbd5e1;margin-bottom:10px;">Spending Breakdown — ' + esc(month) + '</h4>';
+  let summaryHtml = '<div class="tracker-summary"><h4 style="font-size:0.9rem;color:var(--text-1);margin-bottom:10px;">Spending Breakdown — ' + esc(month) + '</h4>';
   catBreakdown.forEach(cb => {
     summaryHtml += '<div class="tracker-row">' +
       '<span class="tracker-cat">' + cb.label + '</span>' +
       '<span class="tracker-amt">' + fmt(cb.spent) + '</span>' +
     '</div>';
   });
-  summaryHtml += '<div class="tracker-total"><span>Total Spend</span><span style="color:#38bdf8;">' + fmt(totalSpend) + '</span></div>';
+  summaryHtml += '<div class="tracker-total"><span>Total Spend</span><span style="color:var(--blue);">' + fmt(totalSpend) + '</span></div>';
   summaryHtml += '</div>';
 
   let insightHtml = '<div class="tracker-insight">';
@@ -3378,7 +3795,7 @@ function analyzeTracker() {
       // Show top gaps
       const gaps = catBreakdown.filter(cb => cb.gap > 1).sort((a, b) => b.gap - a.gap).slice(0, 3);
       if (gaps.length > 0) {
-        insightHtml += '<p style="margin-top:8px;font-weight:600;color:#cbd5e1;">Where you can improve:</p>';
+        insightHtml += '<p style="margin-top:8px;font-weight:600;color:var(--text-1);">Where you can improve:</p>';
         gaps.forEach(g => {
           insightHtml += '<p>' + g.label + ': ' + (g.actualCard ? esc(g.actualCard.name) : 'No card') + ' earned ' + fmt(g.actualReward) +
             ' &rarr; <span class="highlight">' + esc(g.bestCard.name) + '</span> would earn ' + fmt(g.bestReward) +
@@ -3387,7 +3804,7 @@ function analyzeTracker() {
         });
       }
     } else {
-      insightHtml += '<p style="color:#22c55e;font-weight:600;">You\'re already maximizing your rewards!</p>';
+      insightHtml += '<p style="color:var(--green);font-weight:600;">You\'re already maximizing your rewards!</p>';
     }
   } else {
     insightHtml += '<p>Add your cards in the "My Cards" tab to see how much you\'re earning.</p>';

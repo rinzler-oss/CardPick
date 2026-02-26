@@ -89,6 +89,7 @@
         "general": 1.33
       },
       "notes": "4 RP/₹150 base. 20 RP/₹150 (5x) on Nykaa, Myntra, M&S, Reliance Digital. 1 RP=₹0.50. Complimentary Swiggy One + MMT Black Gold membership. ₹1,500 voucher on ₹1.5L/qtr. ₹5,000 on ₹5L/yr. No fuel/wallet/rent.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -135,6 +136,7 @@
         "general": 1
       },
       "notes": "5% CashBack on Amazon, Flipkart, Myntra, Tata CLiQ, Swiggy, Zomato, Uber, BookMyShow, Sony LIV, Cult.fit, BigBasket. 1% others. ₹1,000 voucher or lounge on ₹1L spend/qtr. No fuel/wallet/rent.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -269,6 +271,7 @@
         "general": 0.64
       },
       "notes": "5% Fuel Points at IndianOil, groceries & bills. 1 FP/₹150 on others (~0.64%). 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -379,6 +382,7 @@
         "general": 1.33
       },
       "notes": "Accelerated InterMiles on travel (~3%). Base 4 RP/₹150 on others (~1.33%). Transfer to airline partners. 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -445,6 +449,7 @@
         "general": 1
       },
       "notes": "5% on online spends, 1% offline. Cap ₹5,000/statement. EXCLUDED: Utility bills, Insurance, Fuel, Rent, Wallet, Education, Jewellery, Railways — 0% on these even if paid online. Fee waived on ₹2L spend. Use Amazon GC route to bypass utility exclusion.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -555,6 +560,7 @@
         "general": 1
       },
       "notes": "Up to ₹7.25 back per ₹100 at BPCL pumps. 1% on others. 1% fuel surcharge waiver. Best fuel card for BPCL users.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -577,6 +583,7 @@
         "general": 1
       },
       "notes": "5% on Flipkart/Myntra/Cleartrip. 2.5% on preferred partners. 1% on others. Fee waived on ₹3.5L spend. 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1041,6 +1048,7 @@
         "general": 1.5
       },
       "notes": "5% on utility bills (Google Pay, PhonePe, electricity, broadband). 1.5% others. Fee waived on ₹2L spend. No fuel rewards.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1217,6 +1225,7 @@
         "general": 1
       },
       "notes": "Up to 4.25% at IndianOil outlets. 1% others. 1% fuel surcharge waiver. Fee waived on ₹3.5L spend.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1305,6 +1314,7 @@
         "general": 0.3
       },
       "notes": "3 RP/₹100 (1,000 RP = ₹100 → ~0.3%). 4 PVR tickets or 10,000 RP on ₹1L annual spend. 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1327,6 +1337,7 @@
         "general": 0.1
       },
       "notes": "2 RP/₹100 online (~0.2%). 1 RP/₹100 others (~0.1%). 1% fuel surcharge waiver. Lifetime Free entry-level card.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1505,6 +1516,7 @@
         "general": 0.5
       },
       "notes": "Up to 4% fuel savings at IndianOil outlets. 0.5% on others. 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -1659,6 +1671,7 @@
         "general": 0.5
       },
       "notes": "Accelerated rewards on HPCL fuel (~5%). 0.5% on others. Lifetime Free. Fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -2187,6 +2200,7 @@
         "general": 0.5
       },
       "notes": "2.5% on fuel. 1% on dining & groceries. 0.5% others. Lifetime Free. Fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -2231,6 +2245,7 @@
         "general": 1
       },
       "notes": "5% on select online (4% accelerated + 1% base). 1% on others. Accelerated cap ₹1,500/mo (min 4 txns). 1% fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -2253,6 +2268,7 @@
         "general": 0.5
       },
       "notes": "~0.5% rewards on all spends. Lifetime Free entry-level card. Fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-01"
     },
     {
@@ -2319,6 +2335,7 @@
         "general": 0.5
       },
       "notes": "2 RP/₹100 (0.5%). LTF but ₹354 inactivity fee if spend <₹1L/yr. Domestic lounge: 3 self+2 guest/qtr. International: 2 self+2 guest/yr. 1% fuel surcharge waiver. GoIbibo: 12% off flights, 15% off hotels.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2363,6 +2380,7 @@
         "general": 0.5
       },
       "notes": "5% cashback on dining & utility bills (cap ₹50/mo each → effective on first ₹1,000/mo per category). 0.5% on others. LTF (₹300 inactivity fee if spend <₹10K/yr). Domestic lounge 2/qtr. International 2/yr. 1% fuel surcharge waiver. RuPay CC on UPI supported.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2517,6 +2535,7 @@
         "general": 0.5
       },
       "notes": "1 RP/₹100 (1 RP=₹0.50 → 0.5%). Flat rate on all spends. Fee waived if used once/qtr. 300+ welcome bonus RP. UPI-linkable. Fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2561,6 +2580,7 @@
         "general": 1
       },
       "notes": "4 RP/₹100 (1 RP=₹0.25 → ~1%). 2 domestic lounge/qtr + 2 intl/yr. Amazon Prime + 3-mo Swiggy One membership. 1% fuel surcharge waiver. UPI-linkable.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2583,6 +2603,7 @@
         "general": 0.5
       },
       "notes": "0.5% on most categories. Cashback cap ₹50/mo on utility/wallet/IRCTC. No joining/annual fee. Insurance cover. 1% fuel surcharge waiver (₹200+ txns).",
+      "fuelSurchargeWaiver": { "minTxn": 200, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2605,6 +2626,7 @@
         "general": 0.5
       },
       "notes": "₹4 cashback/₹100 fuel at HPCL (4%) + 1.5% via HP Pay app. 2 RP/₹100 non-fuel (0.5%). Welcome ₹300 on first HPCL purchase. 1% fuel surcharge waiver. Insurance ₹10L. UPI-linkable.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2627,6 +2649,7 @@
         "general": 0.5
       },
       "notes": "1 RP/₹200 (1 RP=₹1 → 0.5%). No joining/annual fee. Air accident insurance ₹5L. Hospitalization cover up to ₹1L. 45 days interest-free. Fuel surcharge waiver.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2737,6 +2760,7 @@
         "general": 0.75
       },
       "notes": "3 RP/₹100 domestic, 4 RP/₹100 international (1 RP≈₹0.25 → 0.75% domestic, 1% intl). Loss protection ₹1L/day. Air accident insurance ₹10L. Fuel surcharge waiver ₹400-₹4,000.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 4000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2759,6 +2783,7 @@
         "general": 0.5
       },
       "notes": "Super-premium RuPay variant. 2 domestic lounge/qtr + 2 intl/yr. 1% fuel surcharge waiver (₹400-₹5,000, cap ₹250/cycle). Accident insurance ₹10L (NPCI). Fee may be waived on spend threshold.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2781,6 +2806,7 @@
         "general": 0.5
       },
       "notes": "RP on POS & e-commerce (~0.5%). Credit limit up to ₹5L. Up to 4 add-on cards. Fuel surcharge waiver. Basic entry-level card.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2825,6 +2851,7 @@
         "general": 0.5
       },
       "notes": "2 RP/₹100 (~0.5%). 5x RP on Bajaj Finserv partner electronics. 4,000 welcome RP. 10K bonus at ₹1.5L annual spend. Fuel surcharge waiver ₹100/mo. EMI + cash + loan card in one.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 100 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -2847,6 +2874,7 @@
         "general": 0.83
       },
       "notes": "5 Zen Points/₹150 base (0.83%). 10 Zen Points/₹150 on shopping/lifestyle/jewellery (1.67%). Cap 6,500 pts/cycle. No pts on fuel/wallet/rent/gaming. 1 Zen Pt=₹0.20-0.25. Fee waived on ₹1.5L spend. Milestone: 7,500 pts at ₹3L or 15,000 pts at ₹6L/yr.",
+      "fuelSurchargeWaiver": { "minTxn": 400, "maxTxn": 5000, "monthlyCap": 250 },
       "lastVerified": "2026-02-25"
     },
     {
@@ -3680,7 +3708,7 @@
       "steps": [
         {
           "label": "Pay via RuPay CC on UPI",
-          "cardCat": "general"
+          "cardCat": "_inherit"
         },
         {
           "label": "NPCI RuPay UPI cashback (when active)",
@@ -3700,7 +3728,7 @@
       "steps": [
         {
           "label": "Pay for fuel at HPCL via HP Pay app using credit card",
-          "cardCat": "fuel"
+          "cardCat": "fuel_hpcl"
         },
         {
           "label": "HP Pay loyalty points + fuel surcharge waiver (~1%)",
@@ -3720,7 +3748,7 @@
       "steps": [
         {
           "label": "Pay at IndianOil and earn XTRA Rewards with linked card",
-          "cardCat": "fuel"
+          "cardCat": "fuel_indianoil"
         },
         {
           "label": "XTRA Rewards loyalty points (~0.75%)",
@@ -3740,7 +3768,7 @@
       "steps": [
         {
           "label": "Pay at BPCL station with SmartDrive linked card",
-          "cardCat": "fuel"
+          "cardCat": "fuel_bpcl"
         },
         {
           "label": "BPCL SmartDrive loyalty points (~1%)",
