@@ -1,6 +1,6 @@
 {
-  "version": "1.3.0",
-  "lastUpdated": "2026-02-25",
+  "version": "1.5.1",
+  "lastUpdated": "2026-02-26",
   "source": "Official bank websites (hdfcbank.com, sbicard.com, icicibank.com, axisbank.com, canarabank.com etc.)",
   "cards": [
     {
@@ -111,7 +111,9 @@
         "general": 1
       },
       "notes": "3 RP/₹150 (w.e.f. Sep 2024). 1 RP=₹0.50 (=1% effective). Bonus 7,500 RP on ₹6L + 5,000 on ₹9L/yr. 20% off dining via Swiggy Dineout. Renewal fee waived on ₹1L/yr. No fuel/wallet/EMI.",
-      "lastVerified": "2026-02-25"
+      "lastVerified": "2026-02-25",
+      "discontinued": true,
+      "discontinuedNote": "HDFC Bank stopped sourcing Regalia First. Replaced by HDFC Regalia Gold. Existing cards continue."
     },
     {
       "id": "hdfc-millennia",
@@ -177,7 +179,9 @@
         "general": 1
       },
       "notes": "10% Swiggy (food/Instamart/Dineout) cap ₹1,500/mo. 5% select online cap ₹1,500/mo. 1% others cap ₹500/mo. Total cap ₹3,500/mo.",
-      "lastVerified": "2026-02-01"
+      "lastVerified": "2026-02-01",
+      "discontinued": true,
+      "discontinuedNote": "HDFC Bank stopped new issuance of Swiggy HDFC Credit Card from 10 Feb 2026. Existing cards continue to work."
     },
     {
       "id": "hdfc-tata-neu-infinity",
@@ -947,7 +951,9 @@
         "general": 1.5
       },
       "notes": "5 EDGE Miles/₹100 on airlines & hotels (=3.75%). 2 Miles/₹100 others (=1.5%). 15+ airline transfer partners.",
-      "lastVerified": "2026-02-01"
+      "lastVerified": "2026-02-01",
+      "discontinued": true,
+      "discontinuedNote": "Axis Bank closed new Atlas applications from 31 Aug 2025. Replaced by Axis Olympus. Existing cards unaffected."
     },
     {
       "id": "axis-select",
@@ -1409,7 +1415,9 @@
         "general": 1
       },
       "notes": "Up to 5% cashback on Myntra. Welcome ₹500 Myntra voucher. Myntra Insider membership. 1% on others. Fee waived on spend threshold.",
-      "lastVerified": "2026-02-01"
+      "lastVerified": "2026-02-01",
+      "discontinued": true,
+      "discontinuedNote": "Kotak Myntra Card discontinued from 10 Jul 2025. Cardholders migrated to Kotak League Platinum or Zen Signature."
     },
     {
       "id": "kotak-indigo-xl",
@@ -2490,106 +2498,378 @@
       "lastVerified": "2026-02-01"
     },
     {
-      "id": "pnb-rupay-platinum", "name": "PNB RuPay Platinum", "bank": "Punjab National Bank", "network": "RuPay", "color": "#1e40af",
-      "joiningFee": 0, "annualFee": 500, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.5, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "1 RP/₹100 (1 RP=₹0.50 → 0.5%). Flat rate on all spends. Fee waived if used once/qtr. 300+ welcome bonus RP. UPI-linkable. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+      "id": "pnb-rupay-platinum",
+      "name": "PNB RuPay Platinum",
+      "bank": "Punjab National Bank",
+      "network": "RuPay",
+      "color": "#1e40af",
+      "joiningFee": 0,
+      "annualFee": 500,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0.5,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "1 RP/₹100 (1 RP=₹0.50 → 0.5%). Flat rate on all spends. Fee waived if used once/qtr. 300+ welcome bonus RP. UPI-linkable. Fuel surcharge waiver.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "pnb-rupay-select", "name": "PNB RuPay Select", "bank": "Punjab National Bank", "network": "RuPay", "color": "#1e3a5f",
-      "joiningFee": 0, "annualFee": 750, "monthlyCap": 0,
-      "rates": { "dining": 0.67, "groceries": 0.67, "fuel": 0.67, "travel": 0.67, "online": 0.67, "entertainment": 0.67, "utilities": 0.67, "general": 0.67 },
-      "notes": "2 RP/₹150 (1 RP=₹0.50 → 0.67%). Fee waived if used once/qtr. Lounge access (domestic+intl). 300+ welcome RP. Insurance coverage. Concierge. UPI-linkable.", "lastVerified": "2026-02-25"
+      "id": "pnb-rupay-select",
+      "name": "PNB RuPay Select",
+      "bank": "Punjab National Bank",
+      "network": "RuPay",
+      "color": "#1e3a5f",
+      "joiningFee": 0,
+      "annualFee": 750,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.67,
+        "groceries": 0.67,
+        "fuel": 0.67,
+        "travel": 0.67,
+        "online": 0.67,
+        "entertainment": 0.67,
+        "utilities": 0.67,
+        "general": 0.67
+      },
+      "notes": "2 RP/₹150 (1 RP=₹0.50 → 0.67%). Fee waived if used once/qtr. Lounge access (domestic+intl). 300+ welcome RP. Insurance coverage. Concierge. UPI-linkable.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "union-rupay-select", "name": "Union Bank RuPay Select", "bank": "Union Bank of India", "network": "RuPay", "color": "#ea580c",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 1, "groceries": 1, "fuel": 1, "travel": 1, "online": 1, "entertainment": 1, "utilities": 1, "general": 1 },
-      "notes": "4 RP/₹100 (1 RP=₹0.25 → ~1%). 2 domestic lounge/qtr + 2 intl/yr. Amazon Prime + 3-mo Swiggy One membership. 1% fuel surcharge waiver. UPI-linkable.", "lastVerified": "2026-02-25"
+      "id": "union-rupay-select",
+      "name": "Union Bank RuPay Select",
+      "bank": "Union Bank of India",
+      "network": "RuPay",
+      "color": "#ea580c",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 1,
+        "groceries": 1,
+        "fuel": 1,
+        "travel": 1,
+        "online": 1,
+        "entertainment": 1,
+        "utilities": 1,
+        "general": 1
+      },
+      "notes": "4 RP/₹100 (1 RP=₹0.25 → ~1%). 2 domestic lounge/qtr + 2 intl/yr. Amazon Prime + 3-mo Swiggy One membership. 1% fuel surcharge waiver. UPI-linkable.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "union-platinum", "name": "Union Bank Platinum", "bank": "Union Bank of India", "network": "Visa", "color": "#c2410c",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 50,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "0.5% on most categories. Cashback cap ₹50/mo on utility/wallet/IRCTC. No joining/annual fee. Insurance cover. 1% fuel surcharge waiver (₹200+ txns).", "lastVerified": "2026-02-25"
+      "id": "union-platinum",
+      "name": "Union Bank Platinum",
+      "bank": "Union Bank of India",
+      "network": "Visa",
+      "color": "#c2410c",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 50,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "0.5% on most categories. Cashback cap ₹50/mo on utility/wallet/IRCTC. No joining/annual fee. Insurance cover. 1% fuel surcharge waiver (₹200+ txns).",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "union-carbon-hpcl", "name": "Union Bank UNI CARBON HPCL", "bank": "Union Bank of India", "network": "RuPay", "color": "#f97316",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 4, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "₹4 cashback/₹100 fuel at HPCL (4%) + 1.5% via HP Pay app. 2 RP/₹100 non-fuel (0.5%). Welcome ₹300 on first HPCL purchase. 1% fuel surcharge waiver. Insurance ₹10L. UPI-linkable.", "lastVerified": "2026-02-25"
+      "id": "union-carbon-hpcl",
+      "name": "Union Bank UNI CARBON HPCL",
+      "bank": "Union Bank of India",
+      "network": "RuPay",
+      "color": "#f97316",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 4,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "₹4 cashback/₹100 fuel at HPCL (4%) + 1.5% via HP Pay app. 2 RP/₹100 non-fuel (0.5%). Welcome ₹300 on first HPCL purchase. 1% fuel surcharge waiver. Insurance ₹10L. UPI-linkable.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "indian-bank-gold", "name": "Indian Bank Gold", "bank": "Indian Bank", "network": "Visa", "color": "#0369a1",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "1 RP/₹200 (1 RP=₹1 → 0.5%). No joining/annual fee. Air accident insurance ₹5L. Hospitalization cover up to ₹1L. 45 days interest-free. Fuel surcharge waiver.", "lastVerified": "2026-02-25"
+      "id": "indian-bank-gold",
+      "name": "Indian Bank Gold",
+      "bank": "Indian Bank",
+      "network": "Visa",
+      "color": "#0369a1",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "1 RP/₹200 (1 RP=₹1 → 0.5%). No joining/annual fee. Air accident insurance ₹5L. Hospitalization cover up to ₹1L. 45 days interest-free. Fuel surcharge waiver.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "indian-bank-bharat", "name": "Indian Bank Bharat", "bank": "Indian Bank", "network": "RuPay", "color": "#0284c7",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "₹0.50 cashback/₹100 spent (0.5%). Max credit limit ₹20,000. Min ₹500 for redemption. Interest as low as 1.99%. UPI-linkable. Basic entry-level card.", "lastVerified": "2026-02-25"
+      "id": "indian-bank-bharat",
+      "name": "Indian Bank Bharat",
+      "bank": "Indian Bank",
+      "network": "RuPay",
+      "color": "#0284c7",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "₹0.50 cashback/₹100 spent (0.5%). Max credit limit ₹20,000. Min ₹500 for redemption. Interest as low as 1.99%. UPI-linkable. Basic entry-level card.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "boi-rupay-select", "name": "Bank of India RuPay Select", "bank": "Bank of India", "network": "RuPay", "color": "#b91c1c",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 1, "groceries": 1, "fuel": 1, "travel": 1, "online": 1, "entertainment": 1, "utilities": 1, "general": 1 },
-      "notes": "2x RP on POS & e-commerce (~1%). 8 domestic lounge (2/qtr) + 2 intl/yr. Amazon Prime + 3-mo Swiggy One membership. 51 days interest-free. UPI-linkable. Star Rewardz program.", "lastVerified": "2026-02-25"
+      "id": "boi-rupay-select",
+      "name": "Bank of India RuPay Select",
+      "bank": "Bank of India",
+      "network": "RuPay",
+      "color": "#b91c1c",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 1,
+        "groceries": 1,
+        "fuel": 1,
+        "travel": 1,
+        "online": 1,
+        "entertainment": 1,
+        "utilities": 1,
+        "general": 1
+      },
+      "notes": "2x RP on POS & e-commerce (~1%). 8 domestic lounge (2/qtr) + 2 intl/yr. Amazon Prime + 3-mo Swiggy One membership. 51 days interest-free. UPI-linkable. Star Rewardz program.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "boi-rupay-platinum", "name": "Bank of India RuPay Platinum", "bank": "Bank of India", "network": "RuPay", "color": "#dc2626",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.5, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "2 Star Points/₹100 (~0.5%). 3 Star Points/₹100 on preferred merchants. Welcome gift vouchers. Concierge 24/7. Insurance ₹2L. 51 days interest-free. UPI-linkable.", "lastVerified": "2026-02-25"
+      "id": "boi-rupay-platinum",
+      "name": "Bank of India RuPay Platinum",
+      "bank": "Bank of India",
+      "network": "RuPay",
+      "color": "#dc2626",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0.5,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "2 Star Points/₹100 (~0.5%). 3 Star Points/₹100 on preferred merchants. Welcome gift vouchers. Concierge 24/7. Insurance ₹2L. 51 days interest-free. UPI-linkable.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "boi-mastercard-platinum", "name": "BOI Mastercard Platinum Intl", "bank": "Bank of India", "network": "Mastercard", "color": "#ef4444",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0.5, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "2 Star Points/₹100 (~0.5%). Accepted internationally. 3 lounge visits/yr. 51 days interest-free. EMI on purchases ₹5,000+.", "lastVerified": "2026-02-25"
+      "id": "boi-mastercard-platinum",
+      "name": "BOI Mastercard Platinum Intl",
+      "bank": "Bank of India",
+      "network": "Mastercard",
+      "color": "#ef4444",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0.5,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "2 Star Points/₹100 (~0.5%). Accepted internationally. 3 lounge visits/yr. 51 days interest-free. EMI on purchases ₹5,000+.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "central-world", "name": "Central Bank World Credit Card", "bank": "Central Bank of India", "network": "Visa", "color": "#7c3aed",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.75, "groceries": 0.75, "fuel": 0, "travel": 0.75, "online": 0.75, "entertainment": 0.75, "utilities": 0.75, "general": 0.75 },
-      "notes": "3 RP/₹100 domestic, 4 RP/₹100 international (1 RP≈₹0.25 → 0.75% domestic, 1% intl). Loss protection ₹1L/day. Air accident insurance ₹10L. Fuel surcharge waiver ₹400-₹4,000.", "lastVerified": "2026-02-25"
+      "id": "central-world",
+      "name": "Central Bank World Credit Card",
+      "bank": "Central Bank of India",
+      "network": "Visa",
+      "color": "#7c3aed",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.75,
+        "groceries": 0.75,
+        "fuel": 0,
+        "travel": 0.75,
+        "online": 0.75,
+        "entertainment": 0.75,
+        "utilities": 0.75,
+        "general": 0.75
+      },
+      "notes": "3 RP/₹100 domestic, 4 RP/₹100 international (1 RP≈₹0.25 → 0.75% domestic, 1% intl). Loss protection ₹1L/day. Air accident insurance ₹10L. Fuel surcharge waiver ₹400-₹4,000.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "iob-rupay-select", "name": "IOB RuPay Select", "bank": "Indian Overseas Bank", "network": "RuPay", "color": "#059669",
-      "joiningFee": 0, "annualFee": 1000, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "Super-premium RuPay variant. 2 domestic lounge/qtr + 2 intl/yr. 1% fuel surcharge waiver (₹400-₹5,000, cap ₹250/cycle). Accident insurance ₹10L (NPCI). Fee may be waived on spend threshold.", "lastVerified": "2026-02-25"
+      "id": "iob-rupay-select",
+      "name": "IOB RuPay Select",
+      "bank": "Indian Overseas Bank",
+      "network": "RuPay",
+      "color": "#059669",
+      "joiningFee": 0,
+      "annualFee": 1000,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "Super-premium RuPay variant. 2 domestic lounge/qtr + 2 intl/yr. 1% fuel surcharge waiver (₹400-₹5,000, cap ₹250/cycle). Accident insurance ₹10L (NPCI). Fee may be waived on spend threshold.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "iob-visa-classic", "name": "IOB Visa Classic", "bank": "Indian Overseas Bank", "network": "Visa", "color": "#14b8a6",
-      "joiningFee": 0, "annualFee": 0, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "RP on POS & e-commerce (~0.5%). Credit limit up to ₹5L. Up to 4 add-on cards. Fuel surcharge waiver. Basic entry-level card.", "lastVerified": "2026-02-25"
+      "id": "iob-visa-classic",
+      "name": "IOB Visa Classic",
+      "bank": "Indian Overseas Bank",
+      "network": "Visa",
+      "color": "#14b8a6",
+      "joiningFee": 0,
+      "annualFee": 0,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "RP on POS & e-commerce (~0.5%). Credit limit up to ₹5L. Up to 4 add-on cards. Fuel surcharge waiver. Basic entry-level card.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "bajaj-rbl-world-prime", "name": "Bajaj Finserv RBL World Prime SuperCard", "bank": "RBL Bank", "network": "Visa", "color": "#1e3a5f",
-      "joiningFee": 3499, "annualFee": 3499, "monthlyCap": 0,
-      "rates": { "dining": 1, "groceries": 1, "fuel": 0, "travel": 1, "online": 1, "entertainment": 1, "utilities": 1, "general": 1 },
-      "notes": "2 RP/₹100 (~1%). 12,000 welcome RP on ₹2K spend in 30 days. 10K bonus at ₹1.5L annual, 20K at ₹3.5L. BOGO movie (2x/mo BMS). 8 domestic lounge/yr. EMI card + cash card + loan card in one.", "lastVerified": "2026-02-25"
+      "id": "bajaj-rbl-world-prime",
+      "name": "Bajaj Finserv RBL World Prime SuperCard",
+      "bank": "RBL Bank",
+      "network": "Visa",
+      "color": "#1e3a5f",
+      "joiningFee": 3499,
+      "annualFee": 3499,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 1,
+        "groceries": 1,
+        "fuel": 0,
+        "travel": 1,
+        "online": 1,
+        "entertainment": 1,
+        "utilities": 1,
+        "general": 1
+      },
+      "notes": "2 RP/₹100 (~1%). 12,000 welcome RP on ₹2K spend in 30 days. 10K bonus at ₹1.5L annual, 20K at ₹3.5L. BOGO movie (2x/mo BMS). 8 domestic lounge/yr. EMI card + cash card + loan card in one.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "bajaj-rbl-platinum-prime", "name": "Bajaj Finserv RBL Platinum Prime SuperCard", "bank": "RBL Bank", "network": "Visa", "color": "#475569",
-      "joiningFee": 999, "annualFee": 999, "monthlyCap": 0,
-      "rates": { "dining": 0.5, "groceries": 0.5, "fuel": 0, "travel": 0.5, "online": 0.5, "entertainment": 0.5, "utilities": 0.5, "general": 0.5 },
-      "notes": "2 RP/₹100 (~0.5%). 5x RP on Bajaj Finserv partner electronics. 4,000 welcome RP. 10K bonus at ₹1.5L annual spend. Fuel surcharge waiver ₹100/mo. EMI + cash + loan card in one.", "lastVerified": "2026-02-25"
+      "id": "bajaj-rbl-platinum-prime",
+      "name": "Bajaj Finserv RBL Platinum Prime SuperCard",
+      "bank": "RBL Bank",
+      "network": "Visa",
+      "color": "#475569",
+      "joiningFee": 999,
+      "annualFee": 999,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.5,
+        "groceries": 0.5,
+        "fuel": 0,
+        "travel": 0.5,
+        "online": 0.5,
+        "entertainment": 0.5,
+        "utilities": 0.5,
+        "general": 0.5
+      },
+      "notes": "2 RP/₹100 (~0.5%). 5x RP on Bajaj Finserv partner electronics. 4,000 welcome RP. 10K bonus at ₹1.5L annual spend. Fuel surcharge waiver ₹100/mo. EMI + cash + loan card in one.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "kotak-zen", "name": "Kotak Zen Signature", "bank": "Kotak Mahindra", "network": "Visa", "color": "#e11d48",
-      "joiningFee": 1500, "annualFee": 1500, "monthlyCap": 0,
-      "rates": { "dining": 0.83, "groceries": 0.83, "fuel": 0, "travel": 0.83, "online": 0.83, "entertainment": 0.83, "utilities": 0, "general": 0.83 },
-      "notes": "5 Zen Points/₹150 base (0.83%). 10 Zen Points/₹150 on shopping/lifestyle/jewellery (1.67%). Cap 6,500 pts/cycle. No pts on fuel/wallet/rent/gaming. 1 Zen Pt=₹0.20-0.25. Fee waived on ₹1.5L spend. Milestone: 7,500 pts at ₹3L or 15,000 pts at ₹6L/yr.", "lastVerified": "2026-02-25"
+      "id": "kotak-zen",
+      "name": "Kotak Zen Signature",
+      "bank": "Kotak Mahindra",
+      "network": "Visa",
+      "color": "#e11d48",
+      "joiningFee": 1500,
+      "annualFee": 1500,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.83,
+        "groceries": 0.83,
+        "fuel": 0,
+        "travel": 0.83,
+        "online": 0.83,
+        "entertainment": 0.83,
+        "utilities": 0,
+        "general": 0.83
+      },
+      "notes": "5 Zen Points/₹150 base (0.83%). 10 Zen Points/₹150 on shopping/lifestyle/jewellery (1.67%). Cap 6,500 pts/cycle. No pts on fuel/wallet/rent/gaming. 1 Zen Pt=₹0.20-0.25. Fee waived on ₹1.5L spend. Milestone: 7,500 pts at ₹3L or 15,000 pts at ₹6L/yr.",
+      "lastVerified": "2026-02-25"
     },
     {
-      "id": "kotak-royale", "name": "Kotak Royale Signature", "bank": "Kotak Mahindra", "network": "Visa", "color": "#9333ea",
-      "joiningFee": 1499, "annualFee": 999, "monthlyCap": 0,
-      "rates": { "dining": 0.66, "groceries": 0.33, "fuel": 0, "travel": 0.66, "online": 0.33, "entertainment": 0.33, "utilities": 0, "general": 0.33 },
-      "notes": "4 RP/₹150 on hotels/airlines/dining/travel (0.66%). 2 RP/₹150 others (0.33%). 1 RP=₹0.20-0.25. No pts on fuel/wallet/rent/gaming. Annual fee waived on ₹1L spend. Milestone: 10K pts at ₹4L or 30K at ₹8L/yr.", "lastVerified": "2026-02-25"
+      "id": "kotak-royale",
+      "name": "Kotak Royale Signature",
+      "bank": "Kotak Mahindra",
+      "network": "Visa",
+      "color": "#9333ea",
+      "joiningFee": 1499,
+      "annualFee": 999,
+      "monthlyCap": 0,
+      "rates": {
+        "dining": 0.66,
+        "groceries": 0.33,
+        "fuel": 0,
+        "travel": 0.66,
+        "online": 0.33,
+        "entertainment": 0.33,
+        "utilities": 0,
+        "general": 0.33
+      },
+      "notes": "4 RP/₹150 on hotels/airlines/dining/travel (0.66%). 2 RP/₹150 others (0.33%). 1 RP=₹0.20-0.25. No pts on fuel/wallet/rent/gaming. Annual fee waived on ₹1L spend. Milestone: 10K pts at ₹4L or 30K at ₹8L/yr.",
+      "lastVerified": "2026-02-25"
     }
   ],
   "smartbuyRates": {
@@ -2709,5 +2989,1828 @@
     "bajaj-rbl-platinum-prime": "https://www.bajajfinserv.in/bajaj-finserv-rbl-bank-supercard",
     "kotak-zen": "https://www.kotak.com/en/personal-banking/cards/credit-cards/zen-signature-credit-card.html",
     "kotak-royale": "https://www.kotak.com/en/personal-banking/cards/credit-cards/royale-signature-credit-card.html"
-  }
+  },
+  "routeTemplates": [
+    {
+      "id": "amazon-gc-bills",
+      "name": "Amazon Gift Card → Pay on Amazon",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder",
+        "fastag_recharge",
+        "insurance_premium"
+      ],
+      "steps": [
+        {
+          "label": "Buy Amazon Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Use GC balance to pay bill/recharge on Amazon",
+          "cardCat": null
+        }
+      ],
+      "tip": "Amazon GC purchase codes as online shopping. Your card's online rate applies instead of utility rate. GC valid for 1 year.",
+      "notes": "Check Amazon Pay > Offers for additional cashback. Some billers may charge ₹5-15 convenience fee."
+    },
+    {
+      "id": "amazon-gc-shopping",
+      "name": "Amazon Gift Card → Amazon Shopping",
+      "purchaseTypes": [
+        "amazon_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy Amazon Gift Card with best online-rate card",
+          "cardCat": "online"
+        },
+        {
+          "label": "Shop on Amazon using GC balance",
+          "cardCat": null
+        }
+      ],
+      "tip": "Useful if you have a card with higher online rate than Amazon Pay ICICI (5%). Also helps when your primary card is at monthly cap.",
+      "notes": "Compare with direct payment via Amazon Pay ICICI (5% for Prime members)."
+    },
+    {
+      "id": "amazon-gc-swiggy",
+      "name": "Swiggy GC via Amazon → Swiggy",
+      "purchaseTypes": [
+        "food_swiggy",
+        "swiggy_instamart"
+      ],
+      "steps": [
+        {
+          "label": "Buy Swiggy Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Use Swiggy GC for food delivery / Instamart",
+          "cardCat": null
+        }
+      ],
+      "tip": "Uses your online rate instead of dining/grocery rate. Compare with HDFC Swiggy card (10% direct on Swiggy).",
+      "notes": "Swiggy GCs available on Amazon. Check expiry before buying large amounts."
+    },
+    {
+      "id": "amazon-gc-zomato",
+      "name": "Zomato GC via Amazon → Zomato",
+      "purchaseTypes": [
+        "food_zomato"
+      ],
+      "steps": [
+        {
+          "label": "Buy Zomato Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Use Zomato GC for food delivery",
+          "cardCat": null
+        }
+      ],
+      "tip": "Uses online rate instead of dining rate. Good when your online card rate > dining rate.",
+      "notes": "Zomato GCs sold on Amazon."
+    },
+    {
+      "id": "amazon-gc-bms",
+      "name": "BookMyShow GC via Amazon → Movies",
+      "purchaseTypes": [
+        "movie_tickets"
+      ],
+      "steps": [
+        {
+          "label": "Buy BookMyShow Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Book movie tickets with BMS GC",
+          "cardCat": null
+        }
+      ],
+      "tip": "Some cards offer BOGO on BookMyShow directly (ICICI Coral, SBI ELITE 2 free/mo). Compare total value including BOGO.",
+      "notes": "Uses online rate instead of entertainment rate."
+    },
+    {
+      "id": "amazon-gc-bigbasket",
+      "name": "BigBasket GC via Amazon → Groceries",
+      "purchaseTypes": [
+        "grocery_bigbasket"
+      ],
+      "steps": [
+        {
+          "label": "Buy BigBasket Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Use GC for grocery shopping on BigBasket",
+          "cardCat": null
+        }
+      ],
+      "tip": "HDFC Tata Neu cards give 5% on BigBasket via Tata Neu app. Compare both routes.",
+      "notes": "Uses online rate instead of grocery rate."
+    },
+    {
+      "id": "amazon-gc-ott",
+      "name": "Amazon GC → OTT via Amazon Pay",
+      "purchaseTypes": [
+        "ott_subscription"
+      ],
+      "steps": [
+        {
+          "label": "Buy Amazon Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Pay OTT subscription via Amazon Pay balance",
+          "cardCat": null
+        }
+      ],
+      "tip": "Netflix, Hotstar, Prime Video etc. can be paid via Amazon Pay.",
+      "notes": "Uses online rate instead of entertainment rate. Check if your OTT accepts Amazon Pay."
+    },
+    {
+      "id": "flipkart-gc",
+      "name": "Flipkart Gift Card → Flipkart Shopping",
+      "purchaseTypes": [
+        "flipkart_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy Flipkart Gift Card on Flipkart.com",
+          "cardCat": "online"
+        },
+        {
+          "label": "Shop on Flipkart using GC balance",
+          "cardCat": null
+        }
+      ],
+      "tip": "Compare with Flipkart SBI (5%) or Axis Flipkart (5%) direct rates.",
+      "notes": "GC purchase codes as online shopping."
+    },
+    {
+      "id": "flipkart-gc-myntra",
+      "name": "Myntra GC via Flipkart → Myntra",
+      "purchaseTypes": [
+        "myntra_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy Myntra Gift Card on Flipkart.com",
+          "cardCat": "online"
+        },
+        {
+          "label": "Shop on Myntra using GC",
+          "cardCat": null
+        }
+      ],
+      "tip": "HDFC Regalia Gold gives 5x on Myntra directly. Axis Flipkart gives 7.5% on Myntra.",
+      "notes": "Uses online rate. Myntra GCs available on Flipkart."
+    },
+    {
+      "id": "flipkart-gc-cleartrip",
+      "name": "Flipkart GC → Cleartrip Flight",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Buy Flipkart Gift Card on Flipkart.com",
+          "cardCat": "online"
+        },
+        {
+          "label": "Book flight on Cleartrip using Flipkart GC",
+          "cardCat": null
+        }
+      ],
+      "tip": "Cleartrip is Flipkart-owned and accepts Flipkart GC/SuperCoins.",
+      "notes": "Uses online rate instead of travel rate for the GC purchase step."
+    },
+    {
+      "id": "flipkart-gc-recharge",
+      "name": "Flipkart GC → Recharge on Flipkart",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "dth_recharge"
+      ],
+      "steps": [
+        {
+          "label": "Buy Flipkart Gift Card on Flipkart.com",
+          "cardCat": "online"
+        },
+        {
+          "label": "Recharge on Flipkart using GC balance",
+          "cardCat": null
+        }
+      ],
+      "tip": "Flipkart offers mobile and DTH recharges.",
+      "notes": "Uses online rate instead of utility rate."
+    },
+    {
+      "id": "smartbuy-amazon-gc",
+      "name": "HDFC SmartBuy → Amazon Voucher",
+      "purchaseTypes": [
+        "amazon_shopping",
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "insurance_premium",
+        "ott_subscription"
+      ],
+      "steps": [
+        {
+          "label": "Buy Amazon voucher via HDFC SmartBuy portal",
+          "cardCat": "_smartbuy"
+        },
+        {
+          "label": "Use Amazon voucher for purchase",
+          "cardCat": null
+        }
+      ],
+      "bankRequired": "HDFC",
+      "tip": "Infinia/Diners Black earn ~33% via SmartBuy (10x points). Regalia ~13%. Best stacking route in India.",
+      "notes": "Only for HDFC credit card holders. SmartBuy Amazon voucher cap: ₹10,000/txn (buy multiple). Check SmartBuy availability."
+    },
+    {
+      "id": "smartbuy-flipkart-gc",
+      "name": "HDFC SmartBuy → Flipkart Voucher",
+      "purchaseTypes": [
+        "flipkart_shopping",
+        "myntra_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy Flipkart voucher via HDFC SmartBuy",
+          "cardCat": "_smartbuy"
+        },
+        {
+          "label": "Use Flipkart voucher for shopping",
+          "cardCat": null
+        }
+      ],
+      "bankRequired": "HDFC",
+      "tip": "Same 10x multiplier as Amazon voucher route. Infinia/Diners Black ~33%.",
+      "notes": "Only for HDFC card holders."
+    },
+    {
+      "id": "smartbuy-flights",
+      "name": "HDFC SmartBuy → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight via HDFC SmartBuy portal",
+          "cardCat": "_smartbuy"
+        }
+      ],
+      "bankRequired": "HDFC",
+      "tip": "Infinia/Diners Black: ~33% effective via 10x points. Even Regalia gets ~13%.",
+      "notes": "Only for HDFC card holders. SmartBuy partners: EaseMyTrip, Cleartrip etc."
+    },
+    {
+      "id": "smartbuy-hotels",
+      "name": "HDFC SmartBuy → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book hotel via HDFC SmartBuy portal",
+          "cardCat": "_smartbuy"
+        }
+      ],
+      "bankRequired": "HDFC",
+      "tip": "10x reward points on SmartBuy hotel bookings with premium HDFC cards.",
+      "notes": "Only for HDFC card holders."
+    },
+    {
+      "id": "smartbuy-trains",
+      "name": "HDFC SmartBuy → Train Booking",
+      "purchaseTypes": [
+        "train_irctc"
+      ],
+      "steps": [
+        {
+          "label": "Book train via HDFC SmartBuy IRCTC",
+          "cardCat": "_smartbuy"
+        }
+      ],
+      "bankRequired": "HDFC",
+      "tip": "SmartBuy has IRCTC integration. 10x points for Infinia/Diners Black.",
+      "notes": "Only for HDFC card holders."
+    },
+    {
+      "id": "tataneu-bigbasket",
+      "name": "Tata Neu App → BigBasket",
+      "purchaseTypes": [
+        "grocery_bigbasket"
+      ],
+      "steps": [
+        {
+          "label": "Order BigBasket via Tata Neu app",
+          "cardCat": "online"
+        },
+        {
+          "label": "Earn NeuCoins from Tata Neu platform (+1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "HDFC Tata Neu Infinity card gives 5% NeuCoins on all Tata ecosystem purchases via this app.",
+      "notes": "~1% additional NeuCoins from Tata Neu platform. Best with HDFC Tata Neu cards."
+    },
+    {
+      "id": "tataneu-croma",
+      "name": "Tata Neu App → Croma",
+      "purchaseTypes": [
+        "croma_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Order on Croma via Tata Neu app",
+          "cardCat": "online"
+        },
+        {
+          "label": "Earn NeuCoins from Tata Neu platform (+1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "HDFC Tata Neu Infinity gives 5% on Croma via Tata Neu.",
+      "notes": "~1% additional NeuCoins from platform."
+    },
+    {
+      "id": "phonpe-bills",
+      "name": "Pay via PhonePe (Credit Card on UPI)",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill/recharge on PhonePe using credit card",
+          "cardCat": "utilities"
+        }
+      ],
+      "tip": "Axis ACE gives 5% on all utility bills paid via PhonePe/Google Pay. Check if your card supports CC on UPI.",
+      "notes": "RuPay cards can be linked to UPI directly. Visa/Mastercard CC on UPI support expanding."
+    },
+    {
+      "id": "gpay-bills",
+      "name": "Pay via Google Pay (Credit Card)",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill/recharge on Google Pay using credit card",
+          "cardCat": "utilities"
+        }
+      ],
+      "tip": "Axis ACE & Axis Google Pay cards give enhanced rewards on Google Pay. Google Pay occasionally offers scratch cards.",
+      "notes": "Check CC on UPI availability with your bank."
+    },
+    {
+      "id": "airtel-recharge",
+      "name": "Airtel Thanks App → Recharge",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "dth_recharge",
+        "broadband_bill"
+      ],
+      "steps": [
+        {
+          "label": "Pay via Airtel Thanks app using credit card",
+          "cardCat": "utilities"
+        }
+      ],
+      "tip": "Axis Airtel card gives 25% on Airtel recharges and 10% on utility bills via Airtel Thanks. Only for Airtel subscribers.",
+      "notes": "Best with Axis Airtel card. Other cards get standard utility rate."
+    },
+    {
+      "id": "cleartrip-flights",
+      "name": "Cleartrip → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight on Cleartrip using credit card",
+          "cardCat": "travel"
+        }
+      ],
+      "tip": "Flipkart SBI card gives 5% on Cleartrip. Axis Flipkart also gives enhanced rates.",
+      "notes": "Cleartrip is Flipkart-owned."
+    },
+    {
+      "id": "easemytrip-flights",
+      "name": "EaseMyTrip → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight on EaseMyTrip using credit card",
+          "cardCat": "travel"
+        }
+      ],
+      "tip": "SC EaseMyTrip card gives ~5% on EaseMyTrip bookings.",
+      "notes": "Good for Standard Chartered EaseMyTrip card holders."
+    },
+    {
+      "id": "irctc-direct",
+      "name": "IRCTC Direct → Train Ticket",
+      "purchaseTypes": [
+        "train_irctc"
+      ],
+      "steps": [
+        {
+          "label": "Book on IRCTC using credit card",
+          "cardCat": "travel"
+        }
+      ],
+      "tip": "SBI IRCTC Premier gives 10% value back on AC classes. HDFC IRCTC RuPay gives 5%.",
+      "notes": "IRCTC charges ₹15-30 convenience fee per transaction."
+    },
+    {
+      "id": "cred-rent",
+      "name": "CRED RentPay → Rent",
+      "purchaseTypes": [
+        "rent_payment"
+      ],
+      "steps": [
+        {
+          "label": "Pay rent via CRED RentPay",
+          "cardCat": "general",
+          "feePercent": 2
+        }
+      ],
+      "tip": "Only worth it if your card's general rate > 2% platform fee. CRED also offers cashback/coins occasionally.",
+      "notes": "Platform charges ~2% fee. Net reward = card rate - 2%. Many cards exclude rent from rewards."
+    },
+    {
+      "id": "nobroker-rent",
+      "name": "NoBroker Pay → Rent",
+      "purchaseTypes": [
+        "rent_payment"
+      ],
+      "steps": [
+        {
+          "label": "Pay rent via NoBroker",
+          "cardCat": "general",
+          "feePercent": 1.5
+        }
+      ],
+      "tip": "Slightly lower fee than CRED. Ensure your card gives rewards on rent transactions.",
+      "notes": "Platform charges ~1.5% fee. Net reward = card rate - 1.5%."
+    },
+    {
+      "id": "amazon-gc-nykaa",
+      "name": "Nykaa GC via Amazon → Nykaa",
+      "purchaseTypes": [
+        "nykaa_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy Nykaa Gift Card on Amazon.in",
+          "cardCat": "online"
+        },
+        {
+          "label": "Shop on Nykaa using GC",
+          "cardCat": null
+        }
+      ],
+      "tip": "Amex SmartEarn gives 10x on Nykaa directly (~5%). Compare with GC route.",
+      "notes": "Nykaa GCs available on Amazon."
+    },
+    {
+      "id": "scapia-travel",
+      "name": "Scapia App → Travel Booking",
+      "purchaseTypes": [
+        "flight_booking",
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book via Scapia app using Scapia Federal card",
+          "cardCat": "travel"
+        }
+      ],
+      "tip": "Scapia Federal gives 4% on travel via Scapia app (vs 2% elsewhere). Zero forex markup.",
+      "notes": "Only for Scapia Federal Bank card holders."
+    },
+    {
+      "id": "rupay-upi-offline",
+      "name": "RuPay CC on UPI → Offline Store Payment",
+      "purchaseTypes": [
+        "grocery_offline",
+        "restaurant",
+        "general_purchase"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay via UPI QR using RuPay credit card linked to PhonePe/GPay",
+          "cardCat": "general"
+        }
+      ],
+      "tip": "RuPay credit cards work on UPI at any QR code merchant. Earn card rewards even at small shops that don't accept card swipes.",
+      "notes": "Link RuPay CC to PhonePe, Google Pay, CRED, or Paytm. Card's general/category rate applies. NPCI occasionally runs RuPay UPI cashback schemes."
+    },
+    {
+      "id": "rupay-upi-grocery",
+      "name": "RuPay CC on UPI → Grocery Store",
+      "purchaseTypes": [
+        "grocery_offline"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay at grocery store via UPI QR using RuPay CC",
+          "cardCat": "groceries"
+        }
+      ],
+      "tip": "Works at kirana stores, supermarkets, any UPI QR. Your card's grocery rate applies even at shops that don't have a POS machine.",
+      "notes": "RuPay CC on UPI supported on PhonePe, Google Pay, CRED, Paytm."
+    },
+    {
+      "id": "rupay-upi-dining",
+      "name": "RuPay CC on UPI → Restaurant",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay at restaurant via UPI QR using RuPay CC",
+          "cardCat": "dining"
+        }
+      ],
+      "tip": "Earn dining rewards at restaurants that only accept UPI. Card's dining rate applies.",
+      "notes": "RuPay CC on UPI accepted at all UPI QR merchants."
+    },
+    {
+      "id": "rupay-upi-fuel",
+      "name": "RuPay CC on UPI → Fuel Station",
+      "purchaseTypes": [
+        "fuel_indianoil",
+        "fuel_hpcl",
+        "fuel_bpcl"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay at fuel station via UPI using RuPay CC",
+          "cardCat": "fuel"
+        }
+      ],
+      "tip": "Pay at any fuel station UPI QR. Avoids fuel surcharge that applies on card swipe. Card's fuel rate applies.",
+      "notes": "UPI payment avoids the 1% fuel surcharge (up to ₹500-1000 cap) charged on POS swipe. Net saving could be higher."
+    },
+    {
+      "id": "rupay-upi-recharge",
+      "name": "RuPay CC on UPI → Recharge/Bills",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay bill/recharge via PhonePe/GPay using RuPay CC on UPI",
+          "cardCat": "utilities"
+        }
+      ],
+      "tip": "RuPay CC on UPI works seamlessly for bill payments on PhonePe, Google Pay, Paytm. Same card rewards as POS/online.",
+      "notes": "NPCI sometimes runs additional cashback for RuPay CC on UPI transactions (₹50-150/month). Check npci.org.in for active offers."
+    },
+    {
+      "id": "rupay-upi-online",
+      "name": "RuPay CC on UPI → Online Shopping",
+      "purchaseTypes": [
+        "amazon_shopping",
+        "flipkart_shopping",
+        "myntra_shopping",
+        "other_online",
+        "food_swiggy",
+        "food_zomato",
+        "grocery_bigbasket",
+        "grocery_blinkit",
+        "swiggy_instamart"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay online using UPI with RuPay CC linked",
+          "cardCat": "online"
+        }
+      ],
+      "tip": "Select UPI as payment method on Amazon/Flipkart/Swiggy/Zomato and pay with RuPay CC linked to your UPI app. Card's online rate applies.",
+      "notes": "Many online merchants offer UPI-specific discounts that stack with your card rewards. RuPay CC on UPI is widely accepted."
+    },
+    {
+      "id": "cc-upi-bills",
+      "name": "CC on UPI → Bill Payment",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill on PhonePe/GPay using credit card via UPI",
+          "cardCat": "utilities"
+        }
+      ],
+      "tip": "Credit card on UPI now supports Visa/Mastercard on select banks (Axis, HDFC, ICICI, Kotak etc.) in addition to RuPay. Check your bank's support.",
+      "notes": "CC on UPI expanding: RuPay (full support), Visa/MC (Axis, HDFC, ICICI, Kotak, SBI). Merchant must support UPI autopay or CC-on-UPI."
+    },
+    {
+      "id": "cc-upi-offline",
+      "name": "CC on UPI → Offline Merchant",
+      "purchaseTypes": [
+        "grocery_offline",
+        "restaurant",
+        "general_purchase"
+      ],
+      "steps": [
+        {
+          "label": "Pay at UPI QR merchant using credit card on UPI",
+          "cardCat": "general"
+        }
+      ],
+      "tip": "Earn card rewards at UPI-only merchants. Visa/MC CC on UPI rolling out on Axis, HDFC, ICICI, Kotak banks.",
+      "notes": "Check if your bank supports CC on UPI for your card network. RuPay has widest support."
+    },
+    {
+      "id": "rupay-npci-cashback",
+      "name": "RuPay UPI + NPCI Cashback Scheme",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "grocery_offline",
+        "restaurant",
+        "general_purchase",
+        "fuel_indianoil",
+        "fuel_hpcl",
+        "fuel_bpcl"
+      ],
+      "networkRequired": "RuPay",
+      "steps": [
+        {
+          "label": "Pay via RuPay CC on UPI",
+          "cardCat": "general"
+        },
+        {
+          "label": "NPCI RuPay UPI cashback (when active)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "NPCI periodically runs RuPay credit card on UPI promotional cashback of ₹50-150/month. Check current offers on npci.org.in or your UPI app.",
+      "notes": "Estimated ~0.5% average platform bonus when NPCI scheme is active. Varies by period — verify current offer before relying on this."
+    },
+    {
+      "id": "hppay-fuel",
+      "name": "HP Pay App → HPCL Fuel",
+      "purchaseTypes": [
+        "fuel_hpcl"
+      ],
+      "steps": [
+        {
+          "label": "Pay for fuel at HPCL via HP Pay app using credit card",
+          "cardCat": "fuel"
+        },
+        {
+          "label": "HP Pay loyalty points + fuel surcharge waiver (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "HP Pay avoids the 1% fuel surcharge charged on POS card swipe. Additional HP Pay loyalty rewards and seasonal cashback offers from the app.",
+      "notes": "Link your CC to HP Pay. Surcharge of ~1% (up to ₹500) is avoided on UPI/app payments vs POS swipe. HP Pay often has bank-specific fuel cashback promotions."
+    },
+    {
+      "id": "iocl-xtrarewards",
+      "name": "IndianOil XTRA Rewards → IOCL Fuel",
+      "purchaseTypes": [
+        "fuel_indianoil"
+      ],
+      "steps": [
+        {
+          "label": "Pay at IndianOil and earn XTRA Rewards with linked card",
+          "cardCat": "fuel"
+        },
+        {
+          "label": "XTRA Rewards loyalty points (~0.75%)",
+          "cardCat": null,
+          "platformBonus": 0.75
+        }
+      ],
+      "tip": "Register your card on IndianOil XTRA Rewards app to earn additional loyalty points on every fuel purchase, stacked with card rewards.",
+      "notes": "IndianOil XTRA Rewards: 1 point per ₹100 fuel spend. Points redeemable for fuel. Free to join. Also gives birthday/anniversary bonus points."
+    },
+    {
+      "id": "bpcl-smartdrive",
+      "name": "BPCL SmartDrive → BPCL Fuel",
+      "purchaseTypes": [
+        "fuel_bpcl"
+      ],
+      "steps": [
+        {
+          "label": "Pay at BPCL station with SmartDrive linked card",
+          "cardCat": "fuel"
+        },
+        {
+          "label": "BPCL SmartDrive loyalty points (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "BPCL SmartDrive gives ~1% back as loyalty points on fuel. SBI BPCL card holders get 13x reward points at BPCL (~4.3% effective). Stack loyalty with card rewards.",
+      "notes": "Free to join BPCL SmartDrive. Points redeemable for fuel and merchandise. SBI BPCL card is the best pairing for BPCL fuel."
+    },
+    {
+      "id": "eazydiner-restaurant",
+      "name": "EazyDiner → Restaurant Dining",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "steps": [
+        {
+          "label": "Book restaurant via EazyDiner app, pay with card",
+          "cardCat": "dining"
+        },
+        {
+          "label": "EazyDiner bill discount (~15% avg)",
+          "cardCat": null,
+          "platformBonus": 15
+        }
+      ],
+      "tip": "EazyDiner offers 10-40% off at 5,000+ partner restaurants. IndusInd EazyDiner card includes free EazyDiner Prime (up to 50% off). HDFC Diners Privilege/Black get enhanced EazyDiner offers.",
+      "notes": "Discount varies by restaurant (10-40%). EazyDiner Prime: ₹1,199/yr (free with IndusInd EazyDiner card). Card rewards earned on the discounted amount actually paid. Available in 20+ cities."
+    },
+    {
+      "id": "swiggy-dineout",
+      "name": "Swiggy Dineout → Restaurant Dining",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "steps": [
+        {
+          "label": "Book restaurant via Swiggy Dineout, pay with card",
+          "cardCat": "dining"
+        },
+        {
+          "label": "Swiggy Dineout bill discount (~10% avg)",
+          "cardCat": null,
+          "platformBonus": 10
+        }
+      ],
+      "tip": "Swiggy Dineout offers 10-40% off at partner restaurants. HDFC Swiggy card holders get extra Dineout benefits. Swiggy One members get enhanced discounts.",
+      "notes": "Discount varies by restaurant (10-40%). Card rewards earned on amount actually paid. Available in 35+ cities. Pro tip: stack with bank offers visible on the Swiggy app."
+    },
+    {
+      "id": "dineout-restaurant",
+      "name": "Dineout (Times Prime) → Restaurant",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "steps": [
+        {
+          "label": "Book restaurant via Dineout app, pay with card",
+          "cardCat": "dining"
+        },
+        {
+          "label": "Dineout bill discount (~10% avg)",
+          "cardCat": null,
+          "platformBonus": 10
+        }
+      ],
+      "tip": "Dineout (by Times Internet) offers 10-30% off at partner restaurants. Times Prime members get additional perks and higher discounts.",
+      "notes": "Dineout Passport gives flat 25% off at select premium restaurants. Card rewards earned on actual amount paid."
+    },
+    {
+      "id": "magicpin-restaurant",
+      "name": "magicpin → Restaurant Dining",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "steps": [
+        {
+          "label": "Pay at restaurant via magicpin, use card on UPI",
+          "cardCat": "dining"
+        },
+        {
+          "label": "magicpin cashback rewards (~8% avg)",
+          "cardCat": null,
+          "platformBonus": 8
+        }
+      ],
+      "tip": "magicpin gives cashback as magicpin credits (usable at other merchants) when you pay at partner restaurants. Works via UPI — link your CC to UPI for card rewards too.",
+      "notes": "Cashback varies 5-15% across restaurants. Credits valid for 30 days. Works at offline restaurants with UPI QR. Stack with CC on UPI rewards."
+    },
+    {
+      "id": "accor-hotels",
+      "name": "Accor ALL → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book hotel on ALL.com / Accor app with card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Accor ALL loyalty points + member rates (~5%)",
+          "cardCat": null,
+          "platformBonus": 5
+        }
+      ],
+      "tip": "Accor ALL loyalty: ~5% back as points. HDFC Diners Black includes complimentary Accor Plus membership (50% off dining at Accor hotels, 1 free night/year). Always book directly on ALL.com for loyalty points.",
+      "notes": "Accor brands: Ibis, Novotel, Pullman, Sofitel, Mercure, Fairmont. Accor Plus (₹15,000/yr) is free with HDFC Diners Black. Points redeemable for stays. Member-only rates typically 5-10% lower."
+    },
+    {
+      "id": "marriott-hotels",
+      "name": "Marriott Bonvoy → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book directly on Marriott.com with card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Marriott Bonvoy loyalty points (~5%)",
+          "cardCat": null,
+          "platformBonus": 5
+        }
+      ],
+      "tip": "HDFC Marriott Bonvoy card earns enhanced Bonvoy points on stays. Bonvoy Elite members get free upgrades, late checkout, breakfast. HDFC Regalia Gold milestones give Marriott/Taj vouchers. Book directly for best loyalty earning.",
+      "notes": "Marriott Bonvoy points: ~₹0.7-1/point. 30+ brands (JW Marriott, Sheraton, Westin, Le Meridien, W etc). Gold/Platinum Elite unlocks serious perks. Always book via Marriott.com, not OTAs."
+    },
+    {
+      "id": "taj-hotels",
+      "name": "Taj/IHCL Direct → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book on Taj website/app with card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Taj InnerCircle / NeuCoins loyalty (~4%)",
+          "cardCat": null,
+          "platformBonus": 4
+        }
+      ],
+      "tip": "HDFC Regalia Gold milestone vouchers (₹1,500-5,000) are redeemable at Taj properties. Taj InnerCircle members earn NeuCoins on stays. Book directly on tajhotels.com for loyalty benefits.",
+      "notes": "Taj InnerCircle Gold+ members get complimentary upgrades and late checkout. Tata Neu integration means NeuCoins earned are usable across Tata ecosystem (BigBasket, Croma, 1mg etc)."
+    },
+    {
+      "id": "itc-hotels",
+      "name": "ITC Hotels Direct → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book on ITC Hotels website with card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "ITC WelcomRewards loyalty (~3%)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "ITC WelcomRewards program gives loyalty points on direct bookings. Book on itchotels.com for best rate guarantee and loyalty earning.",
+      "notes": "ITC hotel brands: ITC Grand, WelcomHotel, Mementos, Storii. Loyalty points redeemable for stays and dining at ITC properties."
+    },
+    {
+      "id": "mmt-flights",
+      "name": "MakeMyTrip → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight on MakeMyTrip using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "MMT rewards + bank offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "ICICI MakeMyTrip card gives ~5% on MMT bookings. MMT regularly runs bank-specific instant discount offers (₹500-2,000 off). Check active bank offers on MMT before booking.",
+      "notes": "MMT MyRewards loyalty gives additional cashback. ICICI, HDFC, SBI, Axis frequently have active MMT promotions. MMT myBiz for business travel perks."
+    },
+    {
+      "id": "mmt-hotels",
+      "name": "MakeMyTrip → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book hotel on MakeMyTrip using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "MMT rewards + bank offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "MMT hotel bookings stack bank offers with MMT loyalty rewards. Compare with direct hotel loyalty programs (Marriott, Taj, Accor) which give better long-term value.",
+      "notes": "OTA booking means no hotel loyalty points. But MMT often has lower prices + bank discounts. Best for one-off bookings at non-chain hotels."
+    },
+    {
+      "id": "goibibo-flights",
+      "name": "Goibibo → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight on Goibibo using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Goibibo goCash+ rewards (~1.5%)",
+          "cardCat": null,
+          "platformBonus": 1.5
+        }
+      ],
+      "tip": "Goibibo (MakeMyTrip group) offers goCash+ on bookings. Bank offers often same as MMT. Goibibo Plus members get extra perks.",
+      "notes": "goCash+ earned on bookings is usable for future Goibibo/MMT bookings. Compare prices across MMT, Goibibo, and ixigo."
+    },
+    {
+      "id": "goibibo-hotels",
+      "name": "Goibibo → Hotel Booking",
+      "purchaseTypes": [
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book hotel on Goibibo using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Goibibo goCash+ rewards (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "Goibibo often has competitive hotel rates. goCash+ earned is typically higher on hotels than flights.",
+      "notes": "Compare rates across MMT, Goibibo, direct hotel websites, and SmartBuy (for HDFC users) for best deal."
+    },
+    {
+      "id": "ixigo-flights",
+      "name": "ixigo → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book flight on ixigo using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "ixigo money rewards (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "ixigo offers fare alerts and price predictions. ixigo money rewards on every booking. Occasionally has exclusive bank offers.",
+      "notes": "ixigo money can be used for future bookings. Good for price comparison across airlines."
+    },
+    {
+      "id": "uber-cab",
+      "name": "Uber → Cab Ride",
+      "purchaseTypes": [
+        "cab_ride"
+      ],
+      "steps": [
+        {
+          "label": "Pay for Uber ride using linked credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Uber Pro rewards (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "Link your best travel-rate card to Uber. Axis ACE gives 5% on Uber payments via PhonePe. ICICI Coral gives complimentary Uber rides with milestone spend. Uber Pro loyalty tiers give additional ride discounts.",
+      "notes": "Uber codes as travel for most cards. Check if your card gives enhanced rewards on ride-hailing. RuPay CC on UPI also works on Uber."
+    },
+    {
+      "id": "ola-cab",
+      "name": "Ola → Cab Ride",
+      "purchaseTypes": [
+        "cab_ride"
+      ],
+      "steps": [
+        {
+          "label": "Pay for Ola ride using linked credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Ola offers (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "Link your card to Ola for credit card rewards on rides. SBI cards sometimes have Ola-specific offers. Ola Money postpaid can give additional cashback.",
+      "notes": "Check Ola app for active bank-specific promotions before riding."
+    },
+    {
+      "id": "redbus-bus",
+      "name": "RedBus → Bus Ticket",
+      "purchaseTypes": [
+        "bus_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book bus on RedBus using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "RedBus rewards + bank offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "RedBus frequently runs bank-specific offers (₹100-250 off). SBI, ICICI, HDFC cards often have active RedBus promotions.",
+      "notes": "Check current bank offers on RedBus before booking. redBus Trip Guarantee adds protection."
+    },
+    {
+      "id": "paytm-bills",
+      "name": "Paytm → Bill Payment",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill on Paytm using credit card / CC on UPI",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Paytm cashback offers (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "Paytm runs frequent cashback promotions on bill payments. RuPay CC on UPI works on Paytm. Check active bank offers and Paytm coupons.",
+      "notes": "Cashback varies by offer period. Paytm supports CC on UPI for RuPay and select Visa/MC banks. Compare with PhonePe and Google Pay."
+    },
+    {
+      "id": "cred-bills",
+      "name": "CRED → Bill Payment",
+      "purchaseTypes": [
+        "electricity_bill",
+        "broadband_bill",
+        "water_bill"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill on CRED using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "CRED cashback / coins (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "CRED gives CRED coins on bill payments (redeemable for cashback/vouchers). CRED occasionally runs flash sales with higher cashback. Premium members get better offers.",
+      "notes": "CRED coins value varies. Best used during CRED flash sales for 2-5x value. Also useful for discovering new card offers."
+    },
+    {
+      "id": "myjio-recharge",
+      "name": "MyJio App → Jio Recharge",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "broadband_bill"
+      ],
+      "steps": [
+        {
+          "label": "Recharge Jio via MyJio app using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "MyJio cashback/data bonus offers (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "MyJio app frequently offers cashback and bonus data on prepaid recharges. Amex SmartEarn gives 10x on Jio. Check MyJio for active bank offers before recharging.",
+      "notes": "JioFiber/JioAirFiber broadband also payable via MyJio. Jio bundles OTT subs (JioCinema, Netflix) with annual plans — often better value than separate subscriptions."
+    },
+    {
+      "id": "vi-recharge",
+      "name": "Vi App → Vodafone Idea Recharge",
+      "purchaseTypes": [
+        "mobile_recharge"
+      ],
+      "steps": [
+        {
+          "label": "Recharge Vi number via Vi app using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Vi app recharge cashback offers (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "Vi app runs cashback/coupon offers on prepaid recharges. Check Vi app offers section and active bank discount coupons.",
+      "notes": "Vi postpaid bills also payable via the app. Limited bank offer partnerships compared to Airtel/Jio."
+    },
+    {
+      "id": "freecharge-bills",
+      "name": "Freecharge → Bill Payment",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill on Freecharge using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Freecharge cashback deals (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "Freecharge is owned by Axis Bank — Axis cards frequently get exclusive 5-10% cashback on Freecharge. Non-Axis cards also get standard cashback offers.",
+      "notes": "Check Freecharge coupons section before paying. Axis ACE 5% stacks with Freecharge cashback. Supports direct credit card payments."
+    },
+    {
+      "id": "mobikwik-bills",
+      "name": "Mobikwik → Bill Payment",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill on Mobikwik using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Mobikwik SuperCash rewards (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "Mobikwik gives SuperCash rewards on bill payments (redeemable up to 10% of next txn). Mobikwik ZIP (BNPL) also earns SuperCash on purchases.",
+      "notes": "SuperCash has per-txn usage limits. Check active offers in Mobikwik app. Supports CC on UPI for RuPay cards."
+    },
+    {
+      "id": "amazon-pay-bills",
+      "name": "Amazon Pay → Direct Bill Payment",
+      "purchaseTypes": [
+        "mobile_recharge",
+        "electricity_bill",
+        "dth_recharge",
+        "broadband_bill",
+        "water_bill",
+        "lpg_cylinder",
+        "insurance_premium"
+      ],
+      "steps": [
+        {
+          "label": "Pay bill directly via Amazon Pay using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Amazon Pay cashback offers (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "ICICI Amazon Pay card gives 2% on bill payments (vs 1% elsewhere). Amazon frequently runs bill payment cashback offers (₹10-50). Check Amazon Pay > Offers tab.",
+      "notes": "Different from Amazon GC route — this is direct bill payment on Amazon. ICICI Amazon Pay 2% applies here. Compare with GC route (online rate) for best value."
+    },
+    {
+      "id": "fastag-apps",
+      "name": "FASTag Recharge via Payment Apps",
+      "purchaseTypes": [
+        "fastag_recharge"
+      ],
+      "steps": [
+        {
+          "label": "Recharge FASTag via Paytm/PhonePe/GPay/bank app using CC",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "App-specific FASTag cashback offers (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "Paytm, PhonePe, Google Pay all support FASTag recharge via credit card. Paytm often runs FASTag-specific cashback. Axis ACE 5% applies on FASTag recharge via PhonePe/GPay.",
+      "notes": "FASTag codes as utility payment. RuPay CC on UPI works for FASTag recharge. Bank FASTag apps (HDFC/ICICI/SBI) may also give loyalty points."
+    },
+    {
+      "id": "policybazaar-insurance",
+      "name": "PolicyBazaar → Insurance Premium",
+      "purchaseTypes": [
+        "insurance_premium"
+      ],
+      "steps": [
+        {
+          "label": "Buy/renew insurance on PolicyBazaar using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "PolicyBazaar gift card/cashback offers (~1%)",
+          "cardCat": null,
+          "platformBonus": 1
+        }
+      ],
+      "tip": "PolicyBazaar offers Amazon/Flipkart gift cards on insurance purchases. Compare quotes across insurers. Scapia Federal gives rare 2% on insurance. HDFC SmartBuy Amazon GC route may beat direct payment.",
+      "notes": "Health, motor, term life, travel insurance available. Cashback typically as gift vouchers. Compare with HDFC SmartBuy → Amazon GC → pay insurance on Amazon route."
+    },
+    {
+      "id": "acko-insurance",
+      "name": "Acko → Insurance (Direct-to-Consumer)",
+      "purchaseTypes": [
+        "insurance_premium"
+      ],
+      "steps": [
+        {
+          "label": "Buy Acko insurance directly using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Acko savings — no agent commission (~3%)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "Acko is direct-to-consumer — typically 10-15% cheaper premiums than traditional insurers (no agent commission). Pay with credit card for additional rewards.",
+      "notes": "Acko offers car, bike, health, and travel insurance. Lower premiums by cutting agent middleman. Compare with PolicyBazaar quotes."
+    },
+    {
+      "id": "digit-insurance",
+      "name": "Go Digit → Insurance Premium",
+      "purchaseTypes": [
+        "insurance_premium"
+      ],
+      "steps": [
+        {
+          "label": "Buy Digit insurance using credit card",
+          "cardCat": "utilities"
+        },
+        {
+          "label": "Digit competitive pricing (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "Go Digit offers competitively priced motor and health insurance with fast claims. Direct online purchase avoids agent fees.",
+      "notes": "Digit Insurance: known for simple claims process. Motor, health, travel, and property insurance. Compare with Acko and PolicyBazaar for best rate."
+    },
+    {
+      "id": "bms-direct",
+      "name": "BookMyShow → Movie Tickets (Direct)",
+      "purchaseTypes": [
+        "movie_tickets"
+      ],
+      "steps": [
+        {
+          "label": "Book movie tickets on BookMyShow using credit card",
+          "cardCat": "entertainment"
+        },
+        {
+          "label": "BookMyShow bank BOGO/discount offers (~10%)",
+          "cardCat": null,
+          "platformBonus": 10
+        }
+      ],
+      "tip": "BOGO: HDFC Diners Privilege (2 free/mo), ICICI Coral (BOGO on ₹25K spend/qtr), SBI ELITE (2 free/mo). Amex SmartEarn & SBI SimplyClick give 10x on BMS. Check BMS Offers tab for active bank deals.",
+      "notes": "Bank BOGO = ~50% off on 2 tickets. 10% shown as conservative average across all users. Also check Bajaj RBL World Prime (BOGO 2x/mo on BMS). BMS convenience fee earns card rewards."
+    },
+    {
+      "id": "pvr-inox-direct",
+      "name": "PVR INOX → Movie Tickets",
+      "purchaseTypes": [
+        "movie_tickets"
+      ],
+      "steps": [
+        {
+          "label": "Book movie at PVR INOX website/app using credit card",
+          "cardCat": "entertainment"
+        },
+        {
+          "label": "PVR INOX bank offers + F&B deals (~8%)",
+          "cardCat": null,
+          "platformBonus": 8
+        }
+      ],
+      "tip": "Kotak PVR: 2 free tickets/mo + 15% F&B cashback. Axis Flipkart gives 4% at PVR. SBI cards often have PVR BOGO. Check PVR Privilege/Passport for loyalty points.",
+      "notes": "PVR INOX Passport loyalty program gives free tickets on points. Multiple bank BOGO tie-ups. Buy F&B combos for best value. Kotak PVR is the king of movie cards."
+    },
+    {
+      "id": "swiggy-one-food",
+      "name": "Swiggy One → Swiggy Food Delivery",
+      "purchaseTypes": [
+        "food_swiggy",
+        "swiggy_instamart"
+      ],
+      "steps": [
+        {
+          "label": "Order on Swiggy with Swiggy One membership using card",
+          "cardCat": "dining"
+        },
+        {
+          "label": "Swiggy One free delivery + extra discounts (~5%)",
+          "cardCat": null,
+          "platformBonus": 5
+        }
+      ],
+      "tip": "Swiggy One saves ₹30-60/order on delivery + extra restaurant discounts. HDFC Diners Black includes complimentary Swiggy One. HDFC Swiggy card gives 10% on all Swiggy orders (cap ₹1,500/mo).",
+      "notes": "Swiggy One: ₹149/3mo or ₹399/year. Free delivery on orders above ₹149. Extra discounts on restaurants and Instamart. Well worth it for 3+ orders/month."
+    },
+    {
+      "id": "zomato-gold-food",
+      "name": "Zomato Gold → Zomato Food Delivery",
+      "purchaseTypes": [
+        "food_zomato"
+      ],
+      "steps": [
+        {
+          "label": "Order on Zomato with Zomato Gold membership using card",
+          "cardCat": "dining"
+        },
+        {
+          "label": "Zomato Gold free delivery + discounts (~5%)",
+          "cardCat": null,
+          "platformBonus": 5
+        }
+      ],
+      "tip": "Zomato Gold: free delivery, extra discounts, priority support. HDFC Diners Privilege gives 6.67% on Zomato orders. Stack membership savings with card dining rewards.",
+      "notes": "Zomato Gold: ₹149/3mo or ₹399/year. Free delivery on orders above ₹149. 5-20% extra off at select restaurants. Similar value to Swiggy One."
+    },
+    {
+      "id": "zomato-dining-out",
+      "name": "Zomato Pay → Restaurant Dining",
+      "purchaseTypes": [
+        "restaurant"
+      ],
+      "steps": [
+        {
+          "label": "Pay at restaurant via Zomato Pay (scan QR in Zomato app)",
+          "cardCat": "dining"
+        },
+        {
+          "label": "Zomato Pay cashback credits (~10%)",
+          "cardCat": null,
+          "platformBonus": 10
+        }
+      ],
+      "tip": "Zomato Pay gives Zomato credits (~10%) when paying at partner restaurants via QR scan. Credits usable on next Zomato order. Stack with card dining rewards.",
+      "notes": "Zomato Pay at partner restaurants only. Scan QR at restaurant to pay via Zomato app. Credits expire in 7 days. Zomato Gold members may get higher cashback."
+    },
+    {
+      "id": "zepto-grocery",
+      "name": "Zepto → Quick Commerce Grocery",
+      "purchaseTypes": [
+        "grocery_blinkit"
+      ],
+      "steps": [
+        {
+          "label": "Order groceries on Zepto using credit card",
+          "cardCat": "groceries"
+        },
+        {
+          "label": "Zepto bank offers + Zepto Pass savings (~3%)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "Zepto frequently runs bank card offers (₹50-100 off). HDFC, ICICI, Axis cards often have active Zepto promotions. Zepto Pass: free delivery + extra discounts.",
+      "notes": "10-minute delivery. Bank offers are seasonal but frequent. Zepto Pass (from ₹29/mo) gives free delivery and extra discounts. Kotak Cashback+ gives 5% on food delivery."
+    },
+    {
+      "id": "blinkit-grocery",
+      "name": "Blinkit → Quick Commerce Grocery",
+      "purchaseTypes": [
+        "grocery_blinkit"
+      ],
+      "steps": [
+        {
+          "label": "Order on Blinkit using credit card",
+          "cardCat": "groceries"
+        },
+        {
+          "label": "Blinkit bank offers + Zomato Gold benefits (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "Blinkit (Zomato-owned) gives additional discounts to Zomato Gold members. HDFC, SBI, ICICI often have active Blinkit bank offers. Check Blinkit payment page for deals.",
+      "notes": "10-minute delivery in major cities. Zomato Gold membership gives extra Blinkit perks. Bank card offers available seasonally. Card grocery rate applies."
+    },
+    {
+      "id": "jiomart-grocery",
+      "name": "JioMart → Online Grocery",
+      "purchaseTypes": [
+        "grocery_blinkit"
+      ],
+      "steps": [
+        {
+          "label": "Order groceries on JioMart using credit card",
+          "cardCat": "groceries"
+        },
+        {
+          "label": "JioMart prices + JioCoins rewards (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "JioMart offers competitive grocery prices. JioCoins earned on purchases are redeemable across Jio ecosystem. Amex SmartEarn gives 10x on Jio merchants.",
+      "notes": "JioMart available via app and WhatsApp ordering. JioCoins add to savings. Bank offers available seasonally. Good alternative to BigBasket/Blinkit."
+    },
+    {
+      "id": "dmart-ready",
+      "name": "DMart Ready → Grocery",
+      "purchaseTypes": [
+        "grocery_blinkit",
+        "grocery_offline"
+      ],
+      "steps": [
+        {
+          "label": "Order on DMart Ready (online), pay with credit card",
+          "cardCat": "groceries"
+        },
+        {
+          "label": "DMart everyday low pricing (~5% cheaper vs others)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "DMart Ready offers lowest grocery prices (wholesale-style pricing). Order online for pickup at DMart store or slot delivery. Credit card accepted on app.",
+      "notes": "DMart prices typically 5-15% lower than Blinkit/Zepto/BigBasket. Pickup model saves delivery charges. Limited delivery areas. Best for bulk monthly grocery shopping."
+    },
+    {
+      "id": "tatacliq-shopping",
+      "name": "Tata CLiQ → Online Shopping",
+      "purchaseTypes": [
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Shop on Tata CLiQ using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "Tata CLiQ NeuCoins + bank offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "HDFC Millennia gives 5% on Tata CLiQ. HDFC Tata Neu Infinity: 5% NeuCoins. Tata CLiQ Luxury for premium brands. NeuCoins usable across Tata ecosystem.",
+      "notes": "Tata CLiQ is authorized brand store (guaranteed genuine products). NeuCoins redeemable at BigBasket, Croma, 1mg, Westside, Taj. Compare with Amazon/Flipkart for pricing."
+    },
+    {
+      "id": "ajio-shopping",
+      "name": "AJIO → Fashion Shopping",
+      "purchaseTypes": [
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Shop on AJIO using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "AJIO SuperCoin loyalty + bank offers (~3%)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "Amex SmartEarn gives 10x on AJIO (~5%). AJIO frequently runs bank card offers (extra 10-15% off). Check AJIO payment page for active bank promotions.",
+      "notes": "AJIO is Reliance-owned fashion platform. AJIO Luxe for premium brands. Bank offers stack with sale discounts. SuperCoin loyalty program for repeat buyers."
+    },
+    {
+      "id": "reliance-digital",
+      "name": "Reliance Digital → Electronics",
+      "purchaseTypes": [
+        "croma_shopping",
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Buy electronics on Reliance Digital (online/store) using CC",
+          "cardCat": "online"
+        },
+        {
+          "label": "Reliance Digital bank offers + JioCoins (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "HDFC Regalia Gold gives 5x on Reliance Digital. Frequent bank No Cost EMI and instant discount offers. JioCoins earned on purchases. Compare with Croma via Tata Neu.",
+      "notes": "Reliance Digital: online + 2,000+ offline stores. JioCoins redeemable across Jio ecosystem. Bank card promotions frequent on electronics (₹1,000-5,000 off)."
+    },
+    {
+      "id": "nykaa-direct",
+      "name": "Nykaa → Beauty & Wellness",
+      "purchaseTypes": [
+        "nykaa_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Shop on Nykaa directly using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "Nykaa rewards + bank offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "Amex SmartEarn gives 10x on Nykaa (~5%). HDFC Regalia Gold gives 5x on Nykaa. Nykaa Pink Friday sales offer up to 50% off + bank card instant discounts.",
+      "notes": "Nykaa Privé loyalty program gives rewards and early access to sales. Bank offers stack with sale prices. Compare with Amazon GC route for online rate arbitrage."
+    },
+    {
+      "id": "1mg-pharmacy",
+      "name": "1mg (Tata Health) → Pharmacy",
+      "purchaseTypes": [
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Order medicines on 1mg using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "1mg discounts + NeuCoins via Tata Neu (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "HDFC Tata Neu Infinity gives 5% NeuCoins on 1mg (Tata ecosystem). 1mg offers 15-25% off medicines by default. Order via Tata Neu app for extra NeuCoins.",
+      "notes": "1mg is part of Tata ecosystem. Prescription medicines, OTC products, lab tests. Order via Tata Neu app for +1% NeuCoins. Card online rate applies."
+    },
+    {
+      "id": "apollo247-pharmacy",
+      "name": "Apollo 24|7 → Pharmacy & Health",
+      "purchaseTypes": [
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Order on Apollo 24|7 using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "Apollo Circle savings + partner offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "SBI SimplyClick gives 10x on Apollo 24|7 (~2.5%). Apollo Circle membership gives extra 15-20% off medicines. Doctor teleconsultations also available.",
+      "notes": "Apollo 24|7 is SBI SimplyClick 10x partner. Circle membership (₹199/3mo): extra discounts on medicines and tests. Lab home collection available."
+    },
+    {
+      "id": "netmeds-pharmacy",
+      "name": "Netmeds → Pharmacy",
+      "purchaseTypes": [
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Order medicines on Netmeds using credit card",
+          "cardCat": "online"
+        },
+        {
+          "label": "Netmeds discounts + NeuCoins via Reliance (~1.5%)",
+          "cardCat": null,
+          "platformBonus": 1.5
+        }
+      ],
+      "tip": "Netmeds (Reliance-owned) offers 15-20% off medicines. Check for bank card cashback offers. Alternative to 1mg and Apollo for medicine orders.",
+      "notes": "Netmeds is Reliance-owned pharmacy platform. Regular bank card offers. NeuPass/JioCoins loyalty integration. Prescription upload required for Rx medicines."
+    },
+    {
+      "id": "yatra-flights",
+      "name": "Yatra → Flight Booking",
+      "purchaseTypes": [
+        "flight_booking",
+        "hotel_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book on Yatra.com using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Yatra eCash rewards + bank offers (~1.5%)",
+          "cardCat": null,
+          "platformBonus": 1.5
+        }
+      ],
+      "tip": "SBI SimplyClick gives 10x on Yatra (~2.5%). Yatra eCash loyalty gives rewards on bookings. Frequent bank card offers for instant discounts.",
+      "notes": "Yatra is SBI SimplyClick 10x partner — best when using SBI SimplyClick. eCash earned on flights and hotels. Compare with MMT/SmartBuy for best price."
+    },
+    {
+      "id": "rapido-cab",
+      "name": "Rapido → Auto/Bike Ride",
+      "purchaseTypes": [
+        "cab_ride"
+      ],
+      "steps": [
+        {
+          "label": "Book Rapido ride, pay via UPI with CC linked",
+          "cardCat": "travel"
+        },
+        {
+          "label": "Rapido lower fares + offers (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "Rapido is often 20-30% cheaper than Uber/Ola for short distances (auto & bike). Pay via UPI (link CC to UPI app) for card rewards. RuPay CC on UPI works well.",
+      "notes": "Rapido: auto, bike taxi, and cab rides. Typically the cheapest ride option in most cities. CC on UPI supported for payments. Card travel rate applies."
+    },
+    {
+      "id": "abhibus-bus",
+      "name": "AbhiBus → Bus Ticket",
+      "purchaseTypes": [
+        "bus_booking"
+      ],
+      "steps": [
+        {
+          "label": "Book bus on AbhiBus using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "AbhiBus aBucks rewards + bank offers (~1.5%)",
+          "cardCat": null,
+          "platformBonus": 1.5
+        }
+      ],
+      "tip": "AbhiBus aBucks loyalty rewards on bookings. Bank card offers frequently available. Compare prices with RedBus for best deal.",
+      "notes": "AbhiBus popular in South India. aBucks redeemable on future bookings. Bank card promotions available seasonally. Card travel rate applies."
+    },
+    {
+      "id": "confirmtkt-train",
+      "name": "ConfirmTkt → Train Ticket",
+      "purchaseTypes": [
+        "train_irctc"
+      ],
+      "steps": [
+        {
+          "label": "Book train via ConfirmTkt app using credit card",
+          "cardCat": "travel"
+        },
+        {
+          "label": "ConfirmTkt prediction + offers (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "ConfirmTkt shows confirmation probability for waitlisted tickets. Can auto-book and auto-cancel tickets. Small convenience fee but saves effort.",
+      "notes": "ConfirmTkt: prediction engine for waitlist confirmation. Auto-booking feature. Compare with direct IRCTC for lowest fee. Card travel rate applies."
+    },
+    {
+      "id": "mygate-rent",
+      "name": "MyGate Pay → Rent Payment",
+      "purchaseTypes": [
+        "rent_payment"
+      ],
+      "steps": [
+        {
+          "label": "Pay rent/maintenance via MyGate using credit card",
+          "cardCat": "general",
+          "feePercent": 1.5
+        }
+      ],
+      "tip": "MyGate charges ~1.5% platform fee for CC rent payments. Useful if your apartment society already uses MyGate. Covers rent + society maintenance.",
+      "notes": "Net reward = card rate − 1.5% fee. Only worth it if card general rate exceeds 1.5%. Many apartment societies integrated with MyGate for payments."
+    },
+    {
+      "id": "payrent-rent",
+      "name": "PayRent / Cheq → Rent Payment",
+      "purchaseTypes": [
+        "rent_payment"
+      ],
+      "steps": [
+        {
+          "label": "Pay rent via PayRent/Cheq using credit card",
+          "cardCat": "general",
+          "feePercent": 1.75
+        }
+      ],
+      "tip": "PayRent, Cheq, Red Giraffes are alternative rent payment platforms. Fees range 1.5-2%. Compare across platforms for lowest processing fee.",
+      "notes": "Net reward = card rate − platform fee (~1.75%). Compare with CRED (2%), NoBroker (1.5%), MyGate (1.5%). Some offer occasional cashback to reduce effective fee."
+    },
+    {
+      "id": "bajaj-finserv-shopping",
+      "name": "Bajaj Finserv → EMI Shopping",
+      "purchaseTypes": [
+        "other_online",
+        "croma_shopping"
+      ],
+      "steps": [
+        {
+          "label": "Buy on Bajaj Finserv marketplace / No Cost EMI with card",
+          "cardCat": "online"
+        },
+        {
+          "label": "No Cost EMI savings + Bajaj coins (~3%)",
+          "cardCat": null,
+          "platformBonus": 3
+        }
+      ],
+      "tip": "Bajaj Finserv RBL cards get 5x on partner electronics. No Cost EMI across 1M+ products saves 5-8% in interest. Bajaj marketplace often has exclusive bank instant discounts.",
+      "notes": "No Cost EMI saves interest effectively. Bajaj coins loyalty program. Wide electronics and lifestyle range. EMI card + credit card combo for max flexibility."
+    },
+    {
+      "id": "digital-gold",
+      "name": "Digital Gold via Payment Apps",
+      "purchaseTypes": [
+        "general_purchase"
+      ],
+      "steps": [
+        {
+          "label": "Buy digital gold on PhonePe/Paytm/GPay using credit card",
+          "cardCat": "general"
+        },
+        {
+          "label": "Gold price appreciation + offers (~0.5%)",
+          "cardCat": null,
+          "platformBonus": 0.5
+        }
+      ],
+      "tip": "Buy digital gold (24K, 99.9% purity) via PhonePe, Google Pay, Paytm using credit card. Earns card rewards on purchase. Gold backed by Augmont/MMTC-PAMP.",
+      "notes": "Platform-specific: PhonePe Gold, Google Pay Gold, Paytm Gold. Card general rate applies. Occasional gold-specific cashback offers. Gold redeemable or sellable anytime. Spread: ~3% buy-sell difference."
+    },
+    {
+      "id": "edtech-payments",
+      "name": "EdTech → Course Payment",
+      "purchaseTypes": [
+        "general_purchase",
+        "other_online"
+      ],
+      "steps": [
+        {
+          "label": "Pay for online course (Coursera/Udemy/UpGrad) using CC",
+          "cardCat": "online"
+        },
+        {
+          "label": "EdTech bank offers + platform discounts (~2%)",
+          "cardCat": null,
+          "platformBonus": 2
+        }
+      ],
+      "tip": "UpGrad, Simplilearn, Great Learning, Coursera, Udemy frequently run bank card EMI offers and instant discounts. No Cost EMI available on premium courses. Card online rate applies.",
+      "notes": "Education payments generally earn full card rewards (unlike rent/fuel which some cards exclude). Bank No Cost EMI tie-ups frequent on edtech platforms."
+    }
+  ]
 }

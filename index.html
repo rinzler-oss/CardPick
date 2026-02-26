@@ -81,7 +81,7 @@
   .search-wrap { position: relative; }
   .search-wrap input { padding-left: 36px; }
   .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #475569; pointer-events: none; font-size: 0.95rem; }
-  .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0f172a; border: 1px solid #334155; border-radius: 8px; max-height: 260px; overflow-y: auto; z-index: 10; display: none; margin-top: 4px; }
+  .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0f172a; border: 1px solid #334155; border-radius: 8px; max-height: 340px; overflow-y: auto; z-index: 10; display: none; margin-top: 4px; }
   .search-dropdown.open { display: block; }
   .search-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #1e293b; transition: background 0.15s; }
   .search-item:hover, .search-item.highlighted { background: #1e293b; }
@@ -238,6 +238,56 @@
   .history-row .h-reward { color: #22c55e; font-weight: 600; }
   .history-row .h-delete { color: #f87171; cursor: pointer; font-size: 0.75rem; margin-left: 8px; }
   .excluded-tag { display: inline-block; background: #f8717122; color: #f87171; font-size: 0.65rem; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+
+  /* Discontinued badge */
+  .discontinued-badge { display: inline-block; background: #f8717133; color: #f87171; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.03em; text-transform: uppercase; vertical-align: middle; }
+  .discontinued-note { font-size: 0.72rem; color: #f87171; margin-top: 4px; font-style: italic; opacity: 0.85; }
+  .search-item.discontinued { opacity: 0.6; }
+  .search-item.discontinued .card-mini { filter: grayscale(0.7); }
+  .suggest-card.discontinued { opacity: 0.55; border-color: #f8717133; }
+  .suggest-card.discontinued .card-visual-lg { filter: grayscale(0.7); }
+  .card-entry.discontinued { opacity: 0.65; border-color: #f8717133; }
+  .card-entry.discontinued .card-color-bar { filter: grayscale(0.7); }
+  .route-card .discontinued-inline { font-size: 0.68rem; color: #f87171; font-weight: 600; margin-left: 6px; }
+  .route-card.discontinued { opacity: 0.7; border-color: #f8717133; }
+  .rec-card.discontinued { opacity: 0.6; border-color: #f8717133; }
+
+  /* Mini card visual */
+  .card-mini { width: 64px; height: 40px; border-radius: 6px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 6px; font-family: system-ui, sans-serif; position: relative; overflow: hidden; box-shadow: 0 1px 4px #0004; }
+  .card-mini::before { content: ''; position: absolute; top: -10px; right: -10px; width: 30px; height: 30px; border-radius: 50%; background: #fff1; }
+  .card-mini .cm-bank { font-size: 0.38rem; color: #fffc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-mini .cm-name { font-size: 0.34rem; color: #fffa; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-mini .cm-chip { width: 8px; height: 6px; border-radius: 1px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 10px; left: 6px; }
+  .card-mini .cm-net { font-size: 0.36rem; color: #fff9; font-weight: 600; text-align: right; line-height: 1; }
+
+  /* Search dropdown with card visuals */
+  .search-item { display: flex; align-items: center; gap: 10px; }
+  .si-info { flex: 1; min-width: 0; }
+
+  /* Suggestions section */
+  .suggest-section { margin-top: 28px; padding-top: 20px; border-top: 2px dashed #334155; }
+  .suggest-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .suggest-header h3 { font-size: 0.95rem; color: #94a3b8; margin: 0; }
+  .suggest-header .suggest-badge { background: #f59e0b22; color: #fbbf24; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 10px; }
+  .suggest-card { background: #1e293b; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #334155; display: flex; align-items: center; gap: 14px; transition: all 0.2s; }
+  .suggest-card:hover { border-color: #475569; }
+  .suggest-card .card-visual-lg { width: 90px; height: 56px; border-radius: 8px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 8px; position: relative; overflow: hidden; box-shadow: 0 2px 8px #0006; }
+  .suggest-card .card-visual-lg::before { content: ''; position: absolute; top: -15px; right: -15px; width: 45px; height: 45px; border-radius: 50%; background: #fff1; }
+  .suggest-card .card-visual-lg .cv-bank { font-size: 0.52rem; color: #fffc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .suggest-card .card-visual-lg .cv-name { font-size: 0.46rem; color: #fffa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .suggest-card .card-visual-lg .cv-chip { width: 12px; height: 9px; border-radius: 1.5px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 14px; left: 8px; }
+  .suggest-card .card-visual-lg .cv-net { font-size: 0.48rem; color: #fff9; font-weight: 600; text-align: right; }
+  .suggest-body { flex: 1; min-width: 0; }
+  .suggest-body .sb-name { font-weight: 600; font-size: 0.95rem; color: #e2e8f0; }
+  .suggest-body .sb-bank { font-size: 0.78rem; color: #64748b; }
+  .suggest-body .sb-rates { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .suggest-body .sb-tag { background: #334155; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; color: #94a3b8; }
+  .suggest-body .sb-tag.best { background: #22c55e22; color: #22c55e; }
+  .suggest-body .sb-fee { font-size: 0.72rem; color: #64748b; margin-top: 4px; }
+  .suggest-reward { text-align: right; flex-shrink: 0; margin-left: 8px; }
+  .suggest-reward .sr-amount { font-size: 1.15rem; font-weight: 700; color: #fbbf24; }
+  .suggest-reward .sr-label { font-size: 0.7rem; color: #64748b; }
+  .suggest-reward .sr-extra { font-size: 0.72rem; color: #22c55e; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -517,7 +567,7 @@ const CARD_DB = [
     notes:'4 RP/₹150 base. 20 RP/₹150 (5x) on Nykaa, Myntra, M&S, Reliance Digital. 1 RP=₹0.50. Complimentary Swiggy One + MMT Black Gold membership. ₹1,500 voucher on ₹1.5L/qtr. ₹5,000 on ₹5L/yr. No fuel/wallet/rent.' },
   { id:'hdfc-regalia-first', name:'HDFC Regalia First', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:1000, annualFee:1000, monthlyCap:0,
     rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
-    notes:'3 RP/₹150 (w.e.f. Sep 2024). 1 RP=₹0.50 (=1% effective). Bonus 7,500 RP on ₹6L + 5,000 on ₹9L/yr. 20% off dining via Swiggy Dineout. Renewal fee waived on ₹1L/yr. No fuel/wallet/EMI.' },
+    notes:'3 RP/₹150 (w.e.f. Sep 2024). 1 RP=₹0.50 (=1% effective). Bonus 7,500 RP on ₹6L + 5,000 on ₹9L/yr. 20% off dining via Swiggy Dineout. Renewal fee waived on ₹1L/yr. No fuel/wallet/EMI.', discontinued:true, discontinuedNote:'HDFC Bank stopped sourcing Regalia First. Replaced by HDFC Regalia Gold. Existing cards continue.' },
   { id:'hdfc-millennia', name:'HDFC Millennia', bank:'HDFC Bank', network:'Visa', color:'#3b82f6', joiningFee:1000, annualFee:1000, monthlyCap:0,
     rates:{dining:5,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
     notes:'5% CashBack on Amazon, Flipkart, Myntra, Tata CLiQ, Swiggy, Zomato, Uber, BookMyShow, Sony LIV, Cult.fit, BigBasket. 1% others. ₹1,000 voucher or lounge on ₹1L spend/qtr. No fuel/wallet/rent.' },
@@ -526,7 +576,7 @@ const CARD_DB = [
     notes:'10x CashPoints on Amazon, Flipkart, Swiggy, BigBasket (~5%). 2 CP/₹150 on others (~1%). Max 2,500 CP/mo. No fuel/wallet/rent.' },
   { id:'hdfc-swiggy', name:'HDFC Swiggy', bank:'HDFC Bank', network:'Visa', color:'#f97316', joiningFee:500, annualFee:500, monthlyCap:3500,
     rates:{dining:10,groceries:5,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
-    notes:'10% Swiggy (food/Instamart/Dineout) cap ₹1,500/mo. 5% select online cap ₹1,500/mo. 1% others cap ₹500/mo. Total cap ₹3,500/mo.' },
+    notes:'10% Swiggy (food/Instamart/Dineout) cap ₹1,500/mo. 5% select online cap ₹1,500/mo. 1% others cap ₹500/mo. Total cap ₹3,500/mo.', discontinued:true, discontinuedNote:'HDFC Bank stopped new issuance of Swiggy HDFC Credit Card from 10 Feb 2026. Existing cards continue to work.' },
   { id:'hdfc-tata-neu-infinity', name:'HDFC Tata Neu Infinity', bank:'HDFC Bank', network:'Visa', color:'#8b5cf6', joiningFee:1499, annualFee:1499, monthlyCap:0,
     rates:{dining:1.5,groceries:1.5,fuel:0,travel:1.5,online:5,entertainment:1.5,utilities:1.5,general:1.5},
     notes:'5% NeuCoins on Tata ecosystem (BigBasket, Croma, 1mg, Westside, Taj etc). 1.5% others. Cap 2,000 NeuCoins/mo per category. No fuel/wallet/rent.' },
@@ -637,7 +687,7 @@ const CARD_DB = [
     notes:'2x RP on international. ~4% on travel. ~2% base. 1.5% forex markup. Ultra-premium. Fee waived on ₹25L spend.' },
   { id:'axis-atlas', name:'Axis Atlas', bank:'Axis Bank', network:'Visa', color:'#334155', joiningFee:5000, annualFee:5000, monthlyCap:0,
     rates:{dining:1.5,groceries:1.5,fuel:0,travel:3.75,online:1.5,entertainment:1.5,utilities:1.5,general:1.5},
-    notes:'5 EDGE Miles/₹100 on airlines & hotels (=3.75%). 2 Miles/₹100 others (=1.5%). 15+ airline transfer partners.' },
+    notes:'5 EDGE Miles/₹100 on airlines & hotels (=3.75%). 2 Miles/₹100 others (=1.5%). 15+ airline transfer partners.', discontinued:true, discontinuedNote:'Axis Bank closed new Atlas applications from 31 Aug 2025. Replaced by Axis Olympus. Existing cards unaffected.' },
   { id:'axis-select', name:'Axis Select', bank:'Axis Bank', network:'Visa', color:'#8b5cf6', joiningFee:3000, annualFee:3000, monthlyCap:0,
     rates:{dining:1,groceries:1,fuel:0,travel:1,online:1,entertainment:1,utilities:1,general:1},
     notes:'10,000 EDGE RP on activation. 6 complimentary golf rounds/yr. 5,000 RP on ₹3L spend milestone. ~1% base.' },
@@ -702,7 +752,7 @@ const CARD_DB = [
     notes:'2.5 Mojo pts/₹100 online (~0.5%). 1 Mojo pt/₹100 others (~0.25%). 8 domestic lounge/yr. Fee waived on ₹1L spend.' },
   { id:'kotak-myntra', name:'Kotak Myntra', bank:'Kotak Bank', network:'Visa', color:'#ec4899', joiningFee:599, annualFee:599, monthlyCap:0,
     rates:{dining:1,groceries:1,fuel:0,travel:1,online:5,entertainment:1,utilities:1,general:1},
-    notes:'Up to 5% cashback on Myntra. Welcome ₹500 Myntra voucher. Myntra Insider membership. 1% on others. Fee waived on spend threshold.' },
+    notes:'Up to 5% cashback on Myntra. Welcome ₹500 Myntra voucher. Myntra Insider membership. 1% on others. Fee waived on spend threshold.', discontinued:true, discontinuedNote:'Kotak Myntra Card discontinued from 10 Jul 2025. Cardholders migrated to Kotak League Platinum or Zen Signature.' },
   { id:'kotak-indigo-xl', name:'Kotak IndiGo 6E Rewards XL Signature', bank:'Kotak Bank', network:'Visa', color:'#3b82f6', joiningFee:2500, annualFee:2500, monthlyCap:0,
     rates:{dining:1,groceries:1,fuel:0,travel:3.5,online:1,entertainment:1,utilities:1,general:1},
     notes:'Up to 21 IndiGo BluChips/₹100 on IndiGo (~3.5% travel). IndiGo vouchers worth ₹16,000/yr. 8 lounge visits.' },
@@ -1402,6 +1452,541 @@ const ROUTE_TEMPLATES = [
     tip:'NPCI periodically runs RuPay credit card on UPI promotional cashback of ₹50-150/month. Check current offers on npci.org.in or your UPI app.',
     notes:'Estimated ~0.5% average platform bonus when NPCI scheme is active. Varies by period — verify current offer before relying on this.'
   },
+
+  // ===== FUEL LOYALTY PROGRAMS =====
+  { id:'hppay-fuel', name:'HP Pay App → HPCL Fuel',
+    purchaseTypes:['fuel_hpcl'],
+    steps:[
+      { label:'Pay for fuel at HPCL via HP Pay app using credit card', cardCat:'fuel' },
+      { label:'HP Pay loyalty points + fuel surcharge waiver (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'HP Pay avoids the 1% fuel surcharge charged on POS card swipe. Additional HP Pay loyalty rewards and seasonal cashback offers from the app.',
+    notes:'Link your CC to HP Pay. Surcharge of ~1% (up to ₹500) is avoided on UPI/app payments vs POS swipe. HP Pay often has bank-specific fuel cashback promotions.'
+  },
+  { id:'iocl-xtrarewards', name:'IndianOil XTRA Rewards → IOCL Fuel',
+    purchaseTypes:['fuel_indianoil'],
+    steps:[
+      { label:'Pay at IndianOil and earn XTRA Rewards with linked card', cardCat:'fuel' },
+      { label:'XTRA Rewards loyalty points (~0.75%)', cardCat:null, platformBonus:0.75 }
+    ],
+    tip:'Register your card on IndianOil XTRA Rewards app to earn additional loyalty points on every fuel purchase, stacked with card rewards.',
+    notes:'IndianOil XTRA Rewards: 1 point per ₹100 fuel spend. Points redeemable for fuel. Free to join. Also gives birthday/anniversary bonus points.'
+  },
+  { id:'bpcl-smartdrive', name:'BPCL SmartDrive → BPCL Fuel',
+    purchaseTypes:['fuel_bpcl'],
+    steps:[
+      { label:'Pay at BPCL station with SmartDrive linked card', cardCat:'fuel' },
+      { label:'BPCL SmartDrive loyalty points (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'BPCL SmartDrive gives ~1% back as loyalty points on fuel. SBI BPCL card holders get 13x reward points at BPCL (~4.3% effective). Stack loyalty with card rewards.',
+    notes:'Free to join BPCL SmartDrive. Points redeemable for fuel and merchandise. SBI BPCL card is the best pairing for BPCL fuel.'
+  },
+
+  // ===== DINING PLATFORM ROUTES =====
+  { id:'eazydiner-restaurant', name:'EazyDiner → Restaurant Dining',
+    purchaseTypes:['restaurant'],
+    steps:[
+      { label:'Book restaurant via EazyDiner app, pay with card', cardCat:'dining' },
+      { label:'EazyDiner bill discount (~15% avg)', cardCat:null, platformBonus:15 }
+    ],
+    tip:'EazyDiner offers 10-40% off at 5,000+ partner restaurants. IndusInd EazyDiner card includes free EazyDiner Prime (up to 50% off). HDFC Diners Privilege/Black get enhanced EazyDiner offers.',
+    notes:'Discount varies by restaurant (10-40%). EazyDiner Prime: ₹1,199/yr (free with IndusInd EazyDiner card). Card rewards earned on the discounted amount actually paid. Available in 20+ cities.'
+  },
+  { id:'swiggy-dineout', name:'Swiggy Dineout → Restaurant Dining',
+    purchaseTypes:['restaurant'],
+    steps:[
+      { label:'Book restaurant via Swiggy Dineout, pay with card', cardCat:'dining' },
+      { label:'Swiggy Dineout bill discount (~10% avg)', cardCat:null, platformBonus:10 }
+    ],
+    tip:'Swiggy Dineout offers 10-40% off at partner restaurants. HDFC Swiggy card holders get extra Dineout benefits. Swiggy One members get enhanced discounts.',
+    notes:'Discount varies by restaurant (10-40%). Card rewards earned on amount actually paid. Available in 35+ cities. Pro tip: stack with bank offers visible on the Swiggy app.'
+  },
+  { id:'dineout-restaurant', name:'Dineout (Times Prime) → Restaurant',
+    purchaseTypes:['restaurant'],
+    steps:[
+      { label:'Book restaurant via Dineout app, pay with card', cardCat:'dining' },
+      { label:'Dineout bill discount (~10% avg)', cardCat:null, platformBonus:10 }
+    ],
+    tip:'Dineout (by Times Internet) offers 10-30% off at partner restaurants. Times Prime members get additional perks and higher discounts.',
+    notes:'Dineout Passport gives flat 25% off at select premium restaurants. Card rewards earned on actual amount paid.'
+  },
+  { id:'magicpin-restaurant', name:'magicpin → Restaurant Dining',
+    purchaseTypes:['restaurant'],
+    steps:[
+      { label:'Pay at restaurant via magicpin, use card on UPI', cardCat:'dining' },
+      { label:'magicpin cashback rewards (~8% avg)', cardCat:null, platformBonus:8 }
+    ],
+    tip:'magicpin gives cashback as magicpin credits (usable at other merchants) when you pay at partner restaurants. Works via UPI — link your CC to UPI for card rewards too.',
+    notes:'Cashback varies 5-15% across restaurants. Credits valid for 30 days. Works at offline restaurants with UPI QR. Stack with CC on UPI rewards.'
+  },
+
+  // ===== HOTEL & TRAVEL PLATFORM ROUTES =====
+  { id:'accor-hotels', name:'Accor ALL → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book hotel on ALL.com / Accor app with card', cardCat:'travel' },
+      { label:'Accor ALL loyalty points + member rates (~5%)', cardCat:null, platformBonus:5 }
+    ],
+    tip:'Accor ALL loyalty: ~5% back as points. HDFC Diners Black includes complimentary Accor Plus membership (50% off dining at Accor hotels, 1 free night/year). Always book directly on ALL.com for loyalty points.',
+    notes:'Accor brands: Ibis, Novotel, Pullman, Sofitel, Mercure, Fairmont. Accor Plus (₹15,000/yr) is free with HDFC Diners Black. Points redeemable for stays. Member-only rates typically 5-10% lower.'
+  },
+  { id:'marriott-hotels', name:'Marriott Bonvoy → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book directly on Marriott.com with card', cardCat:'travel' },
+      { label:'Marriott Bonvoy loyalty points (~5%)', cardCat:null, platformBonus:5 }
+    ],
+    tip:'HDFC Marriott Bonvoy card earns enhanced Bonvoy points on stays. Bonvoy Elite members get free upgrades, late checkout, breakfast. HDFC Regalia Gold milestones give Marriott/Taj vouchers. Book directly for best loyalty earning.',
+    notes:'Marriott Bonvoy points: ~₹0.7-1/point. 30+ brands (JW Marriott, Sheraton, Westin, Le Meridien, W etc). Gold/Platinum Elite unlocks serious perks. Always book via Marriott.com, not OTAs.'
+  },
+  { id:'taj-hotels', name:'Taj/IHCL Direct → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book on Taj website/app with card', cardCat:'travel' },
+      { label:'Taj InnerCircle / NeuCoins loyalty (~4%)', cardCat:null, platformBonus:4 }
+    ],
+    tip:'HDFC Regalia Gold milestone vouchers (₹1,500-5,000) are redeemable at Taj properties. Taj InnerCircle members earn NeuCoins on stays. Book directly on tajhotels.com for loyalty benefits.',
+    notes:'Taj InnerCircle Gold+ members get complimentary upgrades and late checkout. Tata Neu integration means NeuCoins earned are usable across Tata ecosystem (BigBasket, Croma, 1mg etc).'
+  },
+  { id:'itc-hotels', name:'ITC Hotels Direct → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book on ITC Hotels website with card', cardCat:'travel' },
+      { label:'ITC WelcomRewards loyalty (~3%)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'ITC WelcomRewards program gives loyalty points on direct bookings. Book on itchotels.com for best rate guarantee and loyalty earning.',
+    notes:'ITC hotel brands: ITC Grand, WelcomHotel, Mementos, Storii. Loyalty points redeemable for stays and dining at ITC properties.'
+  },
+  { id:'mmt-flights', name:'MakeMyTrip → Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight on MakeMyTrip using credit card', cardCat:'travel' },
+      { label:'MMT rewards + bank offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'ICICI MakeMyTrip card gives ~5% on MMT bookings. MMT regularly runs bank-specific instant discount offers (₹500-2,000 off). Check active bank offers on MMT before booking.',
+    notes:'MMT MyRewards loyalty gives additional cashback. ICICI, HDFC, SBI, Axis frequently have active MMT promotions. MMT myBiz for business travel perks.'
+  },
+  { id:'mmt-hotels', name:'MakeMyTrip → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book hotel on MakeMyTrip using credit card', cardCat:'travel' },
+      { label:'MMT rewards + bank offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'MMT hotel bookings stack bank offers with MMT loyalty rewards. Compare with direct hotel loyalty programs (Marriott, Taj, Accor) which give better long-term value.',
+    notes:'OTA booking means no hotel loyalty points. But MMT often has lower prices + bank discounts. Best for one-off bookings at non-chain hotels.'
+  },
+  { id:'goibibo-flights', name:'Goibibo → Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight on Goibibo using credit card', cardCat:'travel' },
+      { label:'Goibibo goCash+ rewards (~1.5%)', cardCat:null, platformBonus:1.5 }
+    ],
+    tip:'Goibibo (MakeMyTrip group) offers goCash+ on bookings. Bank offers often same as MMT. Goibibo Plus members get extra perks.',
+    notes:'goCash+ earned on bookings is usable for future Goibibo/MMT bookings. Compare prices across MMT, Goibibo, and ixigo.'
+  },
+  { id:'goibibo-hotels', name:'Goibibo → Hotel Booking',
+    purchaseTypes:['hotel_booking'],
+    steps:[
+      { label:'Book hotel on Goibibo using credit card', cardCat:'travel' },
+      { label:'Goibibo goCash+ rewards (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'Goibibo often has competitive hotel rates. goCash+ earned is typically higher on hotels than flights.',
+    notes:'Compare rates across MMT, Goibibo, direct hotel websites, and SmartBuy (for HDFC users) for best deal.'
+  },
+  { id:'ixigo-flights', name:'ixigo → Flight Booking',
+    purchaseTypes:['flight_booking'],
+    steps:[
+      { label:'Book flight on ixigo using credit card', cardCat:'travel' },
+      { label:'ixigo money rewards (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'ixigo offers fare alerts and price predictions. ixigo money rewards on every booking. Occasionally has exclusive bank offers.',
+    notes:'ixigo money can be used for future bookings. Good for price comparison across airlines.'
+  },
+
+  // ===== CAB / RIDE ROUTES =====
+  { id:'uber-cab', name:'Uber → Cab Ride',
+    purchaseTypes:['cab_ride'],
+    steps:[
+      { label:'Pay for Uber ride using linked credit card', cardCat:'travel' },
+      { label:'Uber Pro rewards (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'Link your best travel-rate card to Uber. Axis ACE gives 5% on Uber payments via PhonePe. ICICI Coral gives complimentary Uber rides with milestone spend. Uber Pro loyalty tiers give additional ride discounts.',
+    notes:'Uber codes as travel for most cards. Check if your card gives enhanced rewards on ride-hailing. RuPay CC on UPI also works on Uber.'
+  },
+  { id:'ola-cab', name:'Ola → Cab Ride',
+    purchaseTypes:['cab_ride'],
+    steps:[
+      { label:'Pay for Ola ride using linked credit card', cardCat:'travel' },
+      { label:'Ola offers (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'Link your card to Ola for credit card rewards on rides. SBI cards sometimes have Ola-specific offers. Ola Money postpaid can give additional cashback.',
+    notes:'Check Ola app for active bank-specific promotions before riding.'
+  },
+
+  // ===== BUS BOOKING ROUTE =====
+  { id:'redbus-bus', name:'RedBus → Bus Ticket',
+    purchaseTypes:['bus_booking'],
+    steps:[
+      { label:'Book bus on RedBus using credit card', cardCat:'travel' },
+      { label:'RedBus rewards + bank offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'RedBus frequently runs bank-specific offers (₹100-250 off). SBI, ICICI, HDFC cards often have active RedBus promotions.',
+    notes:'Check current bank offers on RedBus before booking. redBus Trip Guarantee adds protection.'
+  },
+
+  // ===== ADDITIONAL BILL PAYMENT ROUTES =====
+  { id:'paytm-bills', name:'Paytm → Bill Payment',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder'],
+    steps:[
+      { label:'Pay bill on Paytm using credit card / CC on UPI', cardCat:'utilities' },
+      { label:'Paytm cashback offers (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'Paytm runs frequent cashback promotions on bill payments. RuPay CC on UPI works on Paytm. Check active bank offers and Paytm coupons.',
+    notes:'Cashback varies by offer period. Paytm supports CC on UPI for RuPay and select Visa/MC banks. Compare with PhonePe and Google Pay.'
+  },
+  { id:'cred-bills', name:'CRED → Bill Payment',
+    purchaseTypes:['electricity_bill','broadband_bill','water_bill'],
+    steps:[
+      { label:'Pay bill on CRED using credit card', cardCat:'utilities' },
+      { label:'CRED cashback / coins (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'CRED gives CRED coins on bill payments (redeemable for cashback/vouchers). CRED occasionally runs flash sales with higher cashback. Premium members get better offers.',
+    notes:'CRED coins value varies. Best used during CRED flash sales for 2-5x value. Also useful for discovering new card offers.'
+  },
+
+  // ===== TELECOM APP ROUTES =====
+  { id:'myjio-recharge', name:'MyJio App \u2192 Jio Recharge',
+    purchaseTypes:['mobile_recharge','broadband_bill'],
+    steps:[
+      { label:'Recharge Jio via MyJio app using credit card', cardCat:'utilities' },
+      { label:'MyJio cashback/data bonus offers (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'MyJio app frequently offers cashback and bonus data on prepaid recharges. Amex SmartEarn gives 10x on Jio. Check MyJio for active bank offers before recharging.',
+    notes:'JioFiber/JioAirFiber broadband also payable via MyJio. Jio bundles OTT subs (JioCinema, Netflix) with annual plans \u2014 often better value than separate subscriptions.'
+  },
+  { id:'vi-recharge', name:'Vi App \u2192 Vodafone Idea Recharge',
+    purchaseTypes:['mobile_recharge'],
+    steps:[
+      { label:'Recharge Vi number via Vi app using credit card', cardCat:'utilities' },
+      { label:'Vi app recharge cashback offers (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'Vi app runs cashback/coupon offers on prepaid recharges. Check Vi app offers section and active bank discount coupons.',
+    notes:'Vi postpaid bills also payable via the app. Limited bank offer partnerships compared to Airtel/Jio.'
+  },
+
+  // ===== ADDITIONAL BILL PAYMENT / FINTECH PLATFORMS =====
+  { id:'freecharge-bills', name:'Freecharge \u2192 Bill Payment',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill'],
+    steps:[
+      { label:'Pay bill on Freecharge using credit card', cardCat:'utilities' },
+      { label:'Freecharge cashback deals (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'Freecharge is owned by Axis Bank \u2014 Axis cards frequently get exclusive 5-10% cashback on Freecharge. Non-Axis cards also get standard cashback offers.',
+    notes:'Check Freecharge coupons section before paying. Axis ACE 5% stacks with Freecharge cashback. Supports direct credit card payments.'
+  },
+  { id:'mobikwik-bills', name:'Mobikwik \u2192 Bill Payment',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder'],
+    steps:[
+      { label:'Pay bill on Mobikwik using credit card', cardCat:'utilities' },
+      { label:'Mobikwik SuperCash rewards (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'Mobikwik gives SuperCash rewards on bill payments (redeemable up to 10% of next txn). Mobikwik ZIP (BNPL) also earns SuperCash on purchases.',
+    notes:'SuperCash has per-txn usage limits. Check active offers in Mobikwik app. Supports CC on UPI for RuPay cards.'
+  },
+  { id:'amazon-pay-bills', name:'Amazon Pay \u2192 Direct Bill Payment',
+    purchaseTypes:['mobile_recharge','electricity_bill','dth_recharge','broadband_bill','water_bill','lpg_cylinder','insurance_premium'],
+    steps:[
+      { label:'Pay bill directly via Amazon Pay using credit card', cardCat:'utilities' },
+      { label:'Amazon Pay cashback offers (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'ICICI Amazon Pay card gives 2% on bill payments (vs 1% elsewhere). Amazon frequently runs bill payment cashback offers (\u20b910-50). Check Amazon Pay > Offers tab.',
+    notes:'Different from Amazon GC route \u2014 this is direct bill payment on Amazon. ICICI Amazon Pay 2% applies here. Compare with GC route (online rate) for best value.'
+  },
+
+  // ===== FASTag ROUTE =====
+  { id:'fastag-apps', name:'FASTag Recharge via Payment Apps',
+    purchaseTypes:['fastag_recharge'],
+    steps:[
+      { label:'Recharge FASTag via Paytm/PhonePe/GPay/bank app using CC', cardCat:'utilities' },
+      { label:'App-specific FASTag cashback offers (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'Paytm, PhonePe, Google Pay all support FASTag recharge via credit card. Paytm often runs FASTag-specific cashback. Axis ACE 5% applies on FASTag recharge via PhonePe/GPay.',
+    notes:'FASTag codes as utility payment. RuPay CC on UPI works for FASTag recharge. Bank FASTag apps (HDFC/ICICI/SBI) may also give loyalty points.'
+  },
+
+  // ===== INSURANCE PLATFORM ROUTES =====
+  { id:'policybazaar-insurance', name:'PolicyBazaar \u2192 Insurance Premium',
+    purchaseTypes:['insurance_premium'],
+    steps:[
+      { label:'Buy/renew insurance on PolicyBazaar using credit card', cardCat:'utilities' },
+      { label:'PolicyBazaar gift card/cashback offers (~1%)', cardCat:null, platformBonus:1 }
+    ],
+    tip:'PolicyBazaar offers Amazon/Flipkart gift cards on insurance purchases. Compare quotes across insurers. Scapia Federal gives rare 2% on insurance. HDFC SmartBuy Amazon GC route may beat direct payment.',
+    notes:'Health, motor, term life, travel insurance available. Cashback typically as gift vouchers. Compare with HDFC SmartBuy \u2192 Amazon GC \u2192 pay insurance on Amazon route.'
+  },
+  { id:'acko-insurance', name:'Acko \u2192 Insurance (Direct-to-Consumer)',
+    purchaseTypes:['insurance_premium'],
+    steps:[
+      { label:'Buy Acko insurance directly using credit card', cardCat:'utilities' },
+      { label:'Acko savings \u2014 no agent commission (~3%)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'Acko is direct-to-consumer \u2014 typically 10-15% cheaper premiums than traditional insurers (no agent commission). Pay with credit card for additional rewards.',
+    notes:'Acko offers car, bike, health, and travel insurance. Lower premiums by cutting agent middleman. Compare with PolicyBazaar quotes.'
+  },
+  { id:'digit-insurance', name:'Go Digit \u2192 Insurance Premium',
+    purchaseTypes:['insurance_premium'],
+    steps:[
+      { label:'Buy Digit insurance using credit card', cardCat:'utilities' },
+      { label:'Digit competitive pricing (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'Go Digit offers competitively priced motor and health insurance with fast claims. Direct online purchase avoids agent fees.',
+    notes:'Digit Insurance: known for simple claims process. Motor, health, travel, and property insurance. Compare with Acko and PolicyBazaar for best rate.'
+  },
+
+  // ===== ENTERTAINMENT DIRECT ROUTES =====
+  { id:'bms-direct', name:'BookMyShow \u2192 Movie Tickets (Direct)',
+    purchaseTypes:['movie_tickets'],
+    steps:[
+      { label:'Book movie tickets on BookMyShow using credit card', cardCat:'entertainment' },
+      { label:'BookMyShow bank BOGO/discount offers (~10%)', cardCat:null, platformBonus:10 }
+    ],
+    tip:'BOGO: HDFC Diners Privilege (2 free/mo), ICICI Coral (BOGO on \u20b925K spend/qtr), SBI ELITE (2 free/mo). Amex SmartEarn & SBI SimplyClick give 10x on BMS. Check BMS Offers tab for active bank deals.',
+    notes:'Bank BOGO = ~50% off on 2 tickets. 10% shown as conservative average across all users. Also check Bajaj RBL World Prime (BOGO 2x/mo on BMS). BMS convenience fee earns card rewards.'
+  },
+  { id:'pvr-inox-direct', name:'PVR INOX \u2192 Movie Tickets',
+    purchaseTypes:['movie_tickets'],
+    steps:[
+      { label:'Book movie at PVR INOX website/app using credit card', cardCat:'entertainment' },
+      { label:'PVR INOX bank offers + F&B deals (~8%)', cardCat:null, platformBonus:8 }
+    ],
+    tip:'Kotak PVR: 2 free tickets/mo + 15% F&B cashback. Axis Flipkart gives 4% at PVR. SBI cards often have PVR BOGO. Check PVR Privilege/Passport for loyalty points.',
+    notes:'PVR INOX Passport loyalty program gives free tickets on points. Multiple bank BOGO tie-ups. Buy F&B combos for best value. Kotak PVR is the king of movie cards.'
+  },
+
+  // ===== FOOD DELIVERY MEMBERSHIP ROUTES =====
+  { id:'swiggy-one-food', name:'Swiggy One \u2192 Swiggy Food Delivery',
+    purchaseTypes:['food_swiggy','swiggy_instamart'],
+    steps:[
+      { label:'Order on Swiggy with Swiggy One membership using card', cardCat:'dining' },
+      { label:'Swiggy One free delivery + extra discounts (~5%)', cardCat:null, platformBonus:5 }
+    ],
+    tip:'Swiggy One saves \u20b930-60/order on delivery + extra restaurant discounts. HDFC Diners Black includes complimentary Swiggy One. HDFC Swiggy card gives 10% on all Swiggy orders (cap \u20b91,500/mo).',
+    notes:'Swiggy One: \u20b9149/3mo or \u20b9399/year. Free delivery on orders above \u20b9149. Extra discounts on restaurants and Instamart. Well worth it for 3+ orders/month.'
+  },
+  { id:'zomato-gold-food', name:'Zomato Gold \u2192 Zomato Food Delivery',
+    purchaseTypes:['food_zomato'],
+    steps:[
+      { label:'Order on Zomato with Zomato Gold membership using card', cardCat:'dining' },
+      { label:'Zomato Gold free delivery + discounts (~5%)', cardCat:null, platformBonus:5 }
+    ],
+    tip:'Zomato Gold: free delivery, extra discounts, priority support. HDFC Diners Privilege gives 6.67% on Zomato orders. Stack membership savings with card dining rewards.',
+    notes:'Zomato Gold: \u20b9149/3mo or \u20b9399/year. Free delivery on orders above \u20b9149. 5-20% extra off at select restaurants. Similar value to Swiggy One.'
+  },
+
+  // ===== DINING PLATFORMS (additional) =====
+  { id:'zomato-dining-out', name:'Zomato Pay \u2192 Restaurant Dining',
+    purchaseTypes:['restaurant'],
+    steps:[
+      { label:'Pay at restaurant via Zomato Pay (scan QR in Zomato app)', cardCat:'dining' },
+      { label:'Zomato Pay cashback credits (~10%)', cardCat:null, platformBonus:10 }
+    ],
+    tip:'Zomato Pay gives Zomato credits (~10%) when paying at partner restaurants via QR scan. Credits usable on next Zomato order. Stack with card dining rewards.',
+    notes:'Zomato Pay at partner restaurants only. Scan QR at restaurant to pay via Zomato app. Credits expire in 7 days. Zomato Gold members may get higher cashback.'
+  },
+
+  // ===== QUICK COMMERCE / GROCERY APPS =====
+  { id:'zepto-grocery', name:'Zepto \u2192 Quick Commerce Grocery',
+    purchaseTypes:['grocery_blinkit'],
+    steps:[
+      { label:'Order groceries on Zepto using credit card', cardCat:'groceries' },
+      { label:'Zepto bank offers + Zepto Pass savings (~3%)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'Zepto frequently runs bank card offers (\u20b950-100 off). HDFC, ICICI, Axis cards often have active Zepto promotions. Zepto Pass: free delivery + extra discounts.',
+    notes:'10-minute delivery. Bank offers are seasonal but frequent. Zepto Pass (from \u20b929/mo) gives free delivery and extra discounts. Kotak Cashback+ gives 5% on food delivery.'
+  },
+  { id:'blinkit-grocery', name:'Blinkit \u2192 Quick Commerce Grocery',
+    purchaseTypes:['grocery_blinkit'],
+    steps:[
+      { label:'Order on Blinkit using credit card', cardCat:'groceries' },
+      { label:'Blinkit bank offers + Zomato Gold benefits (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'Blinkit (Zomato-owned) gives additional discounts to Zomato Gold members. HDFC, SBI, ICICI often have active Blinkit bank offers. Check Blinkit payment page for deals.',
+    notes:'10-minute delivery in major cities. Zomato Gold membership gives extra Blinkit perks. Bank card offers available seasonally. Card grocery rate applies.'
+  },
+  { id:'jiomart-grocery', name:'JioMart \u2192 Online Grocery',
+    purchaseTypes:['grocery_blinkit'],
+    steps:[
+      { label:'Order groceries on JioMart using credit card', cardCat:'groceries' },
+      { label:'JioMart prices + JioCoins rewards (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'JioMart offers competitive grocery prices. JioCoins earned on purchases are redeemable across Jio ecosystem. Amex SmartEarn gives 10x on Jio merchants.',
+    notes:'JioMart available via app and WhatsApp ordering. JioCoins add to savings. Bank offers available seasonally. Good alternative to BigBasket/Blinkit.'
+  },
+  { id:'dmart-ready', name:'DMart Ready \u2192 Grocery',
+    purchaseTypes:['grocery_blinkit','grocery_offline'],
+    steps:[
+      { label:'Order on DMart Ready (online), pay with credit card', cardCat:'groceries' },
+      { label:'DMart everyday low pricing (~5% cheaper vs others)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'DMart Ready offers lowest grocery prices (wholesale-style pricing). Order online for pickup at DMart store or slot delivery. Credit card accepted on app.',
+    notes:'DMart prices typically 5-15% lower than Blinkit/Zepto/BigBasket. Pickup model saves delivery charges. Limited delivery areas. Best for bulk monthly grocery shopping.'
+  },
+
+  // ===== ONLINE SHOPPING PLATFORMS =====
+  { id:'tatacliq-shopping', name:'Tata CLiQ \u2192 Online Shopping',
+    purchaseTypes:['other_online'],
+    steps:[
+      { label:'Shop on Tata CLiQ using credit card', cardCat:'online' },
+      { label:'Tata CLiQ NeuCoins + bank offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'HDFC Millennia gives 5% on Tata CLiQ. HDFC Tata Neu Infinity: 5% NeuCoins. Tata CLiQ Luxury for premium brands. NeuCoins usable across Tata ecosystem.',
+    notes:'Tata CLiQ is authorized brand store (guaranteed genuine products). NeuCoins redeemable at BigBasket, Croma, 1mg, Westside, Taj. Compare with Amazon/Flipkart for pricing.'
+  },
+  { id:'ajio-shopping', name:'AJIO \u2192 Fashion Shopping',
+    purchaseTypes:['other_online'],
+    steps:[
+      { label:'Shop on AJIO using credit card', cardCat:'online' },
+      { label:'AJIO SuperCoin loyalty + bank offers (~3%)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'Amex SmartEarn gives 10x on AJIO (~5%). AJIO frequently runs bank card offers (extra 10-15% off). Check AJIO payment page for active bank promotions.',
+    notes:'AJIO is Reliance-owned fashion platform. AJIO Luxe for premium brands. Bank offers stack with sale discounts. SuperCoin loyalty program for repeat buyers.'
+  },
+  { id:'reliance-digital', name:'Reliance Digital \u2192 Electronics',
+    purchaseTypes:['croma_shopping','other_online'],
+    steps:[
+      { label:'Buy electronics on Reliance Digital (online/store) using CC', cardCat:'online' },
+      { label:'Reliance Digital bank offers + JioCoins (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'HDFC Regalia Gold gives 5x on Reliance Digital. Frequent bank No Cost EMI and instant discount offers. JioCoins earned on purchases. Compare with Croma via Tata Neu.',
+    notes:'Reliance Digital: online + 2,000+ offline stores. JioCoins redeemable across Jio ecosystem. Bank card promotions frequent on electronics (\u20b91,000-5,000 off).'
+  },
+  { id:'nykaa-direct', name:'Nykaa \u2192 Beauty & Wellness',
+    purchaseTypes:['nykaa_shopping'],
+    steps:[
+      { label:'Shop on Nykaa directly using credit card', cardCat:'online' },
+      { label:'Nykaa rewards + bank offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'Amex SmartEarn gives 10x on Nykaa (~5%). HDFC Regalia Gold gives 5x on Nykaa. Nykaa Pink Friday sales offer up to 50% off + bank card instant discounts.',
+    notes:'Nykaa Privé loyalty program gives rewards and early access to sales. Bank offers stack with sale prices. Compare with Amazon GC route for online rate arbitrage.'
+  },
+
+  // ===== HEALTH / PHARMACY =====
+  { id:'1mg-pharmacy', name:'1mg (Tata Health) \u2192 Pharmacy',
+    purchaseTypes:['other_online'],
+    steps:[
+      { label:'Order medicines on 1mg using credit card', cardCat:'online' },
+      { label:'1mg discounts + NeuCoins via Tata Neu (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'HDFC Tata Neu Infinity gives 5% NeuCoins on 1mg (Tata ecosystem). 1mg offers 15-25% off medicines by default. Order via Tata Neu app for extra NeuCoins.',
+    notes:'1mg is part of Tata ecosystem. Prescription medicines, OTC products, lab tests. Order via Tata Neu app for +1% NeuCoins. Card online rate applies.'
+  },
+  { id:'apollo247-pharmacy', name:'Apollo 24|7 \u2192 Pharmacy & Health',
+    purchaseTypes:['other_online'],
+    steps:[
+      { label:'Order on Apollo 24|7 using credit card', cardCat:'online' },
+      { label:'Apollo Circle savings + partner offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'SBI SimplyClick gives 10x on Apollo 24|7 (~2.5%). Apollo Circle membership gives extra 15-20% off medicines. Doctor teleconsultations also available.',
+    notes:'Apollo 24|7 is SBI SimplyClick 10x partner. Circle membership (\u20b9199/3mo): extra discounts on medicines and tests. Lab home collection available.'
+  },
+  { id:'netmeds-pharmacy', name:'Netmeds \u2192 Pharmacy',
+    purchaseTypes:['other_online'],
+    steps:[
+      { label:'Order medicines on Netmeds using credit card', cardCat:'online' },
+      { label:'Netmeds discounts + NeuCoins via Reliance (~1.5%)', cardCat:null, platformBonus:1.5 }
+    ],
+    tip:'Netmeds (Reliance-owned) offers 15-20% off medicines. Check for bank card cashback offers. Alternative to 1mg and Apollo for medicine orders.',
+    notes:'Netmeds is Reliance-owned pharmacy platform. Regular bank card offers. NeuPass/JioCoins loyalty integration. Prescription upload required for Rx medicines.'
+  },
+
+  // ===== TRAVEL PLATFORMS =====
+  { id:'yatra-flights', name:'Yatra \u2192 Flight Booking',
+    purchaseTypes:['flight_booking','hotel_booking'],
+    steps:[
+      { label:'Book on Yatra.com using credit card', cardCat:'travel' },
+      { label:'Yatra eCash rewards + bank offers (~1.5%)', cardCat:null, platformBonus:1.5 }
+    ],
+    tip:'SBI SimplyClick gives 10x on Yatra (~2.5%). Yatra eCash loyalty gives rewards on bookings. Frequent bank card offers for instant discounts.',
+    notes:'Yatra is SBI SimplyClick 10x partner \u2014 best when using SBI SimplyClick. eCash earned on flights and hotels. Compare with MMT/SmartBuy for best price.'
+  },
+  { id:'rapido-cab', name:'Rapido \u2192 Auto/Bike Ride',
+    purchaseTypes:['cab_ride'],
+    steps:[
+      { label:'Book Rapido ride, pay via UPI with CC linked', cardCat:'travel' },
+      { label:'Rapido lower fares + offers (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'Rapido is often 20-30% cheaper than Uber/Ola for short distances (auto & bike). Pay via UPI (link CC to UPI app) for card rewards. RuPay CC on UPI works well.',
+    notes:'Rapido: auto, bike taxi, and cab rides. Typically the cheapest ride option in most cities. CC on UPI supported for payments. Card travel rate applies.'
+  },
+  { id:'abhibus-bus', name:'AbhiBus \u2192 Bus Ticket',
+    purchaseTypes:['bus_booking'],
+    steps:[
+      { label:'Book bus on AbhiBus using credit card', cardCat:'travel' },
+      { label:'AbhiBus aBucks rewards + bank offers (~1.5%)', cardCat:null, platformBonus:1.5 }
+    ],
+    tip:'AbhiBus aBucks loyalty rewards on bookings. Bank card offers frequently available. Compare prices with RedBus for best deal.',
+    notes:'AbhiBus popular in South India. aBucks redeemable on future bookings. Bank card promotions available seasonally. Card travel rate applies.'
+  },
+  { id:'confirmtkt-train', name:'ConfirmTkt \u2192 Train Ticket',
+    purchaseTypes:['train_irctc'],
+    steps:[
+      { label:'Book train via ConfirmTkt app using credit card', cardCat:'travel' },
+      { label:'ConfirmTkt prediction + offers (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'ConfirmTkt shows confirmation probability for waitlisted tickets. Can auto-book and auto-cancel tickets. Small convenience fee but saves effort.',
+    notes:'ConfirmTkt: prediction engine for waitlist confirmation. Auto-booking feature. Compare with direct IRCTC for lowest fee. Card travel rate applies.'
+  },
+
+  // ===== RENT PAYMENT (Additional) =====
+  { id:'mygate-rent', name:'MyGate Pay \u2192 Rent Payment',
+    purchaseTypes:['rent_payment'],
+    steps:[
+      { label:'Pay rent/maintenance via MyGate using credit card', cardCat:'general', feePercent:1.5 }
+    ],
+    tip:'MyGate charges ~1.5% platform fee for CC rent payments. Useful if your apartment society already uses MyGate. Covers rent + society maintenance.',
+    notes:'Net reward = card rate \u2212 1.5% fee. Only worth it if card general rate exceeds 1.5%. Many apartment societies integrated with MyGate for payments.'
+  },
+  { id:'payrent-rent', name:'PayRent / Cheq \u2192 Rent Payment',
+    purchaseTypes:['rent_payment'],
+    steps:[
+      { label:'Pay rent via PayRent/Cheq using credit card', cardCat:'general', feePercent:1.75 }
+    ],
+    tip:'PayRent, Cheq, Red Giraffes are alternative rent payment platforms. Fees range 1.5-2%. Compare across platforms for lowest processing fee.',
+    notes:'Net reward = card rate \u2212 platform fee (~1.75%). Compare with CRED (2%), NoBroker (1.5%), MyGate (1.5%). Some offer occasional cashback to reduce effective fee.'
+  },
+
+  // ===== BAJAJ FINSERV / EMI =====
+  { id:'bajaj-finserv-shopping', name:'Bajaj Finserv \u2192 EMI Shopping',
+    purchaseTypes:['other_online','croma_shopping'],
+    steps:[
+      { label:'Buy on Bajaj Finserv marketplace / No Cost EMI with card', cardCat:'online' },
+      { label:'No Cost EMI savings + Bajaj coins (~3%)', cardCat:null, platformBonus:3 }
+    ],
+    tip:'Bajaj Finserv RBL cards get 5x on partner electronics. No Cost EMI across 1M+ products saves 5-8% in interest. Bajaj marketplace often has exclusive bank instant discounts.',
+    notes:'No Cost EMI saves interest effectively. Bajaj coins loyalty program. Wide electronics and lifestyle range. EMI card + credit card combo for max flexibility.'
+  },
+
+  // ===== DIGITAL GOLD & INVESTMENT =====
+  { id:'digital-gold', name:'Digital Gold via Payment Apps',
+    purchaseTypes:['general_purchase'],
+    steps:[
+      { label:'Buy digital gold on PhonePe/Paytm/GPay using credit card', cardCat:'general' },
+      { label:'Gold price appreciation + offers (~0.5%)', cardCat:null, platformBonus:0.5 }
+    ],
+    tip:'Buy digital gold (24K, 99.9% purity) via PhonePe, Google Pay, Paytm using credit card. Earns card rewards on purchase. Gold backed by Augmont/MMTC-PAMP.',
+    notes:'Platform-specific: PhonePe Gold, Google Pay Gold, Paytm Gold. Card general rate applies. Occasional gold-specific cashback offers. Gold redeemable or sellable anytime. Spread: ~3% buy-sell difference.'
+  },
+
+  // ===== EDUCATION / EDTECH =====
+  { id:'edtech-payments', name:'EdTech \u2192 Course Payment',
+    purchaseTypes:['general_purchase','other_online'],
+    steps:[
+      { label:'Pay for online course (Coursera/Udemy/UpGrad) using CC', cardCat:'online' },
+      { label:'EdTech bank offers + platform discounts (~2%)', cardCat:null, platformBonus:2 }
+    ],
+    tip:'UpGrad, Simplilearn, Great Learning, Coursera, Udemy frequently run bank card EMI offers and instant discounts. No Cost EMI available on premium courses. Card online rate applies.',
+    notes:'Education payments generally earn full card rewards (unlike rent/fuel which some cards exclude). Bank No Cost EMI tie-ups frequent on edtech platforms.'
+  },
 ];
 
 // ===================== CARD DB LOADER =====================
@@ -1432,9 +2017,14 @@ async function loadCardDB(url) {
         Object.keys(APPLY_LINKS).forEach(k => delete APPLY_LINKS[k]);
         Object.assign(APPLY_LINKS, data.applyLinks);
       }
+      // Replace ROUTE_TEMPLATES
+      if (data.routeTemplates && data.routeTemplates.length > 0) {
+        ROUTE_TEMPLATES.length = 0;
+        data.routeTemplates.forEach(r => ROUTE_TEMPLATES.push(r));
+      }
       DB_VERSION = data.version || '?';
       DB_LAST_UPDATED = data.lastUpdated || null;
-      statusEl.innerHTML = '<span class="db-ok">Card DB v' + esc(DB_VERSION) + '</span> &middot; Updated: ' + esc(DB_LAST_UPDATED || 'unknown') + ' &middot; ' + CARD_DB.length + ' cards loaded';
+      statusEl.innerHTML = '<span class="db-ok">Card DB v' + esc(DB_VERSION) + '</span> &middot; Updated: ' + esc(DB_LAST_UPDATED || 'unknown') + ' &middot; ' + CARD_DB.length + ' cards + ' + ROUTE_TEMPLATES.length + ' routes loaded';
       // Re-populate dropdown if open
       if (searchInput) searchInput.dispatchEvent(new Event('input'));
     } else {
@@ -1483,11 +2073,15 @@ function renderCards() {
     const tags = CATEGORIES.filter(cat => c.rates[cat.key] > 0).map(cat => {
       return '<span class="reward-tag">' + cat.label.split('/')[0].trim() + ' <span>' + c.rates[cat.key] + '%</span></span>';
     }).join('');
-    return '<div class="card-entry">' +
+    const isDc = isCardDiscontinued(c);
+    const dcBadge = isDc ? ' <span class="discontinued-badge">Discontinued</span>' : '';
+    const dcNoteText = getDiscontinuedNote(c);
+    const dcNote = isDc ? '<div class="discontinued-note">' + esc(dcNoteText || 'This card is discontinued and not open for new applications.') + '</div>' : '';
+    return '<div class="card-entry' + (isDc ? ' discontinued' : '') + '">' +
       '<div class="card-color-bar" style="background:' + (c.color || COLORS[0]) + '"></div>' +
       '<div class="card-body">' +
         '<div class="card-header">' +
-          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(c.network) + '</span></span>' +
+          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(c.network) + '</span>' + dcBadge + '</span>' +
           '<span>' +
             '<button class="btn btn-danger" onclick="editCard(' + i + ')" style="margin-right:4px;color:#38bdf8;border-color:#38bdf833">Edit</button>' +
             '<button class="btn btn-danger" onclick="deleteCard(' + i + ')">Delete</button>' +
@@ -1499,6 +2093,7 @@ function renderCards() {
            (c.annualFee > 0 ? '<div class="annual-note">Annual fee: ' + fmt(c.annualFee) + '</div>' : '') +
            (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:#22c55e">Lifetime Free</div>' : ''))) +
         (c.monthlyCap > 0 ? '<div class="annual-note">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>' : '') +
+        dcNote +
         (c.notes ? '<div class="card-notes">' + esc(c.notes) + '</div>' : '') +
         (c.dbId && APPLY_LINKS[c.dbId] ? '<div class="apply-row">' + applyBtn(c.dbId, false) + '<span class="apply-hint">Don\'t have this card yet?</span></div>' : '') +
       '</div>' +
@@ -1511,15 +2106,89 @@ const searchInput = document.getElementById('card-search');
 const dropdown = document.getElementById('card-dropdown');
 let highlightedIdx = -1;
 
+// --- Fuzzy search helpers ---
+function editDistance(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1));
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function fuzzyTokenScore(token, words) {
+  // Returns a score: 0 = no match, higher = better match
+  let best = 0;
+  for (const w of words) {
+    // Exact match
+    if (w === token) { best = Math.max(best, 100); continue; }
+    // Prefix match (e.g. "cash" matches "cashback")
+    if (w.startsWith(token)) { best = Math.max(best, 80); continue; }
+    // Contains match (e.g. "back" in "cashback")
+    if (w.includes(token)) { best = Math.max(best, 60); continue; }
+    // Token is prefix of word or word is prefix of token (e.g. "diner" vs "diners")
+    if (token.startsWith(w)) { best = Math.max(best, 70); continue; }
+    // Fuzzy: edit distance relative to length
+    if (token.length >= 3) {
+      const maxDist = token.length <= 4 ? 1 : token.length <= 7 ? 2 : 3;
+      const dist = editDistance(token, w);
+      if (dist <= maxDist) {
+        best = Math.max(best, 50 - dist * 10);
+        continue;
+      }
+      // Also check fuzzy against word prefix of same length as token
+      if (w.length > token.length) {
+        const prefix = w.substring(0, token.length);
+        const prefDist = editDistance(token, prefix);
+        if (prefDist <= maxDist) {
+          best = Math.max(best, 40 - prefDist * 10);
+        }
+      }
+    }
+  }
+  return best;
+}
+
+function scoreCard(card, tokens) {
+  const text = (card.name + ' ' + card.bank + ' ' + (card.notes || '')).toLowerCase();
+  const words = text.split(/[\s/,.()\-]+/).filter(Boolean);
+  let totalScore = 0;
+  for (const token of tokens) {
+    // Quick check: if the full text contains the token as substring, fast path
+    if (text.includes(token)) {
+      // Bonus if it's in the name specifically
+      totalScore += card.name.toLowerCase().includes(token) ? 90 : 60;
+    } else {
+      const s = fuzzyTokenScore(token, words);
+      if (s === 0) return 0; // All tokens must match
+      totalScore += s;
+    }
+  }
+  return totalScore;
+}
+// --- End fuzzy search helpers ---
+
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
   if (q.length === 0) { dropdown.classList.remove('open'); return; }
 
-  const matches = CARD_DB.filter(c =>
-    c.name.toLowerCase().includes(q) ||
-    c.bank.toLowerCase().includes(q) ||
-    (c.notes && c.notes.toLowerCase().includes(q))
-  );
+  const tokens = q.split(/\s+/).filter(Boolean);
+
+  // Score every card and filter non-zero matches
+  const scored = [];
+  for (const c of CARD_DB) {
+    const s = scoreCard(c, tokens);
+    if (s > 0) scored.push({ card: c, score: s });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const matches = scored.map(s => s.card);
 
   if (matches.length === 0) {
     dropdown.innerHTML = '<div class="search-item"><span class="si-name" style="color:#475569">No matching cards found</span></div>';
@@ -1527,25 +2196,31 @@ searchInput.addEventListener('input', () => {
     return;
   }
 
-  // Group by bank
+  // Group by bank, preserving relevance order
   const byBank = {};
+  const bankOrder = [];
   matches.forEach(c => {
-    if (!byBank[c.bank]) byBank[c.bank] = [];
+    if (!byBank[c.bank]) { byBank[c.bank] = []; bankOrder.push(c.bank); }
     byBank[c.bank].push(c);
   });
 
   let html = '';
-  for (const bank in byBank) {
+  for (const bank of bankOrder) {
     html += '<div class="search-divider">' + esc(bank) + '</div>';
     byBank[bank].forEach(c => {
       const topRate = Math.max(...Object.values(c.rates));
       const topCat = CATEGORIES.find(cat => c.rates[cat.key] === topRate);
-      html += '<div class="search-item" data-id="' + c.id + '">' +
-        '<div><span class="si-name">' + esc(c.name) + '</span><span class="si-bank">' + esc(c.network) + '</span>' +
-        (c.annualFee === 0 && (c.joiningFee || 0) === 0 ? ' <span style="color:#22c55e;font-size:0.7rem;font-weight:600">LTF</span>' : '') +
+      const dcBadge = c.discontinued ? '<span class="discontinued-badge">Discontinued</span>' : '';
+      html += '<div class="search-item' + (c.discontinued ? ' discontinued' : '') + '" data-id="' + c.id + '">' +
+        cardMini(c) +
+        '<div class="si-info">' +
+          '<div><span class="si-name">' + esc(c.name) + '</span>' +
+          dcBadge +
+          (c.annualFee === 0 && (c.joiningFee || 0) === 0 && !c.discontinued ? ' <span style="color:#22c55e;font-size:0.7rem;font-weight:600">LTF</span>' : '') +
+          '</div>' +
+          '<div class="si-desc">' + (c.discontinued ? esc(c.discontinuedNote || 'No longer available for new applications') : 'Best: ' + topRate + '% on ' + (topCat ? topCat.label.split('/')[0].trim() : 'N/A') +
+          (c.annualFee > 0 ? ' | Fee: &#8377;' + c.annualFee : '')) + '</div>' +
         '</div>' +
-        '<div class="si-desc">Best: ' + topRate + '% on ' + (topCat ? topCat.label.split('/')[0].trim() : 'N/A') +
-        (c.annualFee > 0 ? ' | Fee: &#8377;' + c.annualFee : '') + '</div>' +
       '</div>';
     });
   }
@@ -1732,6 +2407,8 @@ function saveCard() {
     color: document.querySelector('.color-dot.selected')?.dataset.color || COLORS[0],
     dbId: selectedDbCard ? selectedDbCard.id : (editingIdx >= 0 && cards[editingIdx].dbId ? cards[editingIdx].dbId : null),
     bank: selectedDbCard ? selectedDbCard.bank : (editingIdx >= 0 && cards[editingIdx].bank ? cards[editingIdx].bank : ''),
+    discontinued: selectedDbCard ? !!selectedDbCard.discontinued : (editingIdx >= 0 ? !!cards[editingIdx].discontinued : false),
+    discontinuedNote: selectedDbCard ? (selectedDbCard.discontinuedNote || '') : (editingIdx >= 0 ? (cards[editingIdx].discontinuedNote || '') : ''),
   };
 
   if (editingIdx >= 0) {
@@ -1812,6 +2489,25 @@ function cardMatchesBank(card, bankRequired) {
 function cardMatchesNetwork(card, networkFilter) {
   if (!networkFilter || networkFilter === 'all') return true;
   return (card.network || '').toLowerCase() === networkFilter.toLowerCase();
+}
+
+// Check if a card is discontinued (from card object or DB lookup by dbId)
+function isCardDiscontinued(card) {
+  if (card.discontinued) return true;
+  if (card.dbId) {
+    const db = CARD_DB.find(c => c.id === card.dbId);
+    if (db && db.discontinued) return true;
+  }
+  return false;
+}
+
+function getDiscontinuedNote(card) {
+  if (card.discontinuedNote) return card.discontinuedNote;
+  if (card.dbId) {
+    const db = CARD_DB.find(c => c.id === card.dbId);
+    if (db && db.discontinuedNote) return db.discontinuedNote;
+  }
+  return '';
 }
 
 function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
@@ -1994,6 +2690,11 @@ function compare() {
       ? '<span class="type-tag route">ROUTE</span>'
       : '<span class="type-tag direct">DIRECT</span>';
 
+    // Check if any card used in this route is discontinued (check card object + DB lookup)
+    const routeHasDc = r.steps.some(s => s.card && isCardDiscontinued(s.card));
+    const dcCards = r.steps.filter(s => s.card && isCardDiscontinued(s.card)).map(s => s.card);
+    const dcNote = dcCards.length > 0 ? getDiscontinuedNote(dcCards[0]) : '';
+
     let stepsHtml = '';
     if (r.steps.length > 0) {
       stepsHtml = '<div class="route-steps">' +
@@ -2002,7 +2703,7 @@ function compare() {
             '<div class="step-num">' + (si + 1) + '</div>' +
             '<div class="step-body">' +
               '<div class="step-action">' + esc(s.label) + '</div>' +
-              (s.card ? '<div class="step-card-used">Use: ' + esc(s.card.name) + ' <span style="opacity:0.6">[' + esc(s.card.network || '?') + ']</span> (' + s.rate.toFixed(1) + '%) ' + applyBtn(s.card.dbId, true) + '</div>' : '') +
+              (s.card ? '<div class="step-card-used">Use: ' + esc(s.card.name) + ' <span style="opacity:0.6">[' + esc(s.card.network || '?') + ']</span> (' + s.rate.toFixed(1) + '%) ' + (isCardDiscontinued(s.card) ? '<span class="discontinued-inline">DISCONTINUED</span>' : '') + applyBtn(s.card.dbId, true) + '</div>' : '') +
             '</div>' +
             '<div class="step-reward">' + (s.reward > 0 ? '+' + fmt(s.reward) : (s.reward < 0 ? fmt(s.reward) : '')) + '</div>' +
           '</div>'
@@ -2028,11 +2729,14 @@ function compare() {
 
     let feeHtml = r.feeDeducted > 0 ? '<div class="route-notes" style="color:#f87171;">Annual fee impact: -' + fmt(r.feeDeducted) + '/mo deducted</div>' : '';
 
-    return '<div class="route-card' + (isBest ? ' best' : '') + '">' +
+    let dcHtml = routeHasDc ? '<div class="discontinued-note" style="margin:8px 12px 0;">' + esc(dcNote || 'This card is discontinued and not open for new applications.') + '</div>' : '';
+
+    return '<div class="route-card' + (isBest ? ' best' : '') + (routeHasDc ? ' discontinued' : '') + '">' +
       '<div class="route-header">' +
         '<div class="route-rank">#' + (i + 1) + '</div>' +
         '<div class="route-title">' +
           '<span class="name">' + esc(r.name) +
+            (routeHasDc ? '<span class="discontinued-badge">Discontinued</span>' : '') +
             (isBest ? '<span class="best-badge">BEST</span>' : '') +
             typeTag +
           '</span>' +
@@ -2042,9 +2746,71 @@ function compare() {
           '<div class="label">' + r.effectiveRate.toFixed(2) + '% return</div>' +
         '</div>' +
       '</div>' +
-      stepsHtml + tipHtml + notesHtml + feeHtml + applyHtml +
+      stepsHtml + tipHtml + notesHtml + feeHtml + dcHtml + applyHtml +
     '</div>';
   }).join('');
+
+  // --- Suggestion section: better cards from DB that user doesn't have ---
+  const userCardIds = new Set(cards.map(c => c.dbId || c.id || c.name));
+  const userBestReward = bestReward;
+  const suggestCards = [];
+
+  CARD_DB.forEach(dbCard => {
+    // Skip if user already has this card
+    if (userCardIds.has(dbCard.id)) return;
+    // Apply network filter
+    if (networkFilter && networkFilter !== 'all' && (dbCard.network || '').toLowerCase() !== networkFilter.toLowerCase()) return;
+    // Calculate direct reward for this card
+    const { rate, reward } = getCardRate(dbCard, pt.directCat, amount);
+    if (reward <= 0) return;
+    let netReward = reward;
+    if (feeAdjust && dbCard.annualFee > 0) netReward -= dbCard.annualFee / 12;
+    // Only suggest if it beats the user's best
+    if (netReward > userBestReward) {
+      suggestCards.push({ card: dbCard, reward: netReward, rate: rate, extra: netReward - userBestReward });
+    }
+  });
+
+  suggestCards.sort((a, b) => b.reward - a.reward);
+  const topSuggestions = suggestCards.slice(0, 5);
+
+  if (topSuggestions.length > 0) {
+    let suggestHtml = '<div class="suggest-section">' +
+      '<div class="suggest-header"><h3>Cards that could earn you more</h3><span class="suggest-badge">UPGRADE TIP</span></div>';
+    topSuggestions.forEach(s => {
+      const c = s.card;
+      const rateTags = CATEGORIES
+        .filter(cat => c.rates[cat.key] > 0)
+        .sort((a, b) => c.rates[b.key] - c.rates[a.key])
+        .slice(0, 4)
+        .map(cat => '<span class="sb-tag' + (cat.key === pt.directCat ? ' best' : '') + '">' + cat.label.split('/')[0].trim() + ' ' + c.rates[cat.key] + '%</span>')
+        .join('');
+      const feeText = c.annualFee === 0 && (c.joiningFee || 0) === 0
+        ? '<span style="color:#22c55e">Lifetime Free</span>'
+        : 'Fee: &#8377;' + (c.annualFee || 0) + '/yr';
+      const sgDc = !!c.discontinued;
+      const sgDcBadge = sgDc ? ' <span class="discontinued-badge">Discontinued</span>' : '';
+      const sgDcNote = sgDc ? '<div class="discontinued-note">' + esc(c.discontinuedNote || 'No longer available for new applications.') + '</div>' : '';
+      suggestHtml += '<div class="suggest-card' + (sgDc ? ' discontinued' : '') + '">' +
+        cardVisualLg(c) +
+        '<div class="suggest-body">' +
+          '<div class="sb-name">' + esc(c.name) + sgDcBadge + '</div>' +
+          '<div class="sb-bank">' + esc(c.bank) + ' &middot; ' + esc(c.network) + '</div>' +
+          '<div class="sb-rates">' + rateTags + '</div>' +
+          '<div class="sb-fee">' + feeText + '</div>' +
+          sgDcNote +
+          (!sgDc && APPLY_LINKS[c.id] ? '<div style="margin-top:4px">' + applyBtn(c.id, false) + '</div>' : '') +
+        '</div>' +
+        '<div class="suggest-reward">' +
+          '<div class="sr-amount">' + fmt(s.reward) + '</div>' +
+          '<div class="sr-label">' + s.rate.toFixed(2) + '% on ' + esc(pt.label) + '</div>' +
+          '<div class="sr-extra">+' + fmt(s.extra) + ' more</div>' +
+        '</div>' +
+      '</div>';
+    });
+    suggestHtml += '</div>';
+    resultsEl.innerHTML += suggestHtml;
+  }
 }
 
 // ===================== HELPERS =====================
@@ -2063,6 +2829,35 @@ function applyBtn(cardId, small) {
   if (!url) return '';
   const cls = small ? 'btn-apply btn-apply-sm' : 'btn-apply';
   return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer" class="' + cls + '">Apply Now &#8594;</a>';
+}
+
+// Network logo text
+const NET_LABEL = { 'Visa':'VISA', 'Mastercard':'MC', 'RuPay':'RuPay', 'Amex':'AMEX', 'Diners':'Diners' };
+
+// Mini card visual (for search dropdown)
+function cardMini(c) {
+  const bg = c.color || '#334155';
+  const net = NET_LABEL[c.network] || c.network || '';
+  const bank = (c.bank || '').replace(/ Bank$/,'');
+  return '<div class="card-mini" style="background:linear-gradient(135deg,' + bg + ',' + bg + 'cc)">' +
+    '<div class="cm-chip"></div>' +
+    '<div class="cm-bank">' + esc(bank) + '</div>' +
+    '<div class="cm-name">' + esc(c.name.replace(bank,'').replace(c.bank||'','').trim()) + '</div>' +
+    '<div class="cm-net">' + esc(net) + '</div>' +
+  '</div>';
+}
+
+// Larger card visual (for suggestions section)
+function cardVisualLg(c) {
+  const bg = c.color || '#334155';
+  const net = NET_LABEL[c.network] || c.network || '';
+  const bank = (c.bank || '').replace(/ Bank$/,'');
+  return '<div class="card-visual-lg" style="background:linear-gradient(135deg,' + bg + ',' + bg + 'cc)">' +
+    '<div class="cv-chip"></div>' +
+    '<div class="cv-bank">' + esc(bank) + '</div>' +
+    '<div class="cv-name">' + esc(c.name.replace(bank,'').replace(c.bank||'','').trim()) + '</div>' +
+    '<div class="cv-net">' + esc(net) + '</div>' +
+  '</div>';
 }
 
 // Auto-compare on enter
@@ -2372,10 +3167,13 @@ function recommendCard() {
         '</div>';
       }
 
-      return '<div class="rec-card' + (isTop ? ' top-pick' : '') + '">' +
+      const recDcBadge = card.discontinued ? ' <span class="discontinued-badge">Discontinued</span>' : '';
+      const recDcNote = card.discontinued && card.discontinuedNote ? '<div class="discontinued-note">' + esc(card.discontinuedNote) + '</div>' : '';
+      return '<div class="rec-card' + (isTop ? ' top-pick' : '') + (card.discontinued ? ' discontinued' : '') + '">' +
         '<div class="rec-rank">' + (isTop ? 'TOP PICK' : '#' + (i + 1)) + '</div>' +
-        '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(card.network) + '</span></div>' +
+        '<div class="rec-name">' + esc(card.name) + ' <span style="font-size:0.78rem;color:#64748b;font-weight:400">' + esc(card.network) + '</span>' + recDcBadge + '</div>' +
         '<div class="rec-bank">' + esc(card.bank) + '</div>' +
+        recDcNote +
         '<div class="rec-stats">' +
           '<div class="rec-stat"><div class="stat-label">Monthly Reward</div><div class="stat-value">' + fmt(s.monthlyReward) + '</div></div>' +
           '<div class="rec-stat"><div class="stat-label">Yearly' + (feeAdjust ? ' (net)' : '') + '</div><div class="stat-value">' + fmt(s.yearlyNet) + '</div></div>' +
