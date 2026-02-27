@@ -57,7 +57,7 @@ body.dark {
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; overflow-x: hidden; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; }
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -76,7 +76,7 @@ h1::after { content: '.'; color: var(--accent); }
 .subtitle { color: var(--text-3); font-size: 0.92rem; margin-top: 8px; font-weight: 400; letter-spacing: -0.01em; }
 
 /* ====== My Cards Circle Button + Flyout ====== */
-.mycards-fab { position: fixed; top: 16px; left: 16px; z-index: 1000; }
+.mycards-fab { position: fixed; top: 76px; left: 16px; z-index: 1000; }
 .mycards-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all var(--dur) var(--ease); position: relative; z-index: 1001; }
 .mycards-btn:hover { box-shadow: var(--shadow-lg); transform: scale(1.08); border-color: var(--accent); }
 .mycards-btn .mycards-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--accent); color: #fff; font-size: 0.62rem; font-weight: 800; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; }
@@ -666,114 +666,150 @@ body.dark .card-detail-overlay { background: rgba(0,0,0,0.6); }
   .redeem-bar { max-width: 120px; }
 }
 
-/* ====== Footer ====== */
-.app-footer { text-align: center; padding: 32px 0 36px; }
-.app-footer .footer-links { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-.btn-coffee { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-card); color: var(--yellow); font-weight: 700; font-size: 0.8rem; padding: 10px 20px; border-radius: var(--r-pill); text-decoration: none; transition: all var(--dur) var(--ease); border: 1px solid var(--border); box-shadow: var(--shadow); }
-.btn-coffee:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
-.db-status-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; font-size: 0.72rem; color: var(--text-3); margin-top: 12px; }
+/* ====== Sticky Navbar ====== */
+.site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; background: var(--bg-sub); border-bottom: 1px solid var(--border); transition: box-shadow .3s var(--ease); }
+.site-nav.scrolled { box-shadow: var(--shadow); }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; height: 60px; }
+.nav-logo { font-size: 1.35rem; font-weight: 800; color: var(--text-1); text-decoration: none; letter-spacing: -0.04em; flex-shrink: 0; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; align-items: center; gap: 28px; margin-left: auto; }
+.nav-links a { color: var(--text-2); text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: color var(--dur) var(--ease); }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta { background: var(--accent); color: #fff !important; padding: 8px 20px; border-radius: var(--r-pill); font-weight: 700 !important; font-size: 0.84rem !important; transition: all var(--dur) var(--ease) !important; box-shadow: 0 2px 8px rgba(232,80,58,0.2); }
+.nav-cta:hover { background: var(--accent-hover) !important; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(232,80,58,0.3); }
+.nav-hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text-1); cursor: pointer; padding: 4px; }
+.nav-mobile-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--bg-sub); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 899; flex-direction: column; padding: 12px 24px 20px; gap: 4px; }
+.nav-mobile-menu.open { display: flex; animation: panelIn .2s var(--ease); }
+.nav-mobile-menu a { color: var(--text-2); text-decoration: none; font-size: 0.92rem; font-weight: 600; padding: 12px 0; border-bottom: 1px solid var(--border); transition: color var(--dur) var(--ease); }
+.nav-mobile-menu a:last-child { border-bottom: none; }
+.nav-mobile-menu a:hover { color: var(--accent); }
+
+/* ====== Hero Section ====== */
+.hero { padding: 140px 24px 80px; text-align: center; background: linear-gradient(180deg, var(--bg-sub) 0%, var(--bg) 100%); }
+.hero-inner { max-width: 720px; margin: 0 auto; }
+.hero-badge { display: inline-block; background: var(--accent-dim); color: var(--accent); font-size: 0.76rem; font-weight: 700; padding: 6px 16px; border-radius: var(--r-pill); margin-bottom: 20px; letter-spacing: 0.02em; border: 1px solid rgba(232,80,58,0.15); }
+.hero h2 { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; color: var(--text-1); margin-bottom: 16px; }
+.hero h2 .accent { color: var(--accent); }
+.hero p { font-size: 1.12rem; color: var(--text-2); max-width: 520px; margin: 0 auto 32px; line-height: 1.7; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.hero-actions .btn { padding: 14px 32px; font-size: 0.95rem; }
+.hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 48px; }
+.hero-stat { text-align: center; }
+.hero-stat .hs-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+.hero-stat .hs-label { font-size: 0.78rem; color: var(--text-3); font-weight: 600; margin-top: 2px; }
+
+/* ====== Features Section ====== */
+.section { padding: 72px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-header h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-1); }
+.section-header p { font-size: 0.95rem; color: var(--text-2); margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 22px; text-align: center; transition: all var(--dur) var(--ease); cursor: default; }
+.feature-card:hover { border-color: var(--accent); box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.feature-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+.feature-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; letter-spacing: -0.01em; }
+.feature-card p { font-size: 0.8rem; color: var(--text-3); line-height: 1.5; }
+
+/* ====== How It Works ====== */
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+.step { text-align: center; position: relative; }
+.step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(232,80,58,0.25); }
+.step h3 { font-size: 0.95rem; font-weight: 700; color: var(--text-1); margin-bottom: 6px; }
+.step p { font-size: 0.82rem; color: var(--text-3); line-height: 1.5; }
+.step-connector { display: none; }
+
+/* ====== About Section ====== */
+.about-content { max-width: 800px; margin: 0 auto; }
+.about-text { margin-bottom: 36px; }
+.about-text p { font-size: 0.95rem; color: var(--text-2); line-height: 1.75; margin-bottom: 14px; }
+.about-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.about-value { display: flex; align-items: flex-start; gap: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; transition: all var(--dur) var(--ease); }
+.about-value:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+.av-icon { font-size: 1.5rem; flex-shrink: 0; }
+.about-value h4 { font-size: 0.9rem; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+.about-value p { font-size: 0.82rem; color: var(--text-3); line-height: 1.5; }
+
+/* ====== App Section wrapper ====== */
+.app-section { background: var(--bg); }
+
+/* ====== FAQ Section ====== */
+.faq-list { max-width: 700px; margin: 0 auto; }
+.faq-item { border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 10px; overflow: hidden; background: var(--bg-card); transition: all var(--dur) var(--ease); }
+.faq-item:hover { border-color: var(--border-hover); }
+.faq-q { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; font-weight: 600; font-size: 0.92rem; color: var(--text-1); user-select: none; transition: background var(--dur) var(--ease); }
+.faq-q:hover { background: var(--bg-hover); }
+.faq-arrow { font-size: 0.8rem; color: var(--text-3); transition: transform .25s var(--ease); flex-shrink: 0; margin-left: 12px; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .3s var(--ease), padding .3s var(--ease); }
+.faq-item.open .faq-a { max-height: 300px; }
+.faq-a-inner { padding: 0 20px 16px; font-size: 0.86rem; color: var(--text-2); line-height: 1.65; }
+
+/* ====== Contact Section ====== */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 800px; margin: 0 auto; }
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.contact-form label { margin-top: 0; margin-bottom: 0; }
+.contact-form input, .contact-form textarea { width: 100%; padding: 12px 14px; background: var(--bg-sub); border: 2px solid var(--border); border-radius: var(--r-sm); color: var(--text-1); font-size: 0.92rem; transition: all var(--dur) var(--ease); font-family: inherit; }
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.contact-info { display: flex; flex-direction: column; gap: 20px; justify-content: center; }
+.contact-item { display: flex; align-items: flex-start; gap: 14px; }
+.contact-item-icon { font-size: 1.4rem; flex-shrink: 0; width: 36px; height: 36px; background: var(--accent-dim); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.contact-item-text h4 { font-size: 0.88rem; font-weight: 700; color: var(--text-1); margin-bottom: 2px; }
+.contact-item-text p, .contact-item-text a { font-size: 0.84rem; color: var(--text-2); text-decoration: none; }
+.contact-item-text a:hover { color: var(--accent); }
+
+/* ====== Full Footer ====== */
+.site-footer { background: var(--bg-sub); border-top: 1px solid var(--border); padding: 48px 24px 24px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 36px; }
+.footer-brand .fb-logo { font-size: 1.3rem; font-weight: 800; color: var(--text-1); letter-spacing: -0.04em; margin-bottom: 10px; }
+.footer-brand .fb-logo span { color: var(--accent); }
+.footer-brand p { font-size: 0.82rem; color: var(--text-3); line-height: 1.6; max-width: 280px; }
+.footer-col h4 { font-size: 0.78rem; font-weight: 700; color: var(--text-1); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 0.84rem; color: var(--text-2); text-decoration: none; padding: 4px 0; transition: color var(--dur) var(--ease); }
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 20px; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 0.78rem; color: var(--text-3); }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-2); text-decoration: none; font-size: 1rem; transition: all var(--dur) var(--ease); }
+.footer-social a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.db-status-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.72rem; color: var(--text-3); margin-top: 16px; }
 .db-status-bar .db-refresh { background: transparent; color: var(--accent); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 4px 12px; cursor: pointer; font-size: 0.7rem; font-weight: 700; transition: all var(--dur) var(--ease); font-family: inherit; }
 .db-status-bar .db-refresh:hover { border-color: var(--accent); background: var(--accent-dim); }
-.data-source { text-align: center; font-size: 0.7rem; color: var(--text-3); padding: 12px 0; }
-.data-source a { color: var(--accent); text-decoration: none; }
-.data-source a:hover { text-decoration: underline; }
 
-/* ====== Mobile App Shell ====== */
-.mobile-topbar { display: none; }
-.mobile-bottomnav { display: none; }
-
+/* ====== Responsive ====== */
+@media(max-width:900px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
 @media(max-width:640px) {
-  /* --- Top Bar --- */
-  .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; height: 52px; background: var(--bg-card); border-bottom: 1px solid var(--border); z-index: 1000; align-items: center; padding: 0 14px; gap: 10px; }
-  .mobile-topbar .mt-title { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-1); flex: 1; }
-  .mobile-topbar .mt-title::after { content: '.'; color: var(--accent); }
-  .mobile-topbar .mt-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--text-2); transition: all var(--dur) var(--ease); position: relative; }
-  .mobile-topbar .mt-btn:hover { background: var(--bg-hover); border-color: var(--border-hover); }
-  .mobile-topbar .mt-badge { position: absolute; top: -3px; right: -3px; min-width: 16px; height: 16px; background: var(--accent); color: #fff; font-size: 0.56rem; font-weight: 800; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; line-height: 1; }
-
-  /* --- Bottom Nav --- */
-  .mobile-bottomnav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: var(--bg-card); border-top: 1px solid var(--border); z-index: 1000; align-items: stretch; padding: 0; padding-bottom: env(safe-area-inset-bottom, 0); }
-  .bnav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; color: var(--text-3); font-size: 0.58rem; font-weight: 600; transition: color var(--dur) var(--ease); user-select: none; -webkit-tap-highlight-color: transparent; padding: 4px 0; position: relative; }
-  .bnav-item .bnav-icon { font-size: 1.15rem; line-height: 1; }
-  .bnav-item .bnav-label { letter-spacing: 0.01em; }
-  .bnav-item.active { color: var(--accent); }
-  .bnav-item.active::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 28px; height: 3px; border-radius: 0 0 3px 3px; background: var(--accent); }
-  .bnav-more { position: relative; }
-  .bnav-overflow { display: none; position: absolute; bottom: 100%; right: 0; min-width: 150px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-lg); margin-bottom: 8px; z-index: 1001; overflow: hidden; }
-  .bnav-overflow.open { display: block; animation: panelIn .2s var(--ease); }
-  .bnav-overflow-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; font-size: 0.82rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: background var(--dur) var(--ease); -webkit-tap-highlight-color: transparent; }
-  .bnav-overflow-item:not(:last-child) { border-bottom: 1px solid var(--border); }
-  .bnav-overflow-item:hover, .bnav-overflow-item.active { background: var(--bg-hover); color: var(--accent); }
-  .bnav-overflow-item .bnav-icon { font-size: 1rem; width: 20px; text-align: center; }
-
-  /* --- Hide desktop elements, adjust body --- */
-  body { padding-top: 52px; padding-bottom: 60px; }
-  .app-header { display: none; }
-  .tabs { display: none; }
-  .mycards-fab { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1001; pointer-events: none; }
-  .mycards-btn { display: none; }
-  .mycards-overlay { pointer-events: auto; }
-  .theme-toggle { display: none; }
-  .mycards-flyout { position: fixed; top: 52px; left: 0; width: 100%; max-width: 100%; max-height: calc(100vh - 112px); border-radius: 0 0 var(--r) var(--r); border-left: none; border-right: none; z-index: 1002; pointer-events: auto; }
-  .mycards-flyout-body { padding-bottom: 20px; }
-
-  /* --- Content spacing --- */
-  .container { padding: 0 14px 20px; }
-  .compare-box { padding: 18px 14px; border-radius: var(--r); }
+  .container { padding: 0 16px 20px; }
+  h1 { font-size: 1.8rem; }
   .compare-row { flex-direction: column; gap: 10px; }
   .compare-row .field, .compare-row .field-sm { flex: none; min-width: 0; width: 100%; }
-  .btn { padding: 10px 18px; font-size: 0.84rem; }
-  .route-card { padding: 14px 12px; }
-  .route-header { flex-wrap: wrap; gap: 6px; }
-  .route-rank { font-size: 1rem; width: 28px; }
-  .route-title .name { font-size: 0.86rem; }
-  .route-reward .amount { font-size: 1.1rem; }
-  .route-steps { padding: 12px; }
-  .route-step { gap: 8px; }
-  .result-card { padding: 14px 12px; }
-  .result-rank { font-size: 1.1rem; width: 30px; }
-  .result-info .name { font-size: 0.9rem; }
-  .result-reward { margin-left: 8px; }
-  .result-reward .amount { font-size: 1.1rem; }
-  .result-color-bar { margin-right: 10px; }
-  .suggest-card { flex-wrap: wrap; gap: 10px; padding: 12px; }
-  .suggest-card .card-visual-lg { width: 70px; height: 44px; }
+  .route-header { flex-wrap: wrap; gap: 8px; }
+  .suggest-card { flex-wrap: wrap; gap: 10px; }
   .suggest-reward { text-align: left; margin-left: 0; }
   .rec-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .rec-stat { min-width: 80px; padding: 10px 12px; }
-  .rec-card { padding: 16px 14px; }
-  .rec-card .rec-stats { gap: 6px; }
-  .tracker-grid { grid-template-columns: 1fr; gap: 8px; }
-  .tracker-month { flex-wrap: wrap; }
-  .history-row { padding: 10px 12px; font-size: 0.78rem; flex-wrap: wrap; gap: 4px; }
-  .fuel-card-row { padding: 12px; gap: 10px; }
-  .fuel-card-savings .fc-amount { font-size: 1rem; }
-  .lounge-card { padding: 16px 14px; }
-  .overlap-card { padding: 16px 14px; }
-  .modal { padding: 22px 16px; width: 96%; }
-  .card-detail { padding: 20px 16px; width: 96%; }
-  .card-detail-top { gap: 12px; }
-  .card-detail-img { width: 90px; height: 57px; }
-  .card-detail-visual { width: 90px; height: 57px; padding: 5px 7px; }
-  .card-detail-info .cd-name { font-size: 0.92rem; }
-  .card-detail-actions { gap: 6px; }
-  .card-detail-actions .btn { padding: 7px 14px; font-size: 0.78rem; }
-  .toast { font-size: 0.78rem; padding: 10px 18px; max-width: calc(100vw - 32px); white-space: normal; text-align: center; bottom: 72px; }
-  .app-footer { padding-bottom: 16px; }
-  input, select { font-size: 16px; }
-}
-
-@media(max-width:380px) {
-  .mobile-topbar .mt-title { font-size: 1rem; }
-  .mobile-topbar .mt-btn { width: 32px; height: 32px; font-size: 0.9rem; }
-  .container { padding: 0 10px 16px; }
-  .compare-box { padding: 14px 10px; }
-  .bnav-item .bnav-icon { font-size: 1.05rem; }
-  .bnav-item .bnav-label { font-size: 0.52rem; }
-  .rec-grid { grid-template-columns: 1fr; }
-  .cards-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; }
-  .cards-grid-item .card-img { height: 48px; }
-  .cards-grid-item .card-mini { height: 48px; }
+  .rec-stat { min-width: 80px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: block; }
+  .hero { padding: 110px 20px 56px; }
+  .hero h2 { font-size: 2rem; }
+  .hero p { font-size: 0.98rem; }
+  .hero-stats { gap: 24px; }
+  .hero-stat .hs-num { font-size: 1.4rem; }
+  .features-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feature-card { padding: 20px 16px; }
+  .steps-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .section { padding: 48px 20px; }
+  .about-values { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-top { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .mycards-flyout { width: calc(100vw - 32px); }
 }
 
 /* ====== Toast ====== */
@@ -782,7 +818,7 @@ body.dark .card-detail-overlay { background: rgba(0,0,0,0.6); }
 .toast.error { background: var(--red); color: #fff; }
 
 /* ====== Theme Toggle ====== */
-.theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 1000; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; transition: all var(--dur) var(--ease); color: var(--text-2); }
+.theme-toggle { position: fixed; top: 76px; right: 16px; z-index: 1000; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; transition: all var(--dur) var(--ease); color: var(--text-2); }
 .theme-toggle:hover { box-shadow: var(--shadow-lg); transform: scale(1.08); border-color: var(--accent); }
 
 /* ====== Dark Mode Overrides ====== */
@@ -796,29 +832,165 @@ body.dark .suggest-badge { background: #e87d2f15; border-color: #e87d2f25; }
 </head>
 <body>
 
-<!-- MOBILE TOP BAR -->
-<div class="mobile-topbar" id="mobile-topbar">
-  <span class="mt-title">CardPick</span>
-  <button class="mt-btn" id="mt-cards" onclick="toggleMobileCards()">&#128179;<span class="mt-badge" id="mt-cards-count">0</span></button>
-  <button class="mt-btn" id="mt-theme" onclick="toggleTheme()"><span id="mt-theme-icon">&#9790;</span></button>
+<!-- ====== STICKY NAVBAR ====== -->
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">CardPick<span>.</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <a href="#app-section" class="nav-cta">Get Started</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="document.getElementById('nav-mobile').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+<div class="nav-mobile-menu" id="nav-mobile">
+  <a href="#features" onclick="document.getElementById('nav-mobile').classList.remove('open')">Features</a>
+  <a href="#how-it-works" onclick="document.getElementById('nav-mobile').classList.remove('open')">How It Works</a>
+  <a href="#about" onclick="document.getElementById('nav-mobile').classList.remove('open')">About</a>
+  <a href="#faq" onclick="document.getElementById('nav-mobile').classList.remove('open')">FAQ</a>
+  <a href="#contact" onclick="document.getElementById('nav-mobile').classList.remove('open')">Contact</a>
+  <a href="#app-section" onclick="document.getElementById('nav-mobile').classList.remove('open')">Get Started</a>
 </div>
 
-<!-- MOBILE BOTTOM NAV -->
-<div class="mobile-bottomnav" id="mobile-bottomnav">
-  <div class="bnav-item active" data-panel="compare" onclick="switchTab(this)"><span class="bnav-icon">&#9878;</span><span class="bnav-label">Compare</span></div>
-  <div class="bnav-item" data-panel="recommend" onclick="switchTab(this)"><span class="bnav-icon">&#9733;</span><span class="bnav-label">Recommend</span></div>
-  <div class="bnav-item" data-panel="tracker" onclick="switchTab(this)"><span class="bnav-icon">&#9636;</span><span class="bnav-label">Tracker</span></div>
-  <div class="bnav-item" data-panel="fuel" onclick="switchTab(this)"><span class="bnav-icon">&#9981;</span><span class="bnav-label">Fuel</span></div>
-  <div class="bnav-item bnav-more" onclick="toggleBnavMore(event)">
-    <span class="bnav-icon">&#8943;</span><span class="bnav-label">More</span>
-    <div class="bnav-overflow" id="bnav-overflow">
-      <div class="bnav-overflow-item" data-panel="lounge" onclick="switchTab(this)"><span class="bnav-icon">&#9992;</span>Lounge</div>
-      <div class="bnav-overflow-item" data-panel="upgrade" onclick="switchTab(this)"><span class="bnav-icon">&#8593;</span>Upgrade</div>
-      <div class="bnav-overflow-item" data-panel="overlap" onclick="switchTab(this)"><span class="bnav-icon">&#10006;</span>Overlap</div>
-      <div class="bnav-overflow-item" data-panel="redeem" onclick="switchTab(this)"><span class="bnav-icon">&#127873;</span>Redeem</div>
+<!-- ====== HERO SECTION ====== -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Free Credit Card Optimizer for India</div>
+    <h2>Maximize <span class="accent">Cashback</span> on Every Purchase</h2>
+    <p>Stop leaving money on the table. CardPick analyzes your cards and finds the best route to maximize rewards on every transaction.</p>
+    <div class="hero-actions">
+      <a href="#app-section" class="btn btn-primary">Start Comparing</a>
+      <a href="#how-it-works" class="btn btn-secondary">How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hs-num">100+</div><div class="hs-label">Cards Supported</div></div>
+      <div class="hero-stat"><div class="hs-num">90+</div><div class="hs-label">Reward Routes</div></div>
+      <div class="hero-stat"><div class="hs-num">8</div><div class="hs-label">Spending Categories</div></div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- ====== FEATURES SECTION ====== -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Everything You Need</h2>
+      <p>Eight powerful tools to help you get the most out of your credit cards.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">&#9878;</span>
+        <h3>Smart Compare</h3>
+        <p>Find the best card for any purchase category with multi-step route optimization.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9733;</span>
+        <h3>Card Recommender</h3>
+        <p>Enter your monthly spending and get personalized card recommendations.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9636;</span>
+        <h3>Spend Tracker</h3>
+        <p>Log expenses and see if you're maximizing rewards or leaving money behind.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9981;</span>
+        <h3>Fuel Calculator</h3>
+        <p>Calculate exact fuel surcharge savings with brand-specific rates.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9992;</span>
+        <h3>Lounge Access</h3>
+        <p>Check which airport lounges your cards unlock — domestic and international.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#8593;</span>
+        <h3>Upgrade Paths</h3>
+        <p>Discover upgrade routes to premium cards based on your current holdings.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#10006;</span>
+        <h3>Overlap Checker</h3>
+        <p>Identify duplicate benefits across cards and trim the dead weight.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127873;</span>
+        <h3>Redemption Guide</h3>
+        <p>Bank-specific guides to redeem points at the best value.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HOW IT WORKS ====== -->
+<section class="section" id="how-it-works" style="background: var(--bg-sub);">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>How It Works</h2>
+      <p>Get better rewards in four simple steps.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Add Your Cards</h3>
+        <p>Search from 100+ Indian credit cards or add custom ones with your specific reward rates.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Pick a Category</h3>
+        <p>Select what you're paying for — dining, fuel, groceries, online shopping, and more.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Get Best Route</h3>
+        <p>CardPick finds the optimal card and multi-step wallet routes to maximize your cashback.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Save Money</h3>
+        <p>Use the recommended route for every purchase and watch your rewards add up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ABOUT SECTION ====== -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>About CardPick</h2>
+      <p>Built by cardholders, for cardholders.</p>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <p>Hi, I'm <strong>Rakesh</strong> — the creator of CardPick. This project was born out of a simple frustration — with so many credit cards in my wallet, I was never sure which one to swipe for the best reward. Banks make it complicated on purpose. I wanted to make it simple.</p>
+        <p>What started as a personal spreadsheet turned into a full-fledged reward optimizer. Today, CardPick helps thousands of Indian cardholders save more on every transaction — from groceries and fuel to online shopping and dining.</p>
+        <p>I'm passionate about personal finance and believe everyone deserves to get the most out of their cards. CardPick is and always will be free, with no sign-ups, no data collection, and no hidden agendas. Your card data stays in your browser — always.</p>
+      </div>
+      <div class="about-values">
+        <div class="about-value">
+          <span class="av-icon">&#128274;</span>
+          <div><h4>Privacy First</h4><p>No data leaves your browser. Everything runs locally.</p></div>
+        </div>
+        <div class="about-value">
+          <span class="av-icon">&#9889;</span>
+          <div><h4>Always Free</h4><p>No premium tiers, no paywalls, no sign-ups required.</p></div>
+        </div>
+        <div class="about-value">
+          <span class="av-icon">&#128200;</span>
+          <div><h4>Community Driven</h4><p>Open source and shaped by user feedback and contributions.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== APP SECTION (existing tool) ====== -->
+<section class="app-section" id="app-section">
 
 <!-- MY CARDS — fixed circle button + flyout -->
 <div class="mycards-fab" id="mycards-fab">
@@ -848,12 +1020,7 @@ body.dark .suggest-badge { background: #e87d2f15; border-color: #e87d2f25; }
   <span class="theme-icon" id="theme-icon">&#9790;</span>
 </button>
 
-<div class="container">
-  <div class="app-header">
-    <h1>CardPick</h1>
-    <p class="subtitle">Find the best credit card for every purchase</p>
-  </div>
-
+<div class="container" style="padding-top:32px;">
   <div class="tabs">
     <div class="tab active" data-panel="compare"><span class="tab-icon">&#9878;</span><span class="tab-label">Compare</span></div>
     <div class="tab" data-panel="recommend"><span class="tab-icon">&#9733;</span><span class="tab-label">Recommend</span></div>
@@ -1086,15 +1253,145 @@ body.dark .suggest-badge { background: #e87d2f15; border-color: #e87d2f25; }
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
-<div class="app-footer">
-  <div class="footer-links">
-    <a href="https://buymeacoffee.com/rinzleross" target="_blank" rel="noopener noreferrer" class="btn-coffee">&#9749; Buy me a coffee</a>
+</section><!-- end .app-section -->
+
+<!-- ====== FAQ SECTION ====== -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Frequently Asked Questions</h2>
+      <p>Got questions? We've got answers.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is CardPick free to use?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes, CardPick is completely free. There are no hidden charges, no premium plans, and no sign-ups required. Just open the site and start optimizing your rewards.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How accurate are the reward rates?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Our database is regularly updated with reward rates from official bank sources and verified card comparison sites. You can also manually override rates for your specific card variant. Use the "Check for Updates" button to pull the latest data.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need to enter my card details?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">No sensitive information is required. You only select which cards you own from a list. All data is stored locally in your browser — nothing is sent to any server. Your privacy is fully protected.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Which cards and banks are supported?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">CardPick supports 100+ credit cards from major Indian banks including HDFC, SBI, ICICI, Axis, Amex, IDFC First, Kotak, IndusInd, AU Small Finance, Yes Bank, RBL, Federal, and more. New cards are added regularly.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What are multi-step routes?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Multi-step routes combine wallet top-ups and payment methods to maximize rewards. For example, loading a wallet with one card and paying with another can yield higher cashback than a direct payment. CardPick finds these optimal combinations automatically.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I use CardPick offline?<span class="faq-arrow">&#9660;</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes! CardPick is a Progressive Web App (PWA). You can install it to your home screen and use it offline. Your card data and preferences are stored locally in your browser.</div></div>
+      </div>
+    </div>
   </div>
-  <div class="db-status-bar">
-    <span id="db-status">Loading card database&hellip;</span>
-    <button class="db-refresh" onclick="refreshCardDB()">Check for Updates</button>
+</section>
+
+<!-- ====== CONTACT SECTION ====== -->
+<section class="section" id="contact" style="background: var(--bg-sub);">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>Get In Touch</h2>
+      <p>Have a suggestion, found a bug, or just want to say hi?</p>
+    </div>
+    <div class="contact-grid">
+      <form class="contact-form" id="contact-form" onsubmit="handleContactSubmit(event)">
+        <div>
+          <label for="c-name">Your Name</label>
+          <input type="text" id="c-name" placeholder="John Doe" required>
+        </div>
+        <div>
+          <label for="c-email">Email Address</label>
+          <input type="email" id="c-email" placeholder="john@example.com" required>
+        </div>
+        <div>
+          <label for="c-message">Message</label>
+          <textarea id="c-message" placeholder="Tell us what's on your mind..." required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Send Message</button>
+      </form>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9993;</div>
+          <div class="contact-item-text">
+            <h4>Email</h4>
+            <a href="mailto:hello@cardpick.in">hello@cardpick.in</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#120143;</div>
+          <div class="contact-item-text">
+            <h4>Twitter / X</h4>
+            <a href="https://twitter.com/cardpick_in" target="_blank" rel="noopener noreferrer">@cardpick_in</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#128187;</div>
+          <div class="contact-item-text">
+            <h4>GitHub</h4>
+            <a href="https://github.com/cardpick" target="_blank" rel="noopener noreferrer">github.com/cardpick</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9749;</div>
+          <div class="contact-item-text">
+            <h4>Support Us</h4>
+            <a href="https://buymeacoffee.com/rinzleross" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="fb-logo">CardPick<span>.</span></div>
+        <p>India's free credit card reward optimizer. Find the best card for every purchase and never leave cashback on the table.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#app-section">Compare Cards</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="mailto:hello@cardpick.in">Email Us</a>
+        <a href="https://twitter.com/cardpick_in" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+        <a href="https://github.com/cardpick" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://buymeacoffee.com/rinzleross" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#" onclick="showToast('Privacy Policy page coming soon');return false;">Privacy Policy</a>
+        <a href="#" onclick="showToast('Terms of Use page coming soon');return false;">Terms of Use</a>
+        <a href="#" onclick="showToast('Disclaimer page coming soon');return false;">Disclaimer</a>
+      </div>
+    </div>
+    <div class="db-status-bar">
+      <span id="db-status">Loading card database&hellip;</span>
+      <button class="db-refresh" onclick="refreshCardDB()">Check for Updates</button>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 CardPick. All rights reserved. Not affiliated with any bank.</span>
+      <div class="footer-social">
+        <a href="mailto:hello@cardpick.in" title="Email">&#9993;</a>
+        <a href="https://twitter.com/cardpick_in" target="_blank" rel="noopener noreferrer" title="Twitter">&#120143;</a>
+        <a href="https://github.com/cardpick" target="_blank" rel="noopener noreferrer" title="GitHub">&#128187;</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
 // ===================== TOAST =====================
@@ -1108,27 +1405,81 @@ function showToast(msg, isError) {
 }
 
 // ===================== THEME TOGGLE =====================
-function setThemeIcons(isDark) {
-  const sun = '&#9788;', moon = '&#9790;';
-  const icon = isDark ? sun : moon;
-  document.getElementById('theme-icon').innerHTML = icon;
-  var mti = document.getElementById('mt-theme-icon');
-  if (mti) mti.innerHTML = icon;
-  document.querySelector('meta[name="theme-color"]').content = isDark ? '#121212' : '#e8503a';
-}
 function toggleTheme() {
   const isDark = document.body.classList.toggle('dark');
   localStorage.setItem('cp_theme', isDark ? 'dark' : 'light');
-  setThemeIcons(isDark);
+  document.getElementById('theme-icon').innerHTML = isDark ? '&#9788;' : '&#9790;';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#121212' : '#e8503a';
 }
 (function() {
   const saved = localStorage.getItem('cp_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   if (saved === 'dark' || (!saved && prefersDark)) {
     document.body.classList.add('dark');
-    setThemeIcons(true);
+    document.getElementById('theme-icon').innerHTML = '&#9788;';
+    document.querySelector('meta[name="theme-color"]').content = '#121212';
   }
 })();
+
+// ===================== NAVBAR SCROLL =====================
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('site-nav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// ===================== CONTACT FORM (Google Forms) =====================
+// TODO: Replace these placeholders with your actual Google Form values.
+// 1. Create a Google Form with 3 fields: Name, Email, Message
+// 2. Click "Get pre-filled link", fill dummy values, click "Get link"
+// 3. From the URL, copy the form ID and entry IDs:
+//    https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.XXXXXXX=name&entry.YYYYYYY=email&entry.ZZZZZZZ=message
+var GFORM_ID = '1FAIpQLSfbw4whhSyYTqDDVVU3JO5XoUg9Q5m2o25HH7uK3lQdelDhfg';
+var GFORM_NAME = 'entry.1147463907';
+var GFORM_EMAIL = 'entry.1139899539';
+var GFORM_MESSAGE = 'entry.515997086';
+
+function handleContactSubmit(e) {
+  e.preventDefault();
+  var name = document.getElementById('c-name').value;
+  var email = document.getElementById('c-email').value;
+  var message = document.getElementById('c-message').value;
+
+  var url = 'https://docs.google.com/forms/d/e/' + GFORM_ID + '/formResponse';
+  var body = encodeURIComponent(GFORM_NAME) + '=' + encodeURIComponent(name)
+    + '&' + encodeURIComponent(GFORM_EMAIL) + '=' + encodeURIComponent(email)
+    + '&' + encodeURIComponent(GFORM_MESSAGE) + '=' + encodeURIComponent(message);
+
+  // Submit via hidden iframe to avoid redirect
+  var iframe = document.getElementById('gform-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'gform-iframe';
+    iframe.name = 'gform-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = url;
+  form.target = 'gform-iframe';
+  form.style.display = 'none';
+
+  [[GFORM_NAME, name], [GFORM_EMAIL, email], [GFORM_MESSAGE, message]].forEach(function(pair) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = pair[0];
+    input.value = pair[1];
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+
+  showToast('Message sent! We\'ll get back to you soon.');
+  e.target.reset();
+}
 
 // ===================== CATEGORIES =====================
 const CATEGORIES = [
@@ -2692,64 +3043,20 @@ let selectedDbCard = null;
 function save() { /* no persistence — resets on refresh */ }
 
 // ===================== TABS =====================
-function activatePanel(panelKey) {
-  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.bnav-item').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.bnav-overflow-item').forEach(x => x.classList.remove('active'));
-  // Activate desktop tab
-  const dt = document.querySelector('.tab[data-panel="' + panelKey + '"]');
-  if (dt) dt.classList.add('active');
-  // Activate bottom nav item
-  const bn = document.querySelector('.bnav-item[data-panel="' + panelKey + '"]');
-  if (bn) bn.classList.add('active');
-  const bo = document.querySelector('.bnav-overflow-item[data-panel="' + panelKey + '"]');
-  if (bo) { bo.classList.add('active'); document.querySelector('.bnav-more').classList.add('active'); }
-  // Show panel
-  document.getElementById('panel-' + panelKey).classList.add('active');
-  window.scrollTo({ top: 0 });
-}
 document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => activatePanel(t.dataset.panel));
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-' + t.dataset.panel).classList.add('active');
+  });
 });
-
-// Mobile bottom nav
-function switchTab(el) {
-  const panel = el.dataset.panel;
-  if (!panel) return;
-  activatePanel(panel);
-  // Close overflow menu if open
-  const overflow = document.getElementById('bnav-overflow');
-  if (overflow) overflow.classList.remove('open');
-}
-
-function toggleBnavMore(e) {
-  e.stopPropagation();
-  const overflow = document.getElementById('bnav-overflow');
-  overflow.classList.toggle('open');
-}
-
-// Close overflow on outside click
-document.addEventListener('click', function(e) {
-  const overflow = document.getElementById('bnav-overflow');
-  if (overflow && !e.target.closest('.bnav-more')) overflow.classList.remove('open');
-});
-
-// Mobile cards flyout
-let mobileCardsOpen = false;
-function toggleMobileCards() {
-  const fab = document.getElementById('mycards-fab');
-  fab.classList.toggle('open');
-  mobileCardsOpen = fab.classList.contains('open');
-}
 
 // ===================== RENDER CARDS =====================
 function renderCards() {
   const list = document.getElementById('cards-list');
   const countEl = document.getElementById('mycards-count');
   if (countEl) countEl.textContent = cards.length;
-  const mtCount = document.getElementById('mt-cards-count');
-  if (mtCount) mtCount.textContent = cards.length;
   if (cards.length === 0) {
     list.innerHTML = '<div class="empty-state"><div class="icon">&#128179;</div><p>No cards added yet.</p><p style="font-size:0.85rem">Add your credit cards to start comparing rewards.</p></div>';
     return;
