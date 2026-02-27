@@ -35,6 +35,26 @@
   --ease: cubic-bezier(.4,0,.2,1); --dur: .2s;
 }
 
+body.dark {
+  --bg: #121212;
+  --bg-sub: #1e1e1e;
+  --bg-card: #1e1e1e;
+  --bg-hover: #2a2a2a;
+  --bg-inset: #2a2a2a;
+  --bg-surface: #252525;
+  --border: #333;
+  --border-hover: #444;
+  --border-active: #555;
+  --text-1: #e8e6e3;
+  --text-2: #a0a0a0;
+  --text-3: #707070;
+  --accent-dim: #e8503a20;
+  --green-dim: #00a67e18;
+  --green-border: #00a67e35;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2);
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; }
@@ -54,6 +74,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe 
 h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.04em; color: var(--text-1); display: inline-block; }
 h1::after { content: '.'; color: var(--accent); }
 .subtitle { color: var(--text-3); font-size: 0.92rem; margin-top: 8px; font-weight: 400; letter-spacing: -0.01em; }
+
+/* ====== My Cards Circle Button + Flyout ====== */
+.mycards-fab { position: fixed; top: 16px; left: 16px; z-index: 1000; }
+.mycards-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all var(--dur) var(--ease); position: relative; z-index: 1001; }
+.mycards-btn:hover { box-shadow: var(--shadow-lg); transform: scale(1.08); border-color: var(--accent); }
+.mycards-btn .mycards-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--accent); color: #fff; font-size: 0.62rem; font-weight: 800; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; }
+.mycards-flyout { display: none; position: absolute; top: 52px; left: 0; width: 340px; max-height: 70vh; overflow-y: auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-lg); z-index: 1001; }
+.mycards-fab.open .mycards-flyout { display: block; animation: panelIn .2s var(--ease); }
+.mycards-flyout-header { display: flex; align-items: center; gap: 8px; padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+.mycards-flyout-header .mf-title { font-weight: 800; font-size: 0.9rem; color: var(--text-1); flex: 1; }
+.mycards-flyout-header .mf-close { background: none; border: none; font-size: 1.1rem; color: var(--text-3); cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: all var(--dur) var(--ease); }
+.mycards-flyout-header .mf-close:hover { color: var(--text-1); background: var(--bg-inset); }
+.mycards-flyout-body { padding: 12px 16px 16px; }
+.mycards-overlay { display: none; position: fixed; inset: 0; z-index: 999; }
+.mycards-fab.open .mycards-overlay { display: block; }
+@media(max-width:400px) { .mycards-flyout { width: calc(100vw - 32px); } }
 
 /* ====== Tabs ====== */
 .tabs { display: flex; gap: 4px; margin-bottom: 28px; padding: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); }
@@ -94,7 +130,47 @@ select option { background: var(--bg-card); color: var(--text-1); }
 .compare-row .field { flex: 1; min-width: 180px; }
 .compare-row .field-sm { flex: 0 0 140px; }
 
-/* ====== Card entry (My Cards) ====== */
+/* ====== Card grid (My Cards) ====== */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
+.cards-grid-item { cursor: pointer; transition: transform var(--dur) var(--ease); position: relative; }
+.cards-grid-item:hover { transform: translateY(-2px) scale(1.04); }
+.cards-grid-item .card-img { width: 100%; height: 58px; border-radius: 8px; object-fit: contain; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)); }
+.cards-grid-item .card-mini { width: 100%; height: 58px; border-radius: 8px; }
+.cards-grid-item .card-mini .cm-bank { font-size: 0.42rem; }
+.cards-grid-item .card-mini .cm-name { font-size: 0.38rem; }
+.cards-grid-item .card-mini .cm-chip { width: 8px; height: 6px; top: 11px; left: 6px; }
+.cards-grid-item .card-mini .cm-net { font-size: 0.4rem; }
+.cards-grid-item.discontinued { opacity: 0.5; }
+.cards-grid-item.discontinued .card-mini, .cards-grid-item.discontinued .card-img { filter: grayscale(.7); }
+
+/* ====== Card detail popup ====== */
+.card-detail-overlay { display: none; position: fixed; inset: 0; background: rgba(26,34,51,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1100; align-items: center; justify-content: center; }
+.card-detail-overlay.open { display: flex; }
+body.dark .card-detail-overlay { background: rgba(0,0,0,0.6); }
+.card-detail { background: var(--bg-sub); border-radius: var(--r-lg); padding: 28px; width: 92%; max-width: 400px; max-height: 88vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: var(--shadow-lg); animation: modalPop .25s var(--ease); }
+.card-detail-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+.card-detail-img { width: 110px; height: 70px; border-radius: 10px; flex-shrink: 0; object-fit: contain; filter: drop-shadow(0 3px 12px rgba(0,0,0,0.25)); }
+.card-detail-visual { width: 110px; height: 70px; border-radius: 10px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 7px 9px; position: relative; overflow: hidden; box-shadow: 0 3px 12px rgba(0,0,0,0.25); }
+.card-detail-visual::before { content: ''; position: absolute; top: -14px; right: -14px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+.card-detail-visual .cdv-bank { font-size: 0.56rem; color: #ffffffcc; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-detail-visual .cdv-name { font-size: 0.48rem; color: #ffffffaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-detail-visual .cdv-chip { width: 12px; height: 9px; border-radius: 1.5px; background: linear-gradient(135deg, #fbbf24, #d97706); position: absolute; top: 14px; left: 9px; }
+.card-detail-visual .cdv-net { font-size: 0.5rem; color: #ffffff99; font-weight: 600; text-align: right; }
+.card-detail-info { flex: 1; min-width: 0; }
+.card-detail-info .cd-name { font-size: 1.05rem; font-weight: 800; color: var(--text-1); letter-spacing: -0.02em; line-height: 1.3; }
+.card-detail-info .cd-network { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+.card-detail-section { margin-bottom: 14px; }
+.card-detail-section .cd-label { font-size: 0.68rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.card-detail-rewards { display: flex; flex-wrap: wrap; gap: 5px; }
+.card-detail-rewards .reward-tag { background: var(--bg-inset); padding: 4px 10px; border-radius: var(--r-pill); font-size: 0.72rem; color: var(--text-2); border: 1px solid var(--border); }
+.card-detail-rewards .reward-tag span { color: var(--accent); font-weight: 700; }
+.card-detail-fee { font-size: 0.82rem; color: var(--text-2); }
+.card-detail-fee.green { color: var(--green); }
+.card-detail-notes { font-size: 0.78rem; color: var(--text-3); line-height: 1.5; }
+.card-detail-actions { display: flex; gap: 8px; margin-top: 18px; justify-content: flex-end; flex-wrap: wrap; }
+.card-detail-actions .btn { font-size: 0.82rem; padding: 8px 16px; }
+
+/* Legacy classes still used in results */
 .card-entry { background: var(--bg-card); border-radius: var(--r); padding: 20px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: stretch; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
 .card-entry:hover { border-color: var(--border-hover); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -174,6 +250,17 @@ select option { background: var(--bg-card); color: var(--text-1); }
 .route-tip::before { content: 'TIP '; font-weight: 800; letter-spacing: 0.04em; margin-right: 4px; }
 .route-notes { font-size: 0.74rem; color: var(--text-3); margin-top: 6px; }
 .route-savings { margin-top: 8px; font-size: 0.82rem; color: var(--green); font-weight: 700; }
+
+.calc-toggle { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; padding: 4px 12px; font-size: 0.72rem; font-weight: 600; color: var(--blue); background: none; border: 1px solid var(--border); border-radius: var(--r-pill); cursor: pointer; transition: all var(--dur) var(--ease); }
+.calc-toggle:hover { background: var(--bg-inset); border-color: var(--blue); }
+.calc-toggle .ct-arrow { transition: transform var(--dur) var(--ease); font-size: 0.6rem; }
+.calc-toggle.open .ct-arrow { transform: rotate(180deg); }
+.calc-breakdown { display: none; margin-top: 10px; padding: 12px 14px; background: var(--bg-inset); border-radius: var(--r-sm); border: 1px solid var(--border); font-size: 0.74rem; line-height: 1.7; color: var(--text-2); }
+.calc-breakdown.open { display: block; }
+.calc-line { display: flex; justify-content: space-between; align-items: center; padding: 2px 0; }
+.calc-line.total { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 8px; font-weight: 700; color: var(--text-1); }
+.calc-formula { font-family: monospace; font-size: 0.72rem; color: var(--text-3); }
+.calc-cap { font-size: 0.68rem; color: var(--accent); font-style: italic; }
 
 .result-card { background: var(--bg-card); border-radius: var(--r); padding: 18px 22px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; align-items: center; transition: all var(--dur) var(--ease); box-shadow: var(--shadow); }
 .result-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
@@ -374,6 +461,213 @@ select option { background: var(--bg-card); color: var(--text-1); }
   .fuel-summary-bar { flex-direction: column; }
 }
 
+/* ====== Lounge Dashboard ====== */
+.lounge-summary { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.lounge-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; flex: 1; min-width: 130px; box-shadow: var(--shadow); }
+.lounge-stat .ls-label { font-size: 0.66rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.lounge-stat .ls-value { font-size: 1.4rem; font-weight: 800; margin-top: 4px; letter-spacing: -0.02em; color: var(--text-1); }
+.lounge-stat .ls-value.accent { color: var(--accent); }
+.lounge-stat .ls-sub { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
+
+.lounge-section { margin-bottom: 20px; }
+.lounge-section h4 { font-size: 0.84rem; font-weight: 700; color: var(--text-2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.lounge-card { background: var(--bg-card); border-radius: var(--r); padding: 20px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); transition: all var(--dur) var(--ease); }
+.lounge-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.lounge-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.lounge-card-header .lc-name { font-weight: 700; font-size: 0.95rem; color: var(--text-1); }
+.lounge-card-header .lc-bank { font-size: 0.76rem; color: var(--text-3); }
+
+.lounge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.lounge-box { background: var(--bg-inset); border-radius: var(--r-sm); padding: 12px 14px; border: 1px solid var(--border); }
+.lounge-box .lb-title { font-size: 0.68rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.lounge-box .lb-visits { font-size: 1.1rem; font-weight: 800; color: var(--text-1); }
+.lounge-box .lb-visits.unlimited { color: var(--green); }
+.lounge-box .lb-period { font-size: 0.7rem; color: var(--text-3); margin-top: 2px; }
+.lounge-box .lb-network { display: inline-block; background: var(--accent-dim); color: var(--accent); font-size: 0.64rem; font-weight: 700; padding: 2px 8px; border-radius: var(--r-pill); margin-top: 6px; }
+.lounge-box .lb-network.green { background: var(--green-dim); color: var(--green); }
+.lounge-box .lb-guest { font-size: 0.68rem; color: var(--text-3); margin-top: 4px; }
+.lounge-box.no-access { opacity: 0.5; }
+.lounge-box.no-access .lb-visits { color: var(--text-3); }
+
+.lounge-access { margin-top: 12px; background: var(--bg-inset); border-radius: var(--r-sm); padding: 12px 14px; border: 1px solid var(--border); }
+.lounge-access .la-title { font-size: 0.68rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.lounge-access .la-text { font-size: 0.78rem; color: var(--text-2); line-height: 1.5; }
+.lounge-access .la-step { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+.lounge-access .la-num { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.6rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.lounge-access .la-desc { font-size: 0.76rem; color: var(--text-2); line-height: 1.4; }
+
+.lounge-networks-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.lounge-net-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 3px 10px; font-size: 0.68rem; font-weight: 600; color: var(--text-2); }
+
+.lounge-empty { text-align: center; padding: 40px 20px; }
+.lounge-empty .icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.3; }
+.lounge-empty p { font-size: 0.88rem; color: var(--text-3); margin-bottom: 6px; }
+.lounge-empty .hint { font-size: 0.78rem; color: var(--text-3); }
+
+@media(max-width:640px) {
+  .lounge-grid { grid-template-columns: 1fr; }
+  .lounge-summary { flex-direction: column; }
+}
+
+/* ====== Upgrade Paths ====== */
+.upgrade-intro { font-size: 0.84rem; color: var(--text-2); margin-bottom: 18px; line-height: 1.5; }
+.upgrade-bank { margin-bottom: 24px; }
+.upgrade-bank-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; cursor: pointer; padding: 10px 14px; background: var(--bg-card); border-radius: var(--r); border: 1px solid var(--border); box-shadow: var(--shadow); transition: all var(--dur) var(--ease); }
+.upgrade-bank-header:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.upgrade-bank-header .ub-name { font-weight: 800; font-size: 0.92rem; color: var(--text-1); flex: 1; }
+.upgrade-bank-header .ub-count { font-size: 0.72rem; color: var(--text-3); background: var(--bg-inset); padding: 2px 10px; border-radius: var(--r-pill); }
+.upgrade-bank-header .ub-chevron { font-size: 0.7rem; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.upgrade-bank-header.open .ub-chevron { transform: rotate(180deg); }
+
+.upgrade-timeline { padding: 0 8px 0 0; display: none; }
+.upgrade-timeline.open { display: block; }
+
+.upgrade-step { display: flex; gap: 16px; position: relative; padding-bottom: 4px; }
+.upgrade-step:last-child .us-line { display: none; }
+
+.us-track { display: flex; flex-direction: column; align-items: center; width: 28px; flex-shrink: 0; }
+.us-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--border); border: 2px solid var(--bg-card); box-shadow: 0 0 0 2px var(--border); flex-shrink: 0; z-index: 1; transition: all var(--dur) var(--ease); }
+.us-dot.owned { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.us-dot.next { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); animation: pulse-dot 2s infinite; }
+.us-dot.invite { background: var(--yellow); box-shadow: 0 0 0 2px var(--yellow); }
+.us-line { width: 2px; background: var(--border); flex: 1; min-height: 16px; }
+.us-line.owned { background: var(--green); }
+
+.us-card { flex: 1; background: var(--bg-card); border-radius: var(--r); padding: 14px 16px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); transition: all var(--dur) var(--ease); }
+.us-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.us-card.owned { border-color: var(--green); background: linear-gradient(135deg, var(--green-dim), var(--bg-card) 60%); }
+.us-card.next-upgrade { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-dim), var(--bg-card) 60%); }
+
+.us-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.us-card-name { font-weight: 700; font-size: 0.9rem; color: var(--text-1); }
+.us-card-fee { font-size: 0.72rem; color: var(--text-3); background: var(--bg-inset); padding: 2px 8px; border-radius: var(--r-pill); }
+.us-card-badge { font-size: 0.64rem; font-weight: 700; padding: 2px 8px; border-radius: var(--r-pill); }
+.us-card-badge.you-have { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.us-card-badge.next-up { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+.us-card-badge.invite-only { background: #f5a62315; color: var(--yellow); border: 1px solid var(--yellow); }
+
+.us-reqs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.us-req { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--text-2); background: var(--bg-inset); padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); }
+.us-req .req-icon { font-size: 0.7rem; }
+
+.us-benefit { font-size: 0.76rem; color: var(--text-2); margin-top: 6px; line-height: 1.4; }
+
+.upgrade-empty { text-align: center; padding: 40px 20px; }
+.upgrade-empty .icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.3; }
+.upgrade-empty p { font-size: 0.88rem; color: var(--text-3); margin-bottom: 6px; }
+
+@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 2px var(--accent); } 50% { box-shadow: 0 0 0 5px var(--accent-dim); } }
+
+@media(max-width:640px) {
+  .us-reqs { flex-direction: column; gap: 4px; }
+  .upgrade-step { gap: 10px; }
+}
+
+/* ====== Overlap / Redundancy Analysis ====== */
+.overlap-summary { background: var(--bg-card); border-radius: var(--r); padding: 18px 22px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.overlap-summary .os-icon { font-size: 1.6rem; }
+.overlap-summary .os-text { flex: 1; font-size: 0.88rem; color: var(--text-1); font-weight: 600; line-height: 1.4; }
+.overlap-summary .os-savings { font-size: 0.82rem; color: var(--green); font-weight: 700; background: var(--green-dim); padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--green-border); white-space: nowrap; }
+
+.overlap-card { background: var(--bg-card); border-radius: var(--r); padding: 20px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); transition: all var(--dur) var(--ease); }
+.overlap-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.overlap-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.overlap-card-header .oc-color { width: 6px; height: 36px; border-radius: 3px; flex-shrink: 0; }
+.overlap-card-header .oc-info { flex: 1; }
+.overlap-card-header .oc-name { font-weight: 700; font-size: 0.95rem; color: var(--text-1); }
+.overlap-card-header .oc-meta { font-size: 0.76rem; color: var(--text-3); }
+
+.overlap-verdict { font-size: 0.68rem; font-weight: 800; padding: 4px 12px; border-radius: var(--r-pill); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+.overlap-verdict.safe { background: #ef444418; color: var(--red); border: 1px solid #ef444440; }
+.overlap-verdict.consider { background: #f5a62318; color: var(--yellow); border: 1px solid #f5a62340; }
+.overlap-verdict.keep { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+
+.overlap-section { margin-bottom: 12px; }
+.overlap-section-title { font-size: 0.72rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+
+.overlap-cat-grid { display: flex; flex-direction: column; gap: 4px; }
+.overlap-cat { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; padding: 6px 10px; background: var(--bg-surface); border-radius: var(--r-sm); }
+.overlap-cat .oc-cat-name { width: 130px; flex-shrink: 0; color: var(--text-2); font-weight: 500; }
+.overlap-cat .oc-cat-rate { font-weight: 700; color: var(--text-1); min-width: 42px; text-align: right; }
+.overlap-cat .oc-cat-vs { color: var(--text-3); font-size: 0.76rem; flex: 1; }
+.overlap-cat.best { background: var(--green-dim); border: 1px solid var(--green-border); }
+.overlap-cat.best .oc-cat-rate { color: var(--green); }
+.overlap-cat.beaten { background: #ef444408; }
+.overlap-cat.beaten .oc-cat-rate { color: var(--text-3); text-decoration: line-through; }
+
+.overlap-perk { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-2); background: var(--bg-inset); padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); margin: 2px 4px 2px 0; }
+.overlap-perk.unique { background: #f5a62312; color: var(--yellow); border-color: #f5a62340; }
+.overlap-perk.covered { opacity: 0.5; }
+
+.overlap-fee { font-size: 0.82rem; color: var(--text-2); padding: 8px 12px; background: var(--bg-surface); border-radius: var(--r-sm); }
+.overlap-fee .fee-save { color: var(--green); font-weight: 700; }
+
+.overlap-ltf { display: inline-block; font-size: 0.64rem; font-weight: 700; padding: 3px 9px; border-radius: var(--r-pill); background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); text-transform: uppercase; letter-spacing: 0.03em; vertical-align: middle; margin-left: 6px; }
+
+.overlap-gaps { background: var(--bg-card); border-radius: var(--r); padding: 20px; margin-bottom: 10px; border: 1px solid #f5a62340; box-shadow: var(--shadow); }
+.overlap-gaps-header { font-weight: 700; font-size: 0.92rem; color: var(--text-1); margin-bottom: 10px; }
+.overlap-gaps-intro { font-size: 0.82rem; color: var(--text-2); margin-bottom: 12px; line-height: 1.5; }
+.overlap-gap-item { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--yellow); background: #f5a62310; padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid #f5a62330; margin: 3px 4px 3px 0; font-weight: 600; }
+.overlap-gap-item .gap-icon { font-size: 0.9rem; }
+.overlap-covered-item { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--green); background: var(--green-dim); padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--green-border); margin: 3px 4px 3px 0; font-weight: 600; }
+.overlap-gap-best { font-size: 0.72rem; color: var(--text-3); font-weight: 400; }
+
+.overlap-empty { text-align: center; padding: 40px 20px; }
+.overlap-empty .icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.3; }
+.overlap-empty p { font-size: 0.88rem; color: var(--text-3); margin-bottom: 6px; }
+
+@media(max-width:640px) {
+  .overlap-cat .oc-cat-name { width: 90px; font-size: 0.76rem; }
+  .overlap-summary { flex-direction: column; text-align: center; }
+}
+
+/* ====== Redeem Dashboard ====== */
+.redeem-intro { background: var(--bg-card); border-radius: var(--r); padding: 18px 20px; margin-bottom: 16px; border: 1px solid var(--border); font-size: 0.88rem; color: var(--text-2); line-height: 1.6; }
+.redeem-intro strong { color: var(--text-1); }
+.redeem-bank { background: var(--bg-card); border-radius: var(--r); margin-bottom: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); transition: all var(--dur) var(--ease); overflow: hidden; }
+.redeem-bank:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.redeem-bank-header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; cursor: pointer; transition: all var(--dur) var(--ease); }
+.redeem-bank-header:hover { background: var(--bg-hover); }
+.redeem-bank-header .rb-name { font-weight: 800; font-size: 0.92rem; color: var(--text-1); flex: 1; }
+.redeem-bank-header .rb-currency { font-size: 0.72rem; color: var(--text-3); background: var(--bg-inset); padding: 2px 10px; border-radius: var(--r-pill); }
+.redeem-bank-header .rb-chevron { font-size: 0.7rem; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.redeem-bank-header.open .rb-chevron { transform: rotate(180deg); }
+.redeem-bank-body { padding: 0 18px 16px; display: none; }
+.redeem-bank-header.open + .redeem-bank-body { display: block; }
+.redeem-cards-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.redeem-card-chip { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: var(--r-pill); background: var(--bg-inset); color: var(--text-2); border: 1px solid var(--border); }
+.redeem-method { padding: 12px 0; border-bottom: 1px solid var(--bg-inset); }
+.redeem-method:last-of-type { border-bottom: none; }
+.redeem-method-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.redeem-bar { height: 8px; border-radius: 4px; background: var(--bg-inset); flex: 1; min-width: 60px; max-width: 200px; overflow: hidden; }
+.redeem-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s var(--ease); }
+.redeem-bar-fill.best { background: var(--green); }
+.redeem-bar-fill.good { background: var(--blue); }
+.redeem-bar-fill.ok { background: var(--text-3); }
+.redeem-bar-fill.avoid { background: var(--red); }
+.redeem-method-name { font-weight: 700; font-size: 0.85rem; color: var(--text-1); min-width: 0; }
+.redeem-value { font-weight: 700; font-size: 0.82rem; color: var(--text-2); white-space: nowrap; }
+.redeem-verdict { font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: var(--r-pill); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+.redeem-verdict.best { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.redeem-verdict.good { background: #2d7ff915; color: var(--blue); border: 1px solid #2d7ff930; }
+.redeem-verdict.ok { background: var(--bg-inset); color: var(--text-3); border: 1px solid var(--border); }
+.redeem-verdict.avoid { background: #ef444418; color: var(--red); border: 1px solid #ef444440; }
+.redeem-detail { font-size: 0.8rem; color: var(--text-2); margin-top: 4px; line-height: 1.5; }
+.redeem-tip { font-size: 0.78rem; color: var(--green); background: var(--green-dim); border: 1px solid var(--green-border); border-radius: var(--r-sm); padding: 8px 12px; margin-top: 8px; line-height: 1.5; }
+.redeem-gotchas { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--bg-inset); }
+.redeem-gotchas-title { font-size: 0.78rem; font-weight: 700; color: var(--yellow); margin-bottom: 6px; }
+.redeem-gotcha { font-size: 0.78rem; color: var(--text-2); padding: 2px 0; line-height: 1.5; }
+.redeem-auto-cashback { background: var(--green-dim); border: 1px solid var(--green-border); border-radius: var(--r-sm); padding: 14px 16px; margin-top: 4px; font-size: 0.85rem; color: var(--green); line-height: 1.6; }
+.redeem-no-data { font-size: 0.82rem; color: var(--text-3); padding: 10px 0; font-style: italic; }
+.redeem-empty { text-align: center; padding: 40px 20px; }
+.redeem-empty .icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.3; }
+.redeem-empty p { font-size: 0.88rem; color: var(--text-3); margin-bottom: 6px; }
+@media(max-width:640px) {
+  .redeem-method-top { flex-wrap: wrap; }
+  .redeem-bar { max-width: 120px; }
+}
+
 /* ====== Footer ====== */
 .app-footer { text-align: center; padding: 32px 0 36px; }
 .app-footer .footer-links { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -398,9 +692,49 @@ select option { background: var(--bg-card); color: var(--text-1); }
   .rec-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .rec-stat { min-width: 80px; }
 }
+
+/* ====== Theme Toggle ====== */
+.theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 1000; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; transition: all var(--dur) var(--ease); color: var(--text-2); }
+.theme-toggle:hover { box-shadow: var(--shadow-lg); transform: scale(1.08); border-color: var(--accent); }
+
+/* ====== Dark Mode Overrides ====== */
+body.dark ::-webkit-scrollbar-thumb { background: #55555580; }
+body.dark ::-webkit-scrollbar-thumb:hover { background: #777; }
+body.dark .modal-overlay { background: rgba(0,0,0,0.6); }
+body.dark .route-tip { background: #f5a62312; border-color: #f5a62325; color: #d4a03a; }
+body.dark .overlap-verdict.safe { background: #ef444420; border-color: #ef444450; }
+body.dark .suggest-badge { background: #e87d2f15; border-color: #e87d2f25; }
 </style>
 </head>
 <body>
+
+<!-- MY CARDS — fixed circle button + flyout -->
+<div class="mycards-fab" id="mycards-fab">
+  <div class="mycards-overlay" onclick="document.getElementById('mycards-fab').classList.remove('open')"></div>
+  <div class="mycards-btn" onclick="document.getElementById('mycards-fab').classList.toggle('open')">
+    &#128179;<span class="mycards-badge" id="mycards-count">0</span>
+  </div>
+  <div class="mycards-flyout">
+    <div class="mycards-flyout-header">
+      <span class="mf-title">My Cards</span>
+      <button class="mf-close" onclick="document.getElementById('mycards-fab').classList.remove('open')">&times;</button>
+    </div>
+    <div class="mycards-flyout-body">
+      <div class="io-bar">
+        <button class="btn-io" onclick="exportCards()">&#11147; Export</button>
+        <button class="btn-io" onclick="document.getElementById('import-file').click()">&#11149; Import</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importCards(event)">
+      </div>
+      <div id="cards-list"></div>
+      <button class="btn-add" onclick="openModal()">+ Add Credit Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- THEME TOGGLE — fixed circle button, top-right -->
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+  <span class="theme-icon" id="theme-icon">&#9790;</span>
+</button>
 
 <div class="container">
   <div class="app-header">
@@ -413,7 +747,10 @@ select option { background: var(--bg-card); color: var(--text-1); }
     <div class="tab" data-panel="recommend"><span class="tab-icon">&#9733;</span><span class="tab-label">Recommend</span></div>
     <div class="tab" data-panel="tracker"><span class="tab-icon">&#9636;</span><span class="tab-label">Tracker</span></div>
     <div class="tab" data-panel="fuel"><span class="tab-icon">&#9981;</span><span class="tab-label">Fuel</span></div>
-    <div class="tab" data-panel="mycards"><span class="tab-icon">&#128179;</span><span class="tab-label">My Cards</span></div>
+    <div class="tab" data-panel="lounge"><span class="tab-icon">&#9992;</span><span class="tab-label">Lounge</span></div>
+    <div class="tab" data-panel="upgrade"><span class="tab-icon">&#8593;</span><span class="tab-label">Upgrade</span></div>
+    <div class="tab" data-panel="overlap"><span class="tab-icon">&#10006;</span><span class="tab-label">Overlap</span></div>
+    <div class="tab" data-panel="redeem"><span class="tab-icon">&#127873;</span><span class="tab-label">Redeem</span></div>
   </div>
 
   <!-- COMPARE PANEL -->
@@ -536,16 +873,26 @@ select option { background: var(--bg-card); color: var(--text-1); }
     <div id="fuel-results"></div>
   </div>
 
-  <!-- MY CARDS PANEL -->
-  <div class="panel" id="panel-mycards">
-    <div class="io-bar">
-      <button class="btn-io" onclick="exportCards()">&#11147; Export Cards</button>
-      <button class="btn-io" onclick="document.getElementById('import-file').click()">&#11149; Import Cards</button>
-      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importCards(event)">
-    </div>
-    <div id="cards-list"></div>
-    <button class="btn-add" onclick="openModal()">+ Add Credit Card</button>
+  <!-- LOUNGE ACCESS DASHBOARD -->
+  <div class="panel" id="panel-lounge">
+    <div id="lounge-dashboard"></div>
   </div>
+
+  <!-- UPGRADE PATHS PANEL -->
+  <div class="panel" id="panel-upgrade">
+    <div id="upgrade-dashboard"></div>
+  </div>
+
+  <!-- OVERLAP ANALYSIS PANEL -->
+  <div class="panel" id="panel-overlap">
+    <div id="overlap-dashboard"></div>
+  </div>
+
+  <!-- REDEMPTION GUIDE PANEL -->
+  <div class="panel" id="panel-redeem">
+    <div id="redeem-dashboard"></div>
+  </div>
+
 </div>
 
 <!-- ADD/EDIT CARD MODAL -->
@@ -611,6 +958,11 @@ select option { background: var(--bg-card); color: var(--text-1); }
   </div>
 </div>
 
+<!-- CARD DETAIL POPUP -->
+<div class="card-detail-overlay" id="card-detail-overlay" onclick="if(event.target===this)closeCardDetail()">
+  <div class="card-detail" id="card-detail-content"></div>
+</div>
+
 <!-- Google AdSense Ad Unit — Replace data-ad-slot with your ad slot ID after approval -->
 <div style="text-align:center;padding:16px 0 4px;max-width:900px;margin:0 auto;">
   <ins class="adsbygoogle"
@@ -633,6 +985,23 @@ select option { background: var(--bg-card); color: var(--text-1); }
 </div>
 
 <script>
+// ===================== THEME TOGGLE =====================
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('cp_theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon').innerHTML = isDark ? '&#9788;' : '&#9790;';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#121212' : '#e8503a';
+}
+(function() {
+  const saved = localStorage.getItem('cp_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.body.classList.add('dark');
+    document.getElementById('theme-icon').innerHTML = '&#9788;';
+    document.querySelector('meta[name="theme-color"]').content = '#121212';
+  }
+})();
+
 // ===================== CATEGORIES =====================
 const CATEGORIES = [
   { key: 'dining',        label: 'Dining / Restaurants' },
@@ -1208,7 +1577,7 @@ const APPLY_LINKS = {
   'onecard':                'https://www.getonecard.app/',
   'au-lit':                 'https://www.aubank.in/credit-card/lit-credit-card',
   'au-vetta':               'https://www.aubank.in/credit-card/vetta-credit-card',
-  'scapia':                 'https://scapia.com/',
+  'scapia-federal':         'https://scapia.com/',
   'rbl-shoprite':           'https://www.rblbank.com/credit-cards/shoprite-credit-card',
   'indusind-legend':        'https://www.indusind.com/in/en/personal/cards/credit-card/legend-credit-card.html',
   'hsbc-cashback':          'https://www.hsbc.co.in/credit-cards/cashback/',
@@ -2207,40 +2576,95 @@ document.querySelectorAll('.tab').forEach(t => {
 // ===================== RENDER CARDS =====================
 function renderCards() {
   const list = document.getElementById('cards-list');
+  const countEl = document.getElementById('mycards-count');
+  if (countEl) countEl.textContent = cards.length;
   if (cards.length === 0) {
     list.innerHTML = '<div class="empty-state"><div class="icon">&#128179;</div><p>No cards added yet.</p><p style="font-size:0.85rem">Add your credit cards to start comparing rewards.</p></div>';
     return;
   }
-  list.innerHTML = cards.map((c, i) => {
-    const tags = CATEGORIES.filter(cat => c.rates[cat.key] > 0).map(cat => {
-      return '<span class="reward-tag">' + cat.label.split('/')[0].trim() + ' <span>' + c.rates[cat.key] + '%</span></span>';
-    }).join('');
+  list.innerHTML = '<div class="cards-grid">' + cards.map((c, i) => {
     const isDc = isCardDiscontinued(c);
-    const dcBadge = isDc ? ' <span class="discontinued-badge">Discontinued</span>' : '';
-    const dcNoteText = getDiscontinuedNote(c);
-    const dcNote = isDc ? '<div class="discontinued-note">' + esc(dcNoteText || 'This card is discontinued and not open for new applications.') + '</div>' : '';
-    return '<div class="card-entry' + (isDc ? ' discontinued' : '') + '">' +
-      '<div class="card-color-bar" style="background:' + (c.color || COLORS[0]) + '"></div>' +
-      '<div class="card-body">' +
-        '<div class="card-header">' +
-          '<span class="card-name">' + esc(c.name) + ' <span style="font-size:0.78rem;color:var(--text-3);font-weight:400">' + esc(c.network) + '</span>' + dcBadge + '</span>' +
-          '<span>' +
-            '<button class="btn btn-danger" onclick="editCard(' + i + ')" style="margin-right:4px;color:var(--blue);border-color:var(--border)">Edit</button>' +
-            '<button class="btn btn-danger" onclick="deleteCard(' + i + ')">Delete</button>' +
-          '</span>' +
-        '</div>' +
-        '<div class="card-rewards">' + (tags || '<span style="color:var(--text-3);font-size:0.85rem">No reward rates set</span>') + '</div>' +
-        (c.ltf ? '<div class="annual-note" style="color:var(--green)">Lifetime Free</div>' :
-          ((c.joiningFee > 0 ? '<div class="annual-note">Joining fee: ' + fmt(c.joiningFee) + '</div>' : '') +
-           (c.annualFee > 0 ? '<div class="annual-note">Annual fee: ' + fmt(c.annualFee) + '</div>' : '') +
-           (!c.joiningFee && !c.annualFee ? '<div class="annual-note" style="color:var(--green)">Lifetime Free</div>' : ''))) +
-        (c.monthlyCap > 0 ? '<div class="annual-note">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>' : '') +
-        dcNote +
-        (c.notes ? '<div class="card-notes">' + esc(c.notes) + '</div>' : '') +
-        (c.dbId && APPLY_LINKS[c.dbId] ? '<div class="apply-row">' + applyBtn(c.dbId, false) + '<span class="apply-hint">Don\'t have this card yet?</span></div>' : '') +
-      '</div>' +
+    const imgUrl = CARD_IMAGES[c.dbId];
+    let visual;
+    if (imgUrl) {
+      visual = '<img class="card-img" src="' + imgUrl + '" alt="' + esc(c.name) + '" loading="lazy">';
+    } else {
+      const bg = c.color || COLORS[0];
+      const net = NET_LABEL[c.network] || c.network || '';
+      const bank = (c.bank || '').replace(/ Bank$/, '');
+      visual = '<div class="card-mini" style="background:linear-gradient(135deg,' + bg + ',' + bg + 'cc)">' +
+        '<div class="cm-chip"></div>' +
+        '<div class="cm-bank">' + esc(bank) + '</div>' +
+        '<div class="cm-name">' + esc(c.name.replace(bank, '').replace(c.bank || '', '').trim()) + '</div>' +
+        '<div class="cm-net">' + esc(net) + '</div>' +
+      '</div>';
+    }
+    return '<div class="cards-grid-item' + (isDc ? ' discontinued' : '') + '" title="' + esc(c.name) + '" onclick="openCardDetail(' + i + ')">' +
+      visual +
     '</div>';
-  }).join('');
+  }).join('') + '</div>';
+}
+
+function openCardDetail(i) {
+  const c = cards[i];
+  const isDc = isCardDiscontinued(c);
+  const bg = c.color || COLORS[0];
+  const net = NET_LABEL[c.network] || c.network || '';
+  const bank = (c.bank || '').replace(/ Bank$/, '');
+  const imgUrl = CARD_IMAGES[c.dbId];
+  const tags = CATEGORIES.filter(cat => c.rates[cat.key] > 0).map(cat =>
+    '<span class="reward-tag">' + cat.label.split('/')[0].trim() + ' <span>' + c.rates[cat.key] + '%</span></span>'
+  ).join('');
+  const dcBadge = isDc ? ' <span class="discontinued-badge">Discontinued</span>' : '';
+  const dcNoteText = getDiscontinuedNote(c);
+  const dcNote = isDc ? '<div class="discontinued-note">' + esc(dcNoteText || 'This card is discontinued and not open for new applications.') + '</div>' : '';
+
+  let visualHtml;
+  if (imgUrl) {
+    visualHtml = '<img class="card-detail-img" src="' + imgUrl + '" alt="' + esc(c.name) + '">';
+  } else {
+    visualHtml = '<div class="card-detail-visual" style="background:linear-gradient(135deg,' + bg + ',' + bg + 'cc)">' +
+      '<div class="cdv-chip"></div>' +
+      '<div class="cdv-bank">' + esc(bank) + '</div>' +
+      '<div class="cdv-name">' + esc(c.name.replace(bank, '').replace(c.bank || '', '').trim()) + '</div>' +
+      '<div class="cdv-net">' + esc(net) + '</div>' +
+    '</div>';
+  }
+
+  let feeHtml = '';
+  if (c.ltf) {
+    feeHtml = '<div class="card-detail-fee green">Lifetime Free</div>';
+  } else {
+    if (c.joiningFee > 0) feeHtml += '<div class="card-detail-fee">Joining fee: ' + fmt(c.joiningFee) + '</div>';
+    if (c.annualFee > 0) feeHtml += '<div class="card-detail-fee">Annual fee: ' + fmt(c.annualFee) + '</div>';
+    if (!c.joiningFee && !c.annualFee) feeHtml = '<div class="card-detail-fee green">Lifetime Free</div>';
+  }
+  if (c.monthlyCap > 0) feeHtml += '<div class="card-detail-fee">Monthly reward cap: ' + fmt(c.monthlyCap) + '</div>';
+
+  document.getElementById('card-detail-content').innerHTML =
+    '<div class="card-detail-top">' +
+      visualHtml +
+      '<div class="card-detail-info">' +
+        '<div class="cd-name">' + esc(c.name) + dcBadge + '</div>' +
+        '<div class="cd-network">' + esc(c.network) + '</div>' +
+      '</div>' +
+    '</div>' +
+    (tags ? '<div class="card-detail-section"><div class="cd-label">Rewards</div><div class="card-detail-rewards">' + tags + '</div></div>' : '') +
+    '<div class="card-detail-section"><div class="cd-label">Fees</div>' + feeHtml + '</div>' +
+    dcNote +
+    (c.notes ? '<div class="card-detail-section"><div class="cd-label">Notes</div><div class="card-detail-notes">' + esc(c.notes) + '</div></div>' : '') +
+    (c.dbId && APPLY_LINKS[c.dbId] ? '<div class="card-detail-section"><div class="apply-row">' + applyBtn(c.dbId, false) + '</div></div>' : '') +
+    '<div class="card-detail-actions">' +
+      '<button class="btn btn-secondary" onclick="closeCardDetail()">Close</button>' +
+      '<button class="btn btn-danger" onclick="closeCardDetail();editCard(' + i + ')" style="color:var(--blue);border-color:var(--border)">Edit</button>' +
+      '<button class="btn btn-danger" onclick="closeCardDetail();deleteCard(' + i + ')">Delete</button>' +
+    '</div>';
+
+  document.getElementById('card-detail-overlay').classList.add('open');
+}
+
+function closeCardDetail() {
+  document.getElementById('card-detail-overlay').classList.remove('open');
 }
 
 // ===================== SEARCH DROPDOWN =====================
@@ -2615,41 +3039,45 @@ function getCardRate(card, category, amount) {
   // Check exclusions — for fuel brand categories, also check generic 'fuel' exclusion
   const exclList = EXCLUSIONS[cardId];
   if (exclList) {
-    if (exclList.includes(category)) return { rate: 0, reward: 0, excluded: true };
-    if (FUEL_BRAND_CATS.includes(category) && exclList.includes('fuel')) return { rate: 0, reward: 0, excluded: true };
+    if (exclList.includes(category)) return { rate: 0, reward: 0, excluded: true, rawReward: 0, capApplied: null, rateSource: 'excluded' };
+    if (FUEL_BRAND_CATS.includes(category) && exclList.includes('fuel')) return { rate: 0, reward: 0, excluded: true, rawReward: 0, capApplied: null, rateSource: 'excluded' };
   }
   // Resolve fuel brand categories to the correct rate
-  let rate;
+  let rate, rateSource;
   if (FUEL_BRAND_CATS.includes(category)) {
     const fb = FUEL_BRAND_RATES[cardId];
     if (fb) {
-      // Co-branded fuel card: high rate at partner pump, base rate elsewhere
-      rate = (category === fb.brand) ? fb.brandRate : fb.otherRate;
+      if (category === fb.brand) { rate = fb.brandRate; rateSource = 'co-brand partner pump'; }
+      else { rate = fb.otherRate; rateSource = 'other pump (non-partner)'; }
     } else {
-      // Regular card: use generic fuel rate for all pump brands
       rate = card.rates['fuel'] || card.rates[category] || 0;
+      rateSource = 'fuel (all pumps)';
     }
   } else {
     rate = card.rates[category] || 0;
+    rateSource = category;
   }
-  let reward = amount * rate / 100;
+  const rawReward = amount * rate / 100;
+  let reward = rawReward;
+  let capApplied = null;
   // Per-category cap — check both specific and generic fuel
   if (CATEGORY_CAPS[cardId]) {
     const cap = CATEGORY_CAPS[cardId][category] || (FUEL_BRAND_CATS.includes(category) ? CATEGORY_CAPS[cardId]['fuel'] : undefined);
-    if (cap) reward = Math.min(reward, cap);
+    if (cap && reward > cap) { reward = cap; capApplied = 'category cap ₹' + cap + '/mo'; }
   }
   // Overall monthly cap
-  if (card.monthlyCap > 0) reward = Math.min(reward, card.monthlyCap);
-  return { rate, reward, excluded: false };
+  if (card.monthlyCap > 0 && reward > card.monthlyCap) { reward = card.monthlyCap; capApplied = 'monthly cap ₹' + card.monthlyCap; }
+  return { rate, reward, excluded: false, rawReward, capApplied, rateSource };
 }
 
 function getSmartBuyRate(card, amount) {
   if (!card.dbId || !SMARTBUY_RATES[card.dbId]) return null;
   const sb = SMARTBUY_RATES[card.dbId];
-  let reward = amount * sb.rate / 100;
-  // Cap reward based on monthly RP cap (approximate: bonus RP × ₹1 value)
-  if (sb.capPerMonth && reward > sb.capPerMonth) reward = sb.capPerMonth;
-  return { rate: sb.rate, reward };
+  const rawReward = amount * sb.rate / 100;
+  let reward = rawReward;
+  let capApplied = null;
+  if (sb.capPerMonth && reward > sb.capPerMonth) { reward = sb.capPerMonth; capApplied = 'SmartBuy cap ₹' + sb.capPerMonth + '/mo'; }
+  return { rate: sb.rate, reward, rawReward, capApplied, rateSource: 'SmartBuy 10x' };
 }
 
 function cardMatchesBank(card, bankRequired) {
@@ -2923,6 +3351,913 @@ function renderFuelRow(r, isBest) {
   });
 });
 
+// ===================== LOUNGE ACCESS DASHBOARD =====================
+// Structured lounge data: visits = -1 means unlimited
+// period: 'quarter' or 'year'
+// networks: lounge program networks the card uses
+// access: step-by-step how to access the lounge
+const LOUNGE_DB = {
+  // ==================== HDFC BANK ====================
+  'hdfc-infinia': {
+    domestic: { visits:-1, period:'year', guest:'Guests chargeable at $27 + GST per visit' },
+    international: { visits:-1, period:'year', guest:'Guests chargeable at $27 + GST per visit' },
+    networks: ['Priority Pass','Visa/Mastercard'],
+    access: ['Swipe credit card at domestic airport lounge (₹2 validation charge, reversed)','For international lounges, use Priority Pass physical card + boarding pass','DreamFolks QR code via app also works for domestic lounges','Add-on cardholders get separate Priority Pass with unlimited access']
+  },
+  'hdfc-diners-black': {
+    domestic: { visits:-1, period:'year', guest:'Guests not officially covered' },
+    international: { visits:-1, period:'year', guest:'Guests not officially covered' },
+    networks: ['Diners Club','DreamFolks'],
+    access: ['Show physical Diners Club Black card at any Diners Club lounge (1,300+ worldwide)','Use Diners Club Travel Tools app for DreamFolks QR code at domestic lounges','Metal Edition: Digital Priority Pass also available','No separate Priority Pass needed — Diners card itself is the access card']
+  },
+  'hdfc-diners-privilege': {
+    domestic: { visits:2, period:'quarter', guest:'Shared between primary + add-on' },
+    international: { visits:2, period:'quarter', guest:'Combined with domestic quota' },
+    spendCondition: '₹15,000 min spend in previous quarter to unlock access',
+    networks: ['Diners Club'],
+    access: ['Show physical Diners Club Privilege card at any Diners Club lounge','Use Diners Club Travel Tools app for DreamFolks QR at domestic lounges','2 visits/quarter shared across domestic + international','Must spend ₹15,000+ in previous quarter to qualify']
+  },
+  'hdfc-regalia': {
+    domestic: { visits:2, period:'quarter', guest:'Guests chargeable at $27 + GST' },
+    international: { visits:6, period:'year', guest:'Shared between primary + add-on via Priority Pass' },
+    spendCondition: '₹1,00,000 spend in current quarter for domestic lounge access',
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Swipe credit card at lounge (requires ₹1L spend in quarter)','International: Use Priority Pass card (6 visits/year, shared with add-on)','Card is phased out — no new applications. Existing cards continue','Using Priority Pass at domestic airports is chargeable at $27']
+  },
+  'hdfc-regalia-gold': {
+    domestic: { visits:12, period:'year', guest:'Shared with up to 3 add-on cards' },
+    international: { visits:6, period:'year', guest:'Shared with add-on via Priority Pass' },
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Swipe credit card at participating airport lounges','International: Use Priority Pass card (6 visits/year shared with add-on)','No spend condition — lounge access is unconditional','Using Priority Pass at domestic Indian airports is chargeable']
+  },
+  'hdfc-millennia': {
+    domestic: { visits:1, period:'quarter', guest:'N/A — milestone-based' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    spendCondition: '₹1,00,000 spend/quarter — then choose: 1 lounge OR ₹1,000 voucher',
+    networks: ['Visa/Mastercard'],
+    access: ['Must spend ₹1L in a quarter to earn 1 lounge visit (or ₹1,000 voucher instead)','Generate lounge voucher via HDFC SmartBuy/rewards portal','DreamFolks QR code if card variant supports it','No international lounge access on this card']
+  },
+  // ==================== SBI CARD ====================
+  'sbi-elite': {
+    domestic: { visits:2, period:'quarter', guest:'Guests chargeable' },
+    international: { visits:6, period:'year', guest:'Guests chargeable at $27 + GST' },
+    spendCondition: '₹50,000 spend/quarter required for domestic lounge (from Jun 2025)',
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Lounge vouchers sent via SMS/email after meeting ₹50K/qtr spend','International: Register for Priority Pass by calling SBI Card helpline (1860 180 1290)','Physical Priority Pass card delivered within 10 days','Show Priority Pass + boarding pass at international lounges']
+  },
+  'sbi-prime': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:4, period:'year', guest:'Guests chargeable at $27 + GST' },
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Present SBI PRIME card at participating airport lounges','Validation charge ₹2 (Visa/RuPay) or ₹25 hold (Mastercard, not debited)','International: Register for Priority Pass via SBI Card helpline','4 complimentary international visits per year via Priority Pass']
+  },
+  'sbi-aurum': {
+    domestic: { visits:4, period:'quarter', guest:'Primary + add-on both get access' },
+    international: { visits:-1, period:'year', guest:'1 guest free per quarter' },
+    networks: ['Visa/Mastercard','DreamFolks'],
+    access: ['Domestic: Present SBI AURUM card at participating lounges','International: DreamFolks digital membership via aurumcreditcard.com or SBI Card app','Physical DreamFolks cards discontinued from Mar 2024 — use digital only','Add-on cardholders also get unlimited international access + 1 spa/quarter']
+  },
+  // ==================== ICICI BANK ====================
+  'icici-emeralde-private': {
+    domestic: { visits:-1, period:'year', guest:'Add-on cardholders also get unlimited access' },
+    international: { visits:-1, period:'year', guest:'Add-on cardholders also get Priority Pass' },
+    networks: ['Card swipe','Priority Pass'],
+    access: ['Domestic: Swipe credit card at lounge POS terminal','International: Priority Pass membership — both primary and add-on get cards','1,400+ lounges across 145+ countries via Priority Pass','One of only 3 ICICI cards where add-on retains lounge access (Dec 2024 policy)']
+  },
+  'icici-emeralde': {
+    domestic: { visits:-1, period:'year', guest:'Primary cardholder only (since Dec 2024)' },
+    international: { visits:-1, period:'year', guest:'Primary cardholder only' },
+    networks: ['Card swipe','DreamFolks / Priority Pass'],
+    access: ['Domestic: Swipe credit card at lounge POS terminal','International: DreamFolks (pre-Oct 2024) or Priority Pass (post-Oct 2024)','Add-on cardholder lounge access removed since Dec 2024','DreamFolks supports QR-code-based access via app']
+  },
+  'icici-sapphiro': {
+    domestic: { visits:4, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:2, period:'year', guest:'Primary cardholder only' },
+    spendCondition: '₹75,000 spend in previous quarter to unlock domestic lounge',
+    networks: ['Card swipe','Priority Pass'],
+    access: ['Domestic: Swipe ICICI Sapphiro card at lounge POS (₹75K prev quarter required)','International: Priority Pass (post-Oct 2024) or DreamFolks (pre-Oct 2024)','2 complimentary international visits per year','Also offers 2 complimentary domestic airport spa visits per year']
+  },
+  'icici-coral': {
+    domestic: { visits:1, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    spendCondition: '₹75,000 spend in previous quarter to unlock domestic lounge',
+    networks: ['Card swipe'],
+    access: ['Swipe ICICI Coral card at domestic airport lounge POS','Must spend ₹75K+ in previous quarter to qualify','1 domestic visit per quarter (4/year) — also 1 railway lounge/quarter','No international lounge access on this card']
+  },
+  'icici-rubyx': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    spendCondition: '₹75,000 spend in previous quarter to unlock domestic lounge',
+    networks: ['Card swipe'],
+    access: ['Swipe ICICI Rubyx card at domestic airport lounge POS','Must spend ₹75K+ in previous quarter to qualify','2 domestic visits per quarter (8/year) — also 2 railway lounge/quarter','No international lounge access on this card']
+  },
+  // ==================== AXIS BANK ====================
+  'axis-magnus': {
+    domestic: { visits:-1, period:'year', guest:'4 guest visits per year' },
+    international: { visits:-1, period:'year', guest:'4 guest visits per year' },
+    spendCondition: '₹50,000 spend in previous 3 months for domestic lounge',
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Card swipe or QR code via Axis app (requires ₹50K/3mo spend)','International: Digital Priority Pass — activate at my.prioritypass.com','Unlimited domestic + international for primary + add-on cardholders','Guest visits: 4 per year (reduced from 8 in Apr 2024)']
+  },
+  'axis-atlas': {
+    domestic: { visits:8, period:'year', guest:'Pooled with cardholder visits' },
+    international: { visits:4, period:'year', guest:'Pooled with cardholder visits' },
+    spendCondition: 'Tiered: Silver 8d/4i, Gold (₹7.5L) 12d/6i, Platinum (₹15L) 18d/12i per year',
+    networks: ['Priority Pass','Adani Lounge One'],
+    access: ['Domestic: QR code from Axis app (Adani/Lounge One) or card swipe','International: Digital Priority Pass — activate at my.prioritypass.com','DreamFolks ended Jul 2025 — moved to Priority Pass + Adani Lounge One','Card discontinued for new apps (Aug 2025). Existing cards continue.']
+  },
+  'axis-reserve': {
+    domestic: { visits:-1, period:'year', guest:'12 guest visits per year' },
+    international: { visits:-1, period:'year', guest:'12 guest visits per year' },
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Swipe card at lounge — unlimited visits','International: Priority Pass — unlimited visits','Add-on cardholders also get unlimited domestic + international','12 complimentary guest visits per year (domestic + international each)']
+  },
+  'axis-select': {
+    domestic: { visits:0, period:'quarter', guest:'Domestic lounge discontinued Jun 2025' },
+    international: { visits:6, period:'year', guest:'Primary cardholder only' },
+    spendCondition: 'Additional 6 intl visits unlocked on ₹3L annual spend (total 12/yr)',
+    networks: ['Priority Pass'],
+    access: ['Domestic lounge access completely removed (June 20, 2025)','International: Digital Priority Pass — 6 visits/year base','Spend ₹3L/year to unlock additional 6 international visits (total 12)','Activate Priority Pass on first transaction within 30 days']
+  },
+  'axis-signature': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'PP membership free, visits chargeable $16-25' },
+    networks: ['Visa','Priority Pass (membership only)'],
+    access: ['Domestic: Swipe Visa card at participating Visa lounges — 2/quarter','International: Priority Pass membership is free but all visits are chargeable','Each international visit costs $16.50-25 — no complimentary visits','Domestic lounge access has no spend condition']
+  },
+  'axis-horizon': {
+    domestic: { visits:8, period:'quarter', guest:'Not explicitly documented' },
+    international: { visits:2, period:'quarter', guest:'Not explicitly documented' },
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Swipe card at Visa/Mastercard lounges (8/qtr Visa, 6/qtr MC)','International: Priority Pass — 2 visits per quarter','DreamFolks ended mid-2025; now via Priority Pass for international','Migrated from Citi PremierMiles — QR code in Axis app may be buggy']
+  },
+  // ==================== STANDARD CHARTERED ====================
+  'sc-ultimate': {
+    domestic: { visits:4, period:'quarter', guest:'Guests chargeable at $27/visit' },
+    international: { visits:1, period:'month', guest:'Guests chargeable at $27/visit' },
+    spendCondition: '₹20,000 spend in previous month for international lounge access',
+    networks: ['Visa/Mastercard','Priority Pass'],
+    access: ['Domestic: Swipe card at lounge — 4 visits/quarter, no spend condition','International: Priority Pass — 1 visit/month (must spend ₹20K prev month)','Supplementary cardholders get their own Priority Pass membership','Show Priority Pass + boarding pass at international lounges']
+  },
+  // ==================== KOTAK BANK ====================
+  'kotak-white': {
+    domestic: { visits:2, period:'quarter', guest:'Guests chargeable at $35/visit' },
+    international: { visits:4, period:'year', guest:'Guests chargeable at $35/visit' },
+    networks: ['Card swipe','Priority Pass'],
+    access: ['Domestic: Present Kotak White card at participating lounges — 2/quarter','International: Priority Pass — 4 visits/year','Card swipe at lounge ($1 validation charge, auto-reversed in 7 days)','After free visits exhausted, $35 per visit charged']
+  },
+  'kotak-privy-league': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:4, period:'year', guest:'Paid variant only; free variant: 0 free visits' },
+    networks: ['Card swipe','Priority Pass'],
+    access: ['Domestic: Present card at lounge — 2 visits/quarter','International: Priority Pass — 4 visits/year (paid card variant only)','Free variant gets PP membership but 0 complimentary international visits','Card swipe at lounge ($1 validation, auto-reversed)']
+  },
+  'kotak-mojo': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    networks: ['Card swipe'],
+    access: ['Present Kotak Mojo card at domestic airport lounges','2 visits per quarter (8/year)','No international lounge access','No spend condition']
+  },
+  // ==================== YES BANK ====================
+  'yes-first-exclusive': {
+    domestic: { visits:3, period:'quarter', guest:'Guests chargeable' },
+    international: { visits:6, period:'year', guest:'Guests chargeable' },
+    spendCondition: '₹1,00,000 spend/quarter required (from Apr 2025)',
+    networks: ['DreamFolks','Card swipe'],
+    access: ['Domestic: DreamFolks QR or card swipe — 3 visits/quarter','International: Card swipe at eligible lounges — 6 visits/year','Priority Pass discontinued — international via direct card swipe now','Must spend ₹1L/quarter to qualify for lounge (from Apr 2025)']
+  },
+  // ==================== AMEX ====================
+  'amex-plat-travel': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'PP membership free, visits chargeable $27-35' },
+    networks: ['Amex lounge programme','Priority Pass (membership only)'],
+    access: ['Domestic: Present Amex Platinum Travel card at lounges — 2/quarter','Priority Pass membership included (fee waived) but all visits are paid','Each international PP visit costs $27-35 — no free visits included','No spend condition for domestic lounge access']
+  },
+  // ==================== SCAPIA ====================
+  'scapia-federal': {
+    domestic: { visits:-1, period:'month', guest:'Add-on cardholders get own access if they meet spend' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    spendCondition: '₹20,000 combined spend (Visa+RuPay) per billing cycle (from Feb 2026)',
+    networks: ['Card swipe / Scapia app'],
+    access: ['Open Scapia app → Lounge Access section','Unlimited domestic visits per month if spend condition is met','Must spend ₹20K/billing cycle (doubled from ₹10K in Feb 2026)','No international airport lounge access — domestic only']
+  },
+  // ==================== IDFC FIRST BANK ====================
+  'idfc-select': {
+    domestic: { visits:2, period:'quarter', guest:'No guest access' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    spendCondition: '₹20,000 spend in current month to unlock next month. Drops to 1/qtr from Apr 2026',
+    networks: ['EliteAssist (domestic)'],
+    access: ['Present IDFC FIRST Select card at domestic airport lounges','Must spend ₹20K in current month to unlock lounge next month','Also includes 4 railway lounge visits per quarter','Domestic aggregator changed from DreamFolks to EliteAssist (Sep 2025)']
+  },
+  'idfc-wealth': {
+    domestic: { visits:2, period:'quarter', guest:'No guest access' },
+    international: { visits:2, period:'quarter', guest:'No guest access' },
+    spendCondition: '₹20,000 spend in current month to unlock next month. Drops to 1/qtr from Apr 2026',
+    networks: ['EliteAssist (domestic)','DreamFolks (international)'],
+    access: ['Domestic: Present card at lounge — 2 visits/quarter via EliteAssist','International: DreamFolks membership — 2 visits/quarter','Must spend ₹20K in current month to unlock lounge next month','Also includes 4 railway lounge visits per quarter']
+  },
+  'idfc-ashva': {
+    domestic: { visits:4, period:'quarter', guest:'Add-on shares from same pool' },
+    international: { visits:2, period:'quarter', guest:'Add-on shares from same pool' },
+    spendCondition: '₹20,000 spend in current month to unlock next month',
+    networks: ['EliteAssist (domestic)','DreamFolks (international)'],
+    access: ['Domestic: Present card at lounge — 4 visits/quarter via EliteAssist','International: DreamFolks membership — 2 visits/quarter','Must spend ₹20K in current month to unlock lounge next month','Also includes 4 railway lounge visits per quarter']
+  },
+  // ==================== HSBC ====================
+  'hsbc-travelone': {
+    domestic: { visits:6, period:'year', guest:'Primary cardholder only' },
+    international: { visits:4, period:'year', guest:'Primary cardholder only' },
+    networks: ['Mastercard lounge programme','LoungeKey'],
+    access: ['Domestic: Present HSBC TravelOne card at Mastercard lounges','International: LoungeKey — 4 visits/year at 1,100+ lounges','No spend condition for lounge access','Also includes 4 complimentary airport transfers/year (1/quarter)']
+  },
+  // ==================== BOB ====================
+  'bob-premier': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    networks: ['Card swipe'],
+    access: ['Present BOB Premier card at domestic airport lounges','2 visits per quarter (8/year)','No international lounge access','No spend condition']
+  },
+  // ==================== CANARA BANK ====================
+  'canara-mc-world': {
+    domestic: { visits:3, period:'quarter', guest:'2 guests per quarter' },
+    international: { visits:2, period:'year', guest:'2 guests per year' },
+    networks: ['Mastercard'],
+    access: ['Present Canara World Mastercard at domestic lounges — 3 self + 2 guest/quarter','International: 2 self + 2 guest visits per year','Eligible for Mastercard lounge program at select airports','Swipe Mastercard at lounge POS terminal']
+  },
+  'canara-rupay-select': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:2, period:'year', guest:'Primary cardholder only' },
+    networks: ['RuPay Select'],
+    access: ['Present Canara RuPay Select card at domestic lounges','RuPay Select cards get NPCI lounge access at select airports','2 domestic visits per quarter + 2 international per year','Show RuPay Select card at lounge reception']
+  },
+  // ==================== PSU BANKS ====================
+  'pnb-rupay-platinum': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:1, period:'year', guest:'Primary cardholder only' },
+    networks: ['RuPay'],
+    access: ['Present PNB RuPay Platinum card at participating lounges','2 domestic visits per quarter','Limited international visits via RuPay network','Show RuPay card at lounge reception']
+  },
+  'union-rupay-select': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:2, period:'year', guest:'Primary cardholder only' },
+    networks: ['RuPay Select'],
+    access: ['Present Union RuPay Select card at domestic lounges','2 domestic visits per quarter via RuPay Select program','2 international visits per year','RuPay Select cards eligible for NPCI lounge program']
+  },
+  'boi-rupay-select': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:2, period:'year', guest:'Primary cardholder only' },
+    networks: ['RuPay Select'],
+    access: ['Present BOI RuPay Select card at lounges','8 domestic visits per year (2/quarter)','2 international visits per year','Show RuPay Select card at lounge reception']
+  },
+  'boi-mastercard-platinum': {
+    domestic: { visits:1, period:'quarter', guest:'No guest access' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    networks: ['Mastercard'],
+    access: ['Present BOI Mastercard Platinum at domestic lounges','3 domestic lounge visits per year','No international lounge access','Swipe card at lounge POS']
+  },
+  'iob-rupay-select': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:2, period:'year', guest:'Primary cardholder only' },
+    networks: ['RuPay Select'],
+    access: ['Present IOB RuPay Select card at lounges','2 domestic visits per quarter + 2 international per year','RuPay Select benefits via NPCI program','Show card at lounge entry']
+  },
+  'bajaj-rbl-world-prime': {
+    domestic: { visits:2, period:'quarter', guest:'Primary cardholder only' },
+    international: { visits:0, period:'year', guest:'N/A' },
+    networks: ['Card swipe'],
+    access: ['Present Bajaj RBL World Prime card at domestic lounges','8 domestic lounge visits per year (2/quarter)','No international lounge access','No spend condition']
+  },
+};
+
+function getLoungeData(card) {
+  const id = card.dbId || card.id;
+  if (id && LOUNGE_DB[id]) return LOUNGE_DB[id];
+  return null;
+}
+
+function formatVisits(v) {
+  if (v === -1) return 'Unlimited';
+  if (v === 0) return 'None';
+  return String(v);
+}
+
+function renderLoungeDashboard() {
+  const div = document.getElementById('lounge-dashboard');
+  const loungeCards = [];
+  const otherLoungeCards = [];
+
+  // Collect user's cards with lounge access
+  cards.forEach(c => {
+    const data = getLoungeData(c);
+    if (data) {
+      loungeCards.push({ card: c, lounge: data });
+    }
+  });
+
+  // If no user cards, show empty state with suggestion
+  if (cards.length === 0) {
+    div.innerHTML = '<div class="lounge-empty"><div class="icon">&#9992;</div><p>Add your credit cards first</p><p class="hint">Go to the My Cards tab to add your cards, then come back here to see your lounge access summary.</p></div>';
+    return;
+  }
+
+  if (loungeCards.length === 0) {
+    div.innerHTML = '<div class="lounge-empty"><div class="icon">&#9992;</div><p>None of your cards have lounge access</p><p class="hint">Consider upgrading to a card with lounge benefits. Cards like HDFC Regalia Gold, SBI Prime, or Scapia offer complimentary lounge access.</p></div>';
+    appendLoungeSuggestions(div);
+    return;
+  }
+
+  let html = '';
+
+  // Calculate totals
+  let totalDomesticQtr = 0, totalIntlYr = 0, hasUnlimitedDom = false, hasUnlimitedIntl = false;
+  const allNetworks = new Set();
+
+  loungeCards.forEach(({ lounge }) => {
+    if (lounge.domestic.visits === -1) hasUnlimitedDom = true;
+    else totalDomesticQtr += lounge.domestic.period === 'quarter' ? lounge.domestic.visits : Math.ceil(lounge.domestic.visits / 4);
+    if (lounge.international.visits === -1) hasUnlimitedIntl = true;
+    else totalIntlYr += lounge.international.period === 'year' ? lounge.international.visits : lounge.international.visits * 4;
+    lounge.networks.forEach(n => allNetworks.add(n));
+  });
+
+  // Summary bar
+  html += '<div class="lounge-summary">';
+  html += '<div class="lounge-stat"><div class="ls-label">Domestic Lounge</div><div class="ls-value accent">' + (hasUnlimitedDom ? 'Unlimited' : totalDomesticQtr + '/qtr') + '</div><div class="ls-sub">' + (hasUnlimitedDom ? 'Across all airports' : 'Combined from ' + loungeCards.length + ' card' + (loungeCards.length > 1 ? 's' : '')) + '</div></div>';
+  html += '<div class="lounge-stat"><div class="ls-label">International Lounge</div><div class="ls-value accent">' + (hasUnlimitedIntl ? 'Unlimited' : (totalIntlYr > 0 ? totalIntlYr + '/yr' : 'None')) + '</div><div class="ls-sub">' + (hasUnlimitedIntl ? 'Priority Pass / global' : (totalIntlYr > 0 ? 'Via Priority Pass / card network' : 'No intl access on your cards')) + '</div></div>';
+  html += '<div class="lounge-stat"><div class="ls-label">Lounge Networks</div><div class="ls-value">' + allNetworks.size + '</div><div class="ls-sub">' + Array.from(allNetworks).join(', ') + '</div></div>';
+  html += '</div>';
+
+  // Your cards with lounge access
+  html += '<div class="lounge-section"><h4>Your Lounge Access</h4>';
+  loungeCards.forEach(({ card, lounge }) => {
+    html += renderLoungeCard(card, lounge, true);
+  });
+  html += '</div>';
+
+  div.innerHTML = html;
+  appendLoungeSuggestions(div);
+}
+
+function appendLoungeSuggestions(container) {
+  // Find DB cards with lounge access that user doesn't have
+  const userIds = new Set(cards.map(c => c.dbId || c.id));
+  const suggestions = [];
+  CARD_DB.forEach(c => {
+    if (userIds.has(c.id)) return;
+    if (c.discontinued) return;
+    if (!LOUNGE_DB[c.id]) return;
+    const l = LOUNGE_DB[c.id];
+    const domVisits = l.domestic.visits === -1 ? 999 : (l.domestic.period === 'quarter' ? l.domestic.visits * 4 : l.domestic.visits);
+    const intlVisits = l.international.visits === -1 ? 999 : (l.international.period === 'year' ? l.international.visits : l.international.visits * 4);
+    suggestions.push({ card: c, lounge: l, score: domVisits + intlVisits * 2 });
+  });
+  suggestions.sort((a, b) => b.score - a.score);
+  if (suggestions.length === 0) return;
+
+  let html = '<div class="lounge-section"><h4>Cards with Lounge Access</h4>';
+  suggestions.slice(0, 8).forEach(({ card, lounge }) => {
+    html += renderLoungeCard(card, lounge, false);
+  });
+  html += '</div>';
+  container.innerHTML += html;
+}
+
+function renderLoungeCard(card, lounge, isUser) {
+  const color = card.color || '#888';
+  const name = card.name || '';
+  const bank = card.bank || '';
+  let html = '<div class="lounge-card">';
+
+  // Header with mini card
+  html += '<div class="lounge-card-header">';
+  html += '<div class="card-mini" style="background:' + color + '"><div class="cm-bank">' + escHtml(bank) + '</div><div class="cm-chip"></div><div class="cm-name">' + escHtml(name) + '</div></div>';
+  html += '<div><div class="lc-name">' + escHtml(name) + (isUser ? '<span class="fc-yours-tag" style="margin-left:6px">Your Card</span>' : '') + '</div><div class="lc-bank">' + escHtml(bank) + '</div></div>';
+  html += '</div>';
+
+  // Domestic + International grid
+  html += '<div class="lounge-grid">';
+
+  // Domestic box
+  const domV = lounge.domestic.visits;
+  html += '<div class="lounge-box' + (domV === 0 ? ' no-access' : '') + '">';
+  html += '<div class="lb-title">Domestic</div>';
+  html += '<div class="lb-visits' + (domV === -1 ? ' unlimited' : '') + '">' + formatVisits(domV) + '</div>';
+  html += '<div class="lb-period">' + (domV === 0 ? 'No domestic access' : 'per ' + lounge.domestic.period) + '</div>';
+  if (domV !== 0) html += '<div class="lb-guest">Guest: ' + escHtml(lounge.domestic.guest) + '</div>';
+  html += '</div>';
+
+  // International box
+  const intV = lounge.international.visits;
+  html += '<div class="lounge-box' + (intV === 0 ? ' no-access' : '') + '">';
+  html += '<div class="lb-title">International</div>';
+  html += '<div class="lb-visits' + (intV === -1 ? ' unlimited' : '') + '">' + formatVisits(intV) + '</div>';
+  html += '<div class="lb-period">' + (intV === 0 ? 'No international access' : 'per ' + lounge.international.period) + '</div>';
+  if (intV !== 0) html += '<div class="lb-guest">Guest: ' + escHtml(lounge.international.guest) + '</div>';
+  html += '</div>';
+  html += '</div>'; // close lounge-grid
+
+  // Spend condition warning
+  if (lounge.spendCondition) {
+    html += '<div style="margin-top:8px;padding:8px 12px;background:#f5a62310;border:1px solid #f5a62330;border-radius:var(--r-sm);font-size:0.72rem;color:#b07a1a;font-weight:600;">&#9888; ' + escHtml(lounge.spendCondition) + '</div>';
+  }
+
+  // Networks
+  html += '<div class="lounge-networks-row">';
+  lounge.networks.forEach(n => {
+    html += '<span class="lounge-net-tag">' + escHtml(n) + '</span>';
+  });
+  html += '</div>';
+
+  // How to access
+  html += '<div class="lounge-access">';
+  html += '<div class="la-title">How to access</div>';
+  lounge.access.forEach((step, i) => {
+    html += '<div class="la-step"><div class="la-num">' + (i + 1) + '</div><div class="la-desc">' + escHtml(step) + '</div></div>';
+  });
+  html += '</div>';
+
+  html += '</div>'; // close lounge-card
+  return html;
+}
+
+// Re-render lounge dashboard when tab is switched to it
+document.addEventListener('click', function(e) {
+  const tab = e.target.closest('.tab');
+  if (tab && tab.dataset.panel === 'lounge') {
+    setTimeout(renderLoungeDashboard, 50);
+  }
+  if (tab && tab.dataset.panel === 'upgrade') {
+    setTimeout(renderUpgradeDashboard, 50);
+  }
+  if (tab && tab.dataset.panel === 'overlap') {
+    setTimeout(renderOverlapDashboard, 50);
+  }
+  if (tab && tab.dataset.panel === 'redeem') {
+    setTimeout(renderRedeemDashboard, 50);
+  }
+});
+
+// ===================== CARD UPGRADE PATHS =====================
+// Each bank has an array of tiers (lowest to highest).
+// income: minimum monthly income (approx.), spend: annual spend for upgrade consideration
+// inviteOnly: true if bank invitation is required
+const UPGRADE_PATHS = {
+  'HDFC Bank': [
+    { id:'hdfc-pixel-play', name:'Pixel Play', fee:'LTF', income:'₹15K/mo', spend:'-', benefit:'5% online cashback, digital-first, LTF entry card' },
+    { id:'hdfc-moneyback-plus', name:'MoneyBack+', fee:'₹500/yr', income:'₹20K/mo', spend:'₹1L/yr', benefit:'5% Amazon/Flipkart/Swiggy, 1% others' },
+    { id:'hdfc-millennia', name:'Millennia', fee:'₹1,000/yr', income:'₹25K/mo', spend:'₹2L/yr', benefit:'5% select online, milestone lounge, entry to SmartBuy' },
+    { id:'hdfc-regalia-gold', name:'Regalia Gold', fee:'₹2,500/yr', income:'₹50K/mo', spend:'₹3L/yr', benefit:'5x Nykaa/Myntra, 12 lounge/yr, Swiggy One + MMT Black Gold' },
+    { id:'hdfc-diners-privilege', name:'Diners Club Privilege', fee:'₹2,500/yr', income:'₹50K/mo', spend:'₹3L/yr', benefit:'6.67% Swiggy/Zomato, BMS BOGO, 12 lounge/qtr, waived ₹3L' },
+    { id:'hdfc-regalia', name:'Regalia', fee:'₹2,500/yr', income:'₹60K/mo', spend:'₹5L/yr', benefit:'1.33% all, SmartBuy 5x, 12 lounge/yr, concierge' },
+    { id:'hdfc-diners-black', name:'Diners Club Black', fee:'₹10,000/yr', income:'₹1L/mo', spend:'₹8L/yr', benefit:'3.33% all, SmartBuy 10x (33% on GCs!), unlimited lounge, golf, waived ₹8L' },
+    { id:'hdfc-infinia', name:'Infinia', fee:'₹12,500/yr', income:'₹1.5L+/mo', spend:'₹10L+/yr', benefit:'3.33% all, SmartBuy 10x, unlimited lounge, invite-only ultra-premium', inviteOnly:true },
+  ],
+  'SBI Card': [
+    { id:'sbi-phonepe-purple', name:'PhonePe Purple', fee:'LTF', income:'₹15K/mo', spend:'-', benefit:'RuPay UPI rewards, LTF, digital-first entry card' },
+    { id:'sbi-simplysave', name:'SimplySAVE', fee:'₹499/yr', income:'₹20K/mo', spend:'₹1L/yr', benefit:'1.67% dining/groceries/movies, good offline card' },
+    { id:'sbi-simplyclick', name:'SimplyCLICK', fee:'₹499/yr', income:'₹25K/mo', spend:'₹1L/yr', benefit:'2.5% Amazon/BookMyShow/Cleartrip partners' },
+    { id:'sbi-cashback', name:'SBI Cashback', fee:'₹999/yr', income:'₹30K/mo', spend:'₹2L/yr', benefit:'5% online, waived ₹2L spend, great for online shoppers' },
+    { id:'sbi-prime', name:'SBI PRIME', fee:'₹2,999/yr', income:'₹50K/mo', spend:'₹3L/yr', benefit:'2.5% dining/groceries, 4 lounge/qtr, golf, waived ₹3L' },
+    { id:'sbi-elite', name:'SBI ELITE', fee:'₹4,999/yr', income:'₹75K/mo', spend:'₹5L/yr', benefit:'2.5% dining/groceries, Priority Pass, BMS 2 free/mo, waived ₹10L' },
+    { id:'sbi-aurum', name:'SBI AURUM', fee:'₹9,999/yr', income:'₹1.5L+/mo', spend:'₹10L+/yr', benefit:'3% travel, premium travel card, invite/upgrade path', inviteOnly:true },
+  ],
+  'ICICI Bank': [
+    { id:'icici-platinum', name:'Platinum Chip', fee:'LTF', income:'₹15K/mo', spend:'-', benefit:'0.5% flat, LTF entry card, dining discounts' },
+    { id:'icici-amazon-pay', name:'Amazon Pay ICICI', fee:'LTF', income:'₹20K/mo', spend:'-', benefit:'5% Amazon (Prime), 2% bills, LTF, most popular card in India' },
+    { id:'icici-coral', name:'Coral', fee:'₹500/yr', income:'₹25K/mo', spend:'₹2L/yr', benefit:'0.75%, BMS BOGO, 1 lounge/qtr' },
+    { id:'icici-rubyx', name:'Rubyx', fee:'₹3,000/yr', income:'₹40K/mo', spend:'₹3L/yr', benefit:'1% domestic, 2% international, 2 lounge/qtr' },
+    { id:'icici-sapphiro', name:'Sapphiro', fee:'₹3,500/yr', income:'₹60K/mo', spend:'₹6L/yr', benefit:'2% groceries/utilities, 4 lounge/qtr + 4 intl/yr, waived ₹6L' },
+    { id:'icici-emeralde', name:'Emeralde', fee:'₹12,000/yr', income:'₹1L/mo', spend:'₹8L+/yr', benefit:'1.5% all, unlimited lounge, premium perks' },
+    { id:'icici-emeralde-private', name:'Emeralde Private Metal', fee:'₹20,000/yr', income:'₹2L+/mo', spend:'₹15L+/yr', benefit:'3% all, unlimited lounge+golf, 50% dining, invite-only', inviteOnly:true },
+  ],
+  'Axis Bank': [
+    { id:'axis-myzone', name:'MyZone', fee:'₹500/yr', income:'₹15K/mo', spend:'-', benefit:'4% weekend dining, BMS BOGO, often available as LTF' },
+    { id:'axis-ace', name:'ACE', fee:'₹499/yr', income:'₹20K/mo', spend:'₹2L/yr', benefit:'5% utilities (bills), 1.5% all others, waived ₹2L' },
+    { id:'axis-flipkart', name:'Flipkart Axis', fee:'₹500/yr', income:'₹25K/mo', spend:'₹2L/yr', benefit:'5% Flipkart/Cleartrip, 4% Swiggy/Uber' },
+    { id:'axis-rewards', name:'Axis Rewards', fee:'₹500/yr', income:'₹25K/mo', spend:'₹2L/yr', benefit:'3.2% dining/grocery, monthly milestones' },
+    { id:'axis-select', name:'Axis Select', fee:'₹3,000/yr', income:'₹50K/mo', spend:'₹3L/yr', benefit:'1% all, 6 golf/yr, lounge, 5K RP milestone on ₹3L' },
+    { id:'axis-signature', name:'Axis Signature', fee:'₹2,000/yr', income:'₹50K/mo', spend:'₹4L/yr', benefit:'1% domestic, 2% international, Priority Pass, lounge' },
+    { id:'axis-magnus', name:'Magnus', fee:'₹12,500/yr', income:'₹1L/mo', spend:'₹15L+/yr', benefit:'1.2% + milestones, unlimited domestic lounge, concierge, waived ₹25L' },
+    { id:'axis-reserve', name:'Reserve', fee:'₹50,000/yr', income:'₹3L+/mo', spend:'₹25L+/yr', benefit:'2% base, 4% travel, ultra-premium, invite-only', inviteOnly:true },
+  ],
+  'Kotak Bank': [
+    { id:'kotak-811', name:'811 #DreamDifferent', fee:'LTF', income:'₹10K/mo', spend:'-', benefit:'0.3% all, LTF secured card, lowest entry bar' },
+    { id:'kotak-league-platinum', name:'League Platinum', fee:'LTF', income:'₹15K/mo', spend:'-', benefit:'0.2% all, LTF, fuel surcharge waiver' },
+    { id:'kotak-urbane-gold', name:'Urbane Gold', fee:'₹199/yr', income:'₹20K/mo', spend:'₹1L/yr', benefit:'0.3% + PVR tickets/bonus RP milestone' },
+    { id:'kotak-zen', name:'Zen Signature', fee:'₹1,500/yr', income:'₹30K/mo', spend:'₹1.5L/yr', benefit:'0.83% base, 1.67% shopping, waived ₹1.5L' },
+    { id:'kotak-royale', name:'Royale Signature', fee:'₹1,499/yr', income:'₹40K/mo', spend:'₹1L/yr', benefit:'0.66% travel/dining, lounge, milestones' },
+    { id:'kotak-privy-league', name:'Privy League Signature', fee:'LTF (Privy)', income:'₹50K/mo', spend:'₹2L+/yr', benefit:'1.33% all, Privy League banking customers only' },
+    { id:'kotak-white', name:'White', fee:'₹3,000/yr', income:'₹75K/mo', spend:'₹5L+/yr', benefit:'1.5% all, 8 lounge/yr, luxury voucher redemption' },
+  ],
+  'IDFC FIRST Bank': [
+    { id:'idfc-classic', name:'Classic', fee:'LTF', income:'₹25K/mo', spend:'-', benefit:'0.5% all, LTF, lowest entry, never-expiring RP' },
+    { id:'idfc-millennia', name:'Millennia', fee:'LTF', income:'₹30K/mo', spend:'-', benefit:'1.67% all (10x), LTF, zero forex available' },
+    { id:'idfc-select', name:'Select', fee:'LTF', income:'₹40K/mo', spend:'-', benefit:'2% all (10x above ₹20K/mo), LTF, never-expiring RP' },
+    { id:'idfc-wealth', name:'Wealth', fee:'LTF', income:'₹60K/mo', spend:'-', benefit:'2.5% all, 1.5% forex, LTF, best IDFC card' },
+    { id:'idfc-ashva', name:'Ashva', fee:'₹2,999/yr', income:'₹75K+/mo', spend:'₹5L+/yr', benefit:'2.5% all, lounge access, premium IDFC card' },
+  ],
+  'Standard Chartered': [
+    { id:'sc-digismart', name:'DigiSmart', fee:'LTF', income:'₹20K/mo', spend:'-', benefit:'2% online, 0.5% others, LTF digital card' },
+    { id:'sc-easemytrip', name:'EaseMyTrip', fee:'₹999/yr', income:'₹30K/mo', spend:'₹2L/yr', benefit:'5% EaseMyTrip travel, 1% others' },
+    { id:'sc-ultimate', name:'Ultimate', fee:'₹5,000/yr', income:'₹75K/mo', spend:'₹6L/yr', benefit:'3.3% all categories, unlimited lounge, waived ₹6L' },
+  ],
+  'IndusInd Bank': [
+    { id:'indusind-platinum', name:'Platinum', fee:'LTF', income:'₹15K/mo', spend:'-', benefit:'0.4% base, LTF entry card' },
+    { id:'indusind-legend', name:'Legend', fee:'LTF', income:'₹25K/mo', spend:'-', benefit:'1% weekends, 0.5% weekdays, LTF, never-expiring RP' },
+    { id:'indusind-tiger', name:'Tiger', fee:'LTF', income:'₹30K/mo', spend:'₹1L/yr', benefit:'Up to 2.4% tiered, LTF, best value IndusInd card' },
+    { id:'indusind-eazydiner', name:'EazyDiner', fee:'₹2,999/yr', income:'₹50K+/mo', spend:'₹3L+/yr', benefit:'4% dining, 50% off via EazyDiner Prime, premium dining' },
+  ],
+};
+
+function renderUpgradeDashboard() {
+  const div = document.getElementById('upgrade-dashboard');
+  if (cards.length === 0) {
+    div.innerHTML = '<div class="upgrade-empty"><div class="icon">&#8593;</div><p>Add your credit cards first</p><p style="font-size:0.82rem;color:var(--text-3)">Go to the My Cards tab to add your cards, then come back to see your upgrade paths.</p></div>';
+    return;
+  }
+
+  // Collect user's card IDs (from dbId)
+  const userCardIds = new Set();
+  cards.forEach(c => { if (c.dbId) userCardIds.add(c.dbId); });
+
+  let html = '<p class="upgrade-intro">See the card progression for each bank. Cards you own are highlighted in green. Your recommended next upgrade is highlighted in coral.</p>';
+
+  // Determine which banks the user has cards from (show those first)
+  const userBanks = new Set();
+  cards.forEach(c => {
+    const dbCard = CARD_DB.find(d => d.id === c.dbId);
+    if (dbCard) {
+      // Match bank name to UPGRADE_PATHS keys
+      for (const bankName of Object.keys(UPGRADE_PATHS)) {
+        if (UPGRADE_PATHS[bankName].some(p => p.id === c.dbId)) {
+          userBanks.add(bankName);
+        }
+      }
+    }
+  });
+
+  // Sort: user's banks first, then alphabetical
+  const bankNames = Object.keys(UPGRADE_PATHS).sort((a, b) => {
+    const aUser = userBanks.has(a) ? 0 : 1;
+    const bUser = userBanks.has(b) ? 0 : 1;
+    if (aUser !== bUser) return aUser - bUser;
+    return a.localeCompare(b);
+  });
+
+  bankNames.forEach(bankName => {
+    const tiers = UPGRADE_PATHS[bankName];
+    const isUserBank = userBanks.has(bankName);
+    const userCount = tiers.filter(t => userCardIds.has(t.id)).length;
+
+    // Find highest owned tier index
+    let highestOwned = -1;
+    tiers.forEach((t, i) => { if (userCardIds.has(t.id)) highestOwned = i; });
+
+    // Next upgrade = first tier above highest owned that isn't invite-only (or invite if nothing else)
+    let nextUpgradeIdx = -1;
+    if (isUserBank && highestOwned < tiers.length - 1) {
+      for (let i = highestOwned + 1; i < tiers.length; i++) {
+        if (!tiers[i].inviteOnly) { nextUpgradeIdx = i; break; }
+      }
+      // If only invite-only left, mark the invite one
+      if (nextUpgradeIdx === -1 && highestOwned < tiers.length - 1) {
+        nextUpgradeIdx = highestOwned + 1;
+      }
+    }
+
+    html += '<div class="upgrade-bank">';
+    html += '<div class="upgrade-bank-header' + (isUserBank ? ' open' : '') + '" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">';
+    html += '<span class="ub-name">' + escHtml(bankName) + '</span>';
+    if (userCount > 0) html += '<span class="ub-count">' + userCount + ' owned</span>';
+    html += '<span class="ub-chevron">&#9660;</span>';
+    html += '</div>';
+
+    html += '<div class="upgrade-timeline' + (isUserBank ? ' open' : '') + '">';
+
+    tiers.forEach((tier, idx) => {
+      const isOwned = userCardIds.has(tier.id);
+      const isNext = idx === nextUpgradeIdx;
+      const isBeforeOwned = idx < highestOwned;
+
+      // Dot class
+      let dotClass = '';
+      if (isOwned) dotClass = ' owned';
+      else if (isNext) dotClass = ' next';
+      else if (tier.inviteOnly) dotClass = ' invite';
+
+      // Line class (filled if this tier and the one below are both owned/passed)
+      let lineClass = '';
+      if (isOwned || isBeforeOwned) lineClass = ' owned';
+
+      // Card class
+      let cardClass = '';
+      if (isOwned) cardClass = ' owned';
+      else if (isNext) cardClass = ' next-upgrade';
+
+      html += '<div class="upgrade-step">';
+      html += '<div class="us-track"><div class="us-dot' + dotClass + '"></div><div class="us-line' + lineClass + '"></div></div>';
+      html += '<div class="us-card' + cardClass + '">';
+
+      // Top row: name + fee + badge
+      html += '<div class="us-card-top">';
+      html += '<span class="us-card-name">' + escHtml(tier.name) + '</span>';
+      html += '<span class="us-card-fee">' + escHtml(tier.fee) + '</span>';
+      if (isOwned) html += '<span class="us-card-badge you-have">You have this</span>';
+      else if (isNext) html += '<span class="us-card-badge next-up">Next upgrade</span>';
+      if (tier.inviteOnly) html += '<span class="us-card-badge invite-only">Invite only</span>';
+      html += '</div>';
+
+      // Requirements
+      html += '<div class="us-reqs">';
+      if (tier.income && tier.income !== '-') html += '<span class="us-req"><span class="req-icon">&#128176;</span> Income: ' + escHtml(tier.income) + '</span>';
+      if (tier.spend && tier.spend !== '-') html += '<span class="us-req"><span class="req-icon">&#128179;</span> Spend: ' + escHtml(tier.spend) + '</span>';
+      html += '</div>';
+
+      // Key benefit
+      html += '<div class="us-benefit">' + escHtml(tier.benefit) + '</div>';
+
+      html += '</div>'; // us-card
+      html += '</div>'; // upgrade-step
+    });
+
+    html += '</div>'; // upgrade-timeline
+    html += '</div>'; // upgrade-bank
+  });
+
+  div.innerHTML = html;
+}
+
+// ===================== OVERLAP / REDUNDANCY ANALYSIS =====================
+function renderOverlapDashboard() {
+  const div = document.getElementById('overlap-dashboard');
+  // Filter to non-discontinued cards only
+  const activeCards = cards.filter(c => !isCardDiscontinued(c));
+  if (activeCards.length < 2) {
+    div.innerHTML = '<div class="overlap-empty"><div class="icon">&#10006;</div><p>Need at least 2 active cards to analyze overlap</p><p style="font-size:0.82rem;color:var(--text-3)">Add your credit cards in the My Cards tab, then come back to see which ones are redundant.</p></div>';
+    return;
+  }
+
+  const TEST_AMOUNT = 1000; // use ₹1,000 as standard comparison amount
+  const analyses = [];
+
+  activeCards.forEach((card, cardIdx) => {
+    const otherCards = activeCards.filter((_, i) => i !== cardIdx);
+    const bestInCategories = [];
+    const overlappedBy = [];
+
+    // Compare category rates
+    CATEGORIES.forEach(cat => {
+      const thisResult = getCardRate(card, cat.key, TEST_AMOUNT);
+      const thisRate = thisResult.rate || 0;
+      if (thisRate <= 0) return; // card doesn't earn here, skip
+
+      // Find best rate among other cards for this category
+      let bestOtherRate = 0;
+      let bestOtherCard = null;
+      otherCards.forEach(oc => {
+        const ocResult = getCardRate(oc, cat.key, TEST_AMOUNT);
+        const ocRate = ocResult.rate || 0;
+        if (ocRate > bestOtherRate) {
+          bestOtherRate = ocRate;
+          bestOtherCard = oc;
+        }
+      });
+
+      if (thisRate >= bestOtherRate) {
+        bestInCategories.push({ cat: cat, rate: thisRate });
+      } else {
+        overlappedBy.push({ cat: cat, thisRate: thisRate, betterRate: bestOtherRate, betterCard: bestOtherCard });
+      }
+    });
+
+    // Check unique perks
+    const cardId = card.dbId || '';
+    const cardPerks = [];
+    const uniquePerks = [];
+    const coveredPerks = [];
+
+    // Lounge access
+    if (LOUNGE_DB[cardId]) {
+      const loungeInfo = LOUNGE_DB[cardId];
+      const label = (loungeInfo.domestic ? (loungeInfo.domestic.visits === -1 ? 'Unlimited' : loungeInfo.domestic.visits + '/'+loungeInfo.domestic.period) : '0') + ' domestic + ' +
+                    (loungeInfo.international ? (loungeInfo.international.visits === -1 ? 'Unlimited' : loungeInfo.international.visits + '/'+loungeInfo.international.period) : '0') + ' intl lounge';
+      const otherHasLounge = otherCards.some(oc => LOUNGE_DB[oc.dbId || '']);
+      if (otherHasLounge) coveredPerks.push(label);
+      else uniquePerks.push(label);
+      cardPerks.push({ label, unique: !otherHasLounge });
+    }
+
+    // Fuel surcharge waiver
+    if (FUEL_WAIVER_DB[cardId]) {
+      const fw = FUEL_WAIVER_DB[cardId];
+      const label = 'Fuel surcharge waiver (₹' + fw.minTxn + '-₹' + fw.maxTxn + ', cap ₹' + fw.monthlyCap + '/mo)';
+      const otherHasFuel = otherCards.some(oc => FUEL_WAIVER_DB[oc.dbId || '']);
+      if (otherHasFuel) coveredPerks.push(label);
+      else uniquePerks.push(label);
+      cardPerks.push({ label, unique: !otherHasFuel });
+    }
+
+    // Other perks from PERKS DB
+    if (PERKS[cardId]) {
+      PERKS[cardId].forEach(perk => {
+        // Check if any other card has a similar perk (same type)
+        const otherHasPerk = otherCards.some(oc => {
+          const op = PERKS[oc.dbId || ''];
+          return op && op.some(p => p.type === perk.type);
+        });
+        if (otherHasPerk) coveredPerks.push(perk.label);
+        else uniquePerks.push(perk.label);
+        cardPerks.push({ label: perk.label, unique: !otherHasPerk });
+      });
+    }
+
+    // Network coverage — is this the only card with this network?
+    const cardNetwork = (card.network || '').toLowerCase();
+    const isOnlyNetwork = cardNetwork && !otherCards.some(oc => (oc.network || '').toLowerCase() === cardNetwork);
+
+    // Annual fee
+    const annualFee = card.ltf ? 0 : (card.annualFee || 0);
+
+    // Verdict
+    let verdict, verdictClass;
+    if (bestInCategories.length === 0 && uniquePerks.length === 0 && !isOnlyNetwork) {
+      verdict = 'Safe to close';
+      verdictClass = 'safe';
+    } else if (bestInCategories.length <= 1 && annualFee > 0 && uniquePerks.length === 0 && !isOnlyNetwork) {
+      verdict = 'Consider closing';
+      verdictClass = 'consider';
+    } else {
+      verdict = 'Keep';
+      verdictClass = 'keep';
+    }
+
+    analyses.push({ card, bestInCategories, overlappedBy, cardPerks, uniquePerks, isOnlyNetwork, annualFee, verdict, verdictClass });
+  });
+
+  // Summary
+  const closable = analyses.filter(a => a.verdict === 'Safe to close' || a.verdict === 'Consider closing');
+  const feeSavings = analyses.filter(a => a.verdict === 'Safe to close').reduce((sum, a) => sum + a.annualFee, 0);
+
+  let html = '';
+  if (closable.length > 0) {
+    html += '<div class="overlap-summary">';
+    html += '<span class="os-icon">&#128269;</span>';
+    html += '<span class="os-text">' + closable.length + ' of ' + activeCards.length + ' cards may be redundant</span>';
+    if (feeSavings > 0) html += '<span class="os-savings">' + fmt(feeSavings) + '/yr potential savings</span>';
+    html += '</div>';
+  } else {
+    html += '<div class="overlap-summary">';
+    html += '<span class="os-icon">&#9989;</span>';
+    html += '<span class="os-text">All ' + activeCards.length + ' cards have unique strengths — no redundancy detected</span>';
+    html += '</div>';
+  }
+
+  // Coverage gaps — categories where NO card earns well (or at all)
+  const gapCategories = [];
+  const coveredCategories = [];
+  CATEGORIES.forEach(cat => {
+    let bestRate = 0;
+    let bestCard = null;
+    activeCards.forEach(c => {
+      const r = getCardRate(c, cat.key, TEST_AMOUNT);
+      if ((r.rate || 0) > bestRate) { bestRate = r.rate; bestCard = c; }
+    });
+    if (bestRate <= 0) {
+      gapCategories.push({ cat, bestRate: 0, bestCard: null });
+    } else {
+      coveredCategories.push({ cat, bestRate, bestCard });
+    }
+  });
+
+  if (gapCategories.length > 0) {
+    html += '<div class="overlap-gaps">';
+    html += '<div class="overlap-gaps-header">&#9888; Coverage Gaps — ' + gapCategories.length + ' categor' + (gapCategories.length === 1 ? 'y' : 'ies') + ' not covered</div>';
+    html += '<div class="overlap-gaps-intro">None of your cards earn rewards in these categories. Consider applying for a card that covers them.</div>';
+    gapCategories.forEach(g => {
+      html += '<span class="overlap-gap-item"><span class="gap-icon">&#10008;</span>' + escHtml(g.cat.label) + '</span>';
+    });
+    if (coveredCategories.length > 0) {
+      html += '<div style="margin-top:12px;font-size:0.72rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Covered categories</div>';
+      coveredCategories.forEach(c => {
+        html += '<span class="overlap-covered-item">&#10004; ' + escHtml(c.cat.label.split('/')[0].trim()) + ' <span class="overlap-gap-best">' + c.bestRate + '% via ' + escHtml(c.bestCard.name) + '</span></span>';
+      });
+    }
+    html += '</div>';
+  } else {
+    html += '<div class="overlap-gaps" style="border-color:var(--green-border)">';
+    html += '<div class="overlap-gaps-header" style="color:var(--green)">&#9989; Full Coverage — All ' + CATEGORIES.length + ' categories covered</div>';
+    html += '<div class="overlap-gaps-intro">Your cards collectively earn rewards in every spend category.</div>';
+    coveredCategories.forEach(c => {
+      html += '<span class="overlap-covered-item">&#10004; ' + escHtml(c.cat.label.split('/')[0].trim()) + ' <span class="overlap-gap-best">' + c.bestRate + '% via ' + escHtml(c.bestCard.name) + '</span></span>';
+    });
+    html += '</div>';
+  }
+
+  // UPI / lounge / fuel waiver capability check
+  const hasRuPay = activeCards.some(c => (c.network || '').toLowerCase() === 'rupay');
+  const hasLounge = activeCards.some(c => LOUNGE_DB[c.dbId || '']);
+  const hasFuelWaiver = activeCards.some(c => FUEL_WAIVER_DB[c.dbId || '']);
+  const capabilityGaps = [];
+  if (!hasRuPay) capabilityGaps.push({ icon: '&#128242;', label: 'UPI Payments (CC on UPI)', detail: 'No RuPay card — you cannot earn credit card rewards via UPI QR payments at offline merchants. Consider a RuPay card like AU Small Finance LIT, IDFC FIRST Select, or SBI Cashback.' });
+  if (!hasLounge) capabilityGaps.push({ icon: '&#9992;', label: 'Airport Lounge Access', detail: 'None of your cards offer complimentary lounge access. Consider HDFC Regalia Gold, SBI Prime, or IDFC FIRST Select.' });
+  if (!hasFuelWaiver) capabilityGaps.push({ icon: '&#9981;', label: 'Fuel Surcharge Waiver', detail: 'None of your cards waive the 1% fuel surcharge. Consider HDFC IndianOil, IOCL SBI, or any card with fuel waiver.' });
+
+  if (capabilityGaps.length > 0) {
+    html += '<div class="overlap-gaps" style="border-color:#2d7ff940">';
+    html += '<div class="overlap-gaps-header" style="color:var(--blue)">&#128161; Wallet Capability Gaps</div>';
+    capabilityGaps.forEach(g => {
+      html += '<div style="margin-bottom:8px">';
+      html += '<span class="overlap-gap-item">' + g.icon + ' ' + escHtml(g.label) + '</span>';
+      html += '<div style="font-size:0.78rem;color:var(--text-2);margin-top:4px;padding-left:4px">' + escHtml(g.detail) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Sort: safe to close first, then consider, then keep
+  const order = { 'Safe to close': 0, 'Consider closing': 1, 'Keep': 2 };
+  analyses.sort((a, b) => order[a.verdict] - order[b.verdict]);
+
+  analyses.forEach(a => {
+    html += '<div class="overlap-card">';
+
+    // Header
+    html += '<div class="overlap-card-header">';
+    html += '<div class="oc-color" style="background:' + (a.card.color || '#3b82f6') + '"></div>';
+    html += '<div class="oc-info">';
+    const isLtf = a.card.ltf || (!a.card.annualFee && !a.card.joiningFee);
+    html += '<div class="oc-name">' + escHtml(a.card.name) + (isLtf ? '<span class="overlap-ltf">LTF</span>' : '') + '</div>';
+    html += '<div class="oc-meta">' + escHtml(a.card.network || '') + (a.annualFee > 0 ? ' &middot; ' + fmt(a.annualFee) + '/yr' : ' &middot; Lifetime Free') + '</div>';
+    html += '</div>';
+    html += '<span class="overlap-verdict ' + a.verdictClass + '">' + a.verdict + '</span>';
+    html += '</div>';
+
+    // Best-at categories
+    html += '<div class="overlap-section">';
+    html += '<div class="overlap-section-title">Best at (' + a.bestInCategories.length + ' categories)</div>';
+    if (a.bestInCategories.length === 0) {
+      html += '<div style="font-size:0.82rem;color:var(--text-3);padding:4px 0">No categories where this card leads — all beaten by other cards</div>';
+    } else {
+      html += '<div class="overlap-cat-grid">';
+      a.bestInCategories.forEach(b => {
+        html += '<div class="overlap-cat best">';
+        html += '<span class="oc-cat-name">' + escHtml(b.cat.label.split('/')[0].trim()) + '</span>';
+        html += '<span class="oc-cat-rate">' + b.rate + '%</span>';
+        html += '<span class="oc-cat-vs" style="color:var(--green)">&#9733; Best among your cards</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
+    // Overlapped categories
+    if (a.overlappedBy.length > 0) {
+      html += '<div class="overlap-section">';
+      html += '<div class="overlap-section-title">Beaten in (' + a.overlappedBy.length + ' categories)</div>';
+      html += '<div class="overlap-cat-grid">';
+      a.overlappedBy.forEach(o => {
+        html += '<div class="overlap-cat beaten">';
+        html += '<span class="oc-cat-name">' + escHtml(o.cat.label.split('/')[0].trim()) + '</span>';
+        html += '<span class="oc-cat-rate">' + o.thisRate + '%</span>';
+        html += '<span class="oc-cat-vs">' + escHtml(o.betterCard.name) + ' (' + o.betterRate + '%) beats this</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+      html += '</div>';
+    }
+
+    // Perks
+    if (a.cardPerks.length > 0) {
+      html += '<div class="overlap-section">';
+      html += '<div class="overlap-section-title">Perks' + (a.uniquePerks.length > 0 ? ' (' + a.uniquePerks.length + ' unique)' : ' (all covered by other cards)') + '</div>';
+      a.cardPerks.forEach(p => {
+        html += '<span class="overlap-perk' + (p.unique ? ' unique' : ' covered') + '">' + (p.unique ? '&#9733; ' : '') + escHtml(p.label) + '</span>';
+      });
+      html += '</div>';
+    }
+
+    // Network coverage
+    if (a.isOnlyNetwork) {
+      html += '<div class="overlap-section">';
+      html += '<div class="overlap-section-title">Network Coverage</div>';
+      html += '<div style="font-size:0.82rem;color:var(--yellow);padding:4px 0">&#9888; Only ' + escHtml(a.card.network) + ' card in your wallet — closing loses this network entirely</div>';
+      html += '</div>';
+    }
+
+    // Fee
+    if (a.annualFee > 0 && a.verdictClass !== 'keep') {
+      html += '<div class="overlap-fee">';
+      html += 'Annual fee: ' + fmt(a.annualFee) + '/yr';
+      if (a.verdictClass === 'safe') html += ' &rarr; <span class="fee-save">Save ' + fmt(a.annualFee) + '/yr by closing</span>';
+      html += '</div>';
+    }
+
+    html += '</div>'; // overlap-card
+  });
+
+  div.innerHTML = html;
+}
+
 function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
   const pt = PURCHASE_TYPES.find(p => p.key === purchaseKey);
   if (!pt) return [];
@@ -2934,14 +4269,14 @@ function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
 
   // 1. DIRECT routes — each card paying directly
   filteredCards.forEach(card => {
-    const { rate, reward } = getCardRate(card, pt.directCat, amount);
+    const cr = getCardRate(card, pt.directCat, amount);
     all.push({
       type: 'direct',
       name: 'Direct with ' + card.name,
-      totalReward: reward,
-      effectiveRate: rate,
+      totalReward: cr.reward,
+      effectiveRate: cr.rate,
       card: card,
-      steps: [{ label: 'Pay directly with credit card (' + (card.network || 'Card') + ')', card: card, rate: rate, reward: reward }],
+      steps: [{ label: 'Pay directly with credit card (' + (card.network || 'Card') + ')', card: card, rate: cr.rate, reward: cr.reward, rawReward: cr.rawReward, capApplied: cr.capApplied, rateSource: cr.rateSource, amount: amount }],
       tip: null, notes: null
     });
   });
@@ -2971,33 +4306,33 @@ function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
         // Non-card step (using GC balance / platform bonus)
         const bonus = (step.platformBonus || 0) * amount / 100;
         totalReward += bonus;
-        stepDetails.push({ label: step.label, card: null, rate: step.platformBonus || 0, reward: bonus });
+        stepDetails.push({ label: step.label, card: null, rate: step.platformBonus || 0, reward: bonus, rawReward: bonus, capApplied: null, rateSource: 'platform bonus', amount: amount });
       } else if (step.cardCat === '_smartbuy') {
         // SmartBuy — find best HDFC card with SmartBuy rates from filtered set
-        let bestCard = null, bestReward = 0, bestRate = 0;
+        let bestCard = null, bestReward = 0, bestRate = 0, bestRaw = 0, bestCap = null, bestSrc = '';
         routeCards.forEach(card => {
           if (!cardMatchesBank(card, 'HDFC')) return;
           const sb = getSmartBuyRate(card, amount);
           if (sb && sb.reward > bestReward) {
-            bestCard = card; bestReward = sb.reward; bestRate = sb.rate;
+            bestCard = card; bestReward = sb.reward; bestRate = sb.rate; bestRaw = sb.rawReward; bestCap = sb.capApplied; bestSrc = sb.rateSource;
           }
         });
         if (!bestCard) { viable = false; return; }
         totalReward += bestReward;
-        stepDetails.push({ label: step.label, card: bestCard, rate: bestRate, reward: bestReward });
+        stepDetails.push({ label: step.label, card: bestCard, rate: bestRate, reward: bestReward, rawReward: bestRaw, capApplied: bestCap, rateSource: bestSrc, amount: amount });
       } else {
         // Regular card category step
         // Resolve special cardCat values based on purchase type
         let stepCat = step.cardCat;
         if (stepCat === '_inherit' && pt) stepCat = pt.directCat;
         if (stepCat === 'fuel' && pt && FUEL_BRAND_CATS.includes(pt.directCat)) stepCat = pt.directCat;
-        let bestCard = null, bestReward = 0, bestRate = 0;
+        let bestCard = null, bestReward = 0, bestRate = 0, bestRaw = 0, bestCap = null, bestSrc = '';
         routeCards.forEach(card => {
           if (route.bankRequired && !cardMatchesBank(card, route.bankRequired)) return;
-          const { rate, reward } = getCardRate(card, stepCat, amount);
+          const cr = getCardRate(card, stepCat, amount);
           const fee = step.feePercent ? amount * step.feePercent / 100 : 0;
-          const net = reward - fee;
-          if (net > bestReward) { bestCard = card; bestReward = net; bestRate = rate; }
+          const net = cr.reward - fee;
+          if (net > bestReward) { bestCard = card; bestReward = net; bestRate = cr.rate; bestRaw = cr.rawReward; bestCap = cr.capApplied; bestSrc = cr.rateSource; }
         });
         if (!bestCard) { viable = false; return; }
         const fee = step.feePercent ? amount * step.feePercent / 100 : 0;
@@ -3007,7 +4342,8 @@ function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
           card: bestCard,
           rate: bestRate,
           reward: bestReward,
-          fee: fee
+          fee: fee,
+          rawReward: bestRaw, capApplied: bestCap, rateSource: bestSrc, amount: amount
         });
       }
     });
@@ -3035,6 +4371,100 @@ function evaluateAllRoutes(purchaseKey, amount, networkFilter) {
     seen.add(key);
     return true;
   });
+}
+
+// ===================== REDEMPTION GUIDE DASHBOARD =====================
+function renderRedeemDashboard() {
+  const div = document.getElementById('redeem-dashboard');
+  const activeCards = cards.filter(c => !isCardDiscontinued(c));
+
+  if (activeCards.length === 0) {
+    div.innerHTML = '<div class="redeem-empty"><div class="icon">&#127873;</div><p>No cards added yet.</p><p style="font-size:0.82rem;color:var(--text-3)">Add your credit cards in the My Cards tab, then come back to see the best way to redeem your reward points.</p></div>';
+    return;
+  }
+
+  // Group cards by bank
+  const bankGroups = {};
+  activeCards.forEach(card => {
+    let bankName = card.bank || '';
+    if (card.dbId) {
+      const db = CARD_DB.find(c => c.id === card.dbId);
+      if (db) bankName = db.bank;
+    }
+    if (!bankName) return;
+    if (!bankGroups[bankName]) bankGroups[bankName] = [];
+    bankGroups[bankName].push(card);
+  });
+
+  let html = '<div class="redeem-intro"><strong>Redeem your reward points the smart way.</strong> The same points can be worth ₹0.20 or ₹1.00 depending on how you redeem them. This guide shows the best redemption method for each bank so you maximise the value of your accumulated points.</div>';
+
+  const bankNames = Object.keys(bankGroups).sort();
+  bankNames.forEach((bankName, bankIdx) => {
+    const guide = REDEMPTION_GUIDE[bankName];
+    const bankCards = bankGroups[bankName];
+
+    html += '<div class="redeem-bank">';
+    html += '<div class="redeem-bank-header' + (bankIdx === 0 ? ' open' : '') + '" onclick="this.classList.toggle(\'open\')">';
+    html += '<span class="rb-name">' + escHtml(bankName) + '</span>';
+    if (guide) html += '<span class="rb-currency">' + escHtml(guide.currency) + '</span>';
+    html += '<span class="rb-chevron">&#9660;</span>';
+    html += '</div>';
+
+    html += '<div class="redeem-bank-body">';
+
+    // Card chips
+    html += '<div class="redeem-cards-chips">';
+    bankCards.forEach(card => {
+      const name = card.name || (card.dbId ? (CARD_DB.find(c => c.id === card.dbId) || {}).name || card.dbId : 'Unknown');
+      html += '<span class="redeem-card-chip">' + escHtml(name) + '</span>';
+    });
+    html += '</div>';
+
+    if (!guide) {
+      html += '<div class="redeem-no-data">No redemption data available for ' + escHtml(bankName) + ' yet.</div>';
+      html += '</div></div>';
+      return;
+    }
+
+    // Auto-cashback banks
+    if (guide.autoCashback) {
+      html += '<div class="redeem-auto-cashback">&#9989; <strong>Auto-credited cashback</strong> — no action needed. Your rewards are automatically applied as statement credit. No points to track or redeem.</div>';
+      html += '</div></div>';
+      return;
+    }
+
+    // Methods sorted by rate (best first)
+    const methods = [...guide.methods].sort((a, b) => b.rate - a.rate);
+    const maxRate = methods.length > 0 ? methods[0].rate : 1;
+
+    methods.forEach(method => {
+      const barWidth = maxRate > 0 ? Math.round((method.rate / maxRate) * 100) : 0;
+      html += '<div class="redeem-method">';
+      html += '<div class="redeem-method-top">';
+      html += '<div class="redeem-bar"><div class="redeem-bar-fill ' + method.verdict + '" style="width:' + barWidth + '%"></div></div>';
+      html += '<span class="redeem-method-name">' + escHtml(method.name) + '</span>';
+      html += '<span class="redeem-value">' + escHtml(method.value) + '</span>';
+      html += '<span class="redeem-verdict ' + method.verdict + '">' + method.verdict.toUpperCase() + '</span>';
+      html += '</div>';
+      if (method.detail) html += '<div class="redeem-detail">' + escHtml(method.detail) + '</div>';
+      if (method.tip) html += '<div class="redeem-tip">&#128161; ' + escHtml(method.tip) + '</div>';
+      html += '</div>';
+    });
+
+    // Gotchas
+    if (guide.gotchas && guide.gotchas.length > 0) {
+      html += '<div class="redeem-gotchas">';
+      html += '<div class="redeem-gotchas-title">&#9888;&#65039; Gotchas</div>';
+      guide.gotchas.forEach(g => {
+        html += '<div class="redeem-gotcha">&bull; ' + escHtml(g) + '</div>';
+      });
+      html += '</div>';
+    }
+
+    html += '</div></div>';
+  });
+
+  div.innerHTML = html;
 }
 
 // ===================== COMPARE =====================
@@ -3148,6 +4578,30 @@ function compare() {
 
     let dcHtml = routeHasDc ? '<div class="discontinued-note" style="margin:8px 12px 0;">' + esc(dcNote || 'This card is discontinued and not open for new applications.') + '</div>' : '';
 
+    // Build calculation breakdown
+    const calcId = 'calc-' + i;
+    let calcHtml = '<button class="calc-toggle" onclick="var b=document.getElementById(\'' + calcId + '\');b.classList.toggle(\'open\');this.classList.toggle(\'open\')">' +
+      '<span class="ct-arrow">&#9660;</span> Show calculation</button>';
+    calcHtml += '<div class="calc-breakdown" id="' + calcId + '">';
+    r.steps.forEach((s, si) => {
+      if (s.card) {
+        const stepAmt = s.amount || amount;
+        calcHtml += '<div class="calc-line"><span>Step ' + (si + 1) + ': ' + esc(s.card.name) + ' (' + esc(s.rateSource || '?') + ')</span></div>';
+        calcHtml += '<div class="calc-line"><span class="calc-formula">' + fmt(stepAmt) + ' &times; ' + s.rate.toFixed(2) + '% = ' + fmt(s.rawReward != null ? s.rawReward : s.reward) + '</span><span>' + fmt(s.rawReward != null ? s.rawReward : s.reward) + '</span></div>';
+        if (s.capApplied) calcHtml += '<div class="calc-line"><span class="calc-cap">Capped: ' + esc(s.capApplied) + '</span><span class="calc-cap">' + fmt(s.reward) + '</span></div>';
+        if (s.fee > 0) calcHtml += '<div class="calc-line"><span class="calc-cap">Route fee: -' + fmt(s.fee) + '</span><span class="calc-cap">-' + fmt(s.fee) + '</span></div>';
+      } else {
+        const stepAmt = s.amount || amount;
+        calcHtml += '<div class="calc-line"><span>Step ' + (si + 1) + ': Platform bonus</span></div>';
+        calcHtml += '<div class="calc-line"><span class="calc-formula">' + fmt(stepAmt) + ' &times; ' + s.rate.toFixed(2) + '% = ' + fmt(s.reward) + '</span><span>' + fmt(s.reward) + '</span></div>';
+      }
+    });
+    if (r.feeDeducted > 0) {
+      calcHtml += '<div class="calc-line"><span class="calc-cap">Annual fee (' + fmt(r.feeDeducted * 12) + '/yr &div; 12)</span><span class="calc-cap">-' + fmt(r.feeDeducted) + '</span></div>';
+    }
+    calcHtml += '<div class="calc-line total"><span>Total reward</span><span>' + fmt(r.totalReward) + ' (' + r.effectiveRate.toFixed(2) + '%)</span></div>';
+    calcHtml += '</div>';
+
     return '<div class="route-card' + (isBest ? ' best' : '') + (routeHasDc ? ' discontinued' : '') + '">' +
       '<div class="route-header">' +
         '<div class="route-rank">#' + (i + 1) + '</div>' +
@@ -3163,7 +4617,7 @@ function compare() {
           '<div class="label">' + r.effectiveRate.toFixed(2) + '% return</div>' +
         '</div>' +
       '</div>' +
-      stepsHtml + tipHtml + notesHtml + feeHtml + dcHtml + applyHtml +
+      stepsHtml + tipHtml + notesHtml + feeHtml + dcHtml + calcHtml + applyHtml +
     '</div>';
   }).join('');
 
@@ -3250,6 +4704,121 @@ function applyBtn(cardId, small) {
 
 // Network logo text
 const NET_LABEL = { 'Visa':'VISA', 'Mastercard':'MC', 'RuPay':'RuPay', 'Amex':'AMEX', 'Diners':'Diners' };
+
+// Real card images (sourced from CardInsider)
+const CARD_IMAGES = {
+  'hdfc-infinia':'https://cardinsider.com/wp-content/uploads/2021/10/HDFC-Bank-INFINIA-Metal-Credit-Card.webp',
+  'hdfc-diners-black':'https://cardinsider.com/wp-content/uploads/2021/10/HDFC-Bank-Diners-Club-Black-Credit-Card-1.webp',
+  'hdfc-regalia':'https://cardinsider.com/wp-content/uploads/2021/10/HDFC-Bank-Regalia-Credit-Card.webp',
+  'hdfc-regalia-gold':'https://cardinsider.com/wp-content/uploads/2023/03/Regalia-Gold-Credit-Card.webp',
+  'hdfc-regalia-first':'https://cardinsider.com/wp-content/uploads/2021/09/HDFC-Bank-Regalia-First-Credit-Card.webp',
+  'hdfc-millennia':'https://cardinsider.com/wp-content/uploads/2021/09/HDFC-Millennia-Rupay-Card.webp',
+  'hdfc-moneyback-plus':'https://cardinsider.com/wp-content/uploads/2021/10/HDFC-Bank-MoneyBack-Plus-Credit-Card.webp',
+  'hdfc-swiggy':'https://cardinsider.com/wp-content/uploads/2024/06/Swiggy-HDFC-Bank-Credit-Card.webp',
+  'hdfc-tata-neu-infinity':'https://cardinsider.com/wp-content/uploads/2022/08/Tata-Neu-Infinity-HDFC-Bank-Credit-Card.webp',
+  'hdfc-tata-neu-plus':'https://cardinsider.com/wp-content/uploads/2022/08/Tata-Neu-Infinity-HDFC-Bank-Credit-Card.webp',
+  'hdfc-diners-privilege':'https://cardinsider.com/wp-content/uploads/2021/09/HDFC-Bank-Diners-Club-Privilege-Credit-Card.webp',
+  'hdfc-indianoil':'https://cardinsider.com/wp-content/uploads/2021/08/IndianOil-HDFC-Bank-Credit-Card.webp',
+  'hdfc-pixel-play':'https://cardinsider.com/wp-content/uploads/2024/03/Pixel-Play-Credit-Card-1.webp',
+  'hdfc-marriott-bonvoy':'https://cardinsider.com/wp-content/uploads/2023/08/Marriott-Bonvoy-HDFC-Bank-Credit-Card.webp',
+  'hdfc-6e-indigo':'https://cardinsider.com/wp-content/uploads/2021/09/6E-Rewards-IndiGo-HDFC-Bank-Credit-Card.webp',
+  'hdfc-intermiles':'https://cardinsider.com/wp-content/uploads/2021/08/InterMiles-HDFC-Bank-Signature-Credit-Card.webp',
+  'hdfc-shoppers-stop':'https://cardinsider.com/wp-content/uploads/2022/04/Shoppers-Stop-HDFC-Bank-Credit-Card.webp',
+  'hdfc-irctc-rupay':'https://cardinsider.com/wp-content/uploads/2023/01/HDFC-Bank-RuPay-IRCTC-Credit-Card.webp',
+  'hdfc-bharat-cashback':'https://cardinsider.com/wp-content/uploads/2024/03/HDFC-Bank-UPI-RuPay-Credit-Card.webp',
+  'sbi-cashback':'https://cardinsider.com/wp-content/uploads/2022/09/Cashback-SBI-Credit-Card.webp',
+  'sbi-elite':'https://cardinsider.com/wp-content/uploads/2021/06/SBI-ELITE-Credit-Card.webp',
+  'sbi-prime':'https://cardinsider.com/wp-content/uploads/2021/06/SBI-Prime-Credit-Card.webp',
+  'sbi-simplyclick':'https://cardinsider.com/wp-content/uploads/2021/07/SimplyCLICK-Credit-Card.webp',
+  'sbi-simplysave':'https://cardinsider.com/wp-content/uploads/2021/08/SBI-SimplySAVE-Credit-Card.webp',
+  'sbi-aurum':'https://cardinsider.com/wp-content/uploads/2021/08/SBI-AURUM-Credit-Card.webp',
+  'sbi-bpcl-octane':'https://cardinsider.com/wp-content/uploads/2021/07/BPCL-SBI-Credit-Card.webp',
+  'sbi-flipkart':'https://cardinsider.com/wp-content/uploads/2025/08/Flipkart-SBI-Credit-Card.webp',
+  'sbi-irctc-premier':'https://cardinsider.com/wp-content/uploads/2021/08/IRCTC-SBI-Card-Premier.webp',
+  'sbi-phonepe-purple':'https://cardinsider.com/wp-content/uploads/2025/07/PhonePe-SBI-PURPLE-Credit-Card-1.webp',
+  'sbi-titan':'https://cardinsider.com/wp-content/uploads/2024/03/Titan-SBI-Credit-Card.webp',
+  'icici-amazon-pay':'https://cardinsider.com/wp-content/uploads/2021/06/ICICI-Amazon-Pay-Credit-Card.webp',
+  'icici-emeralde-private':'https://cardinsider.com/wp-content/uploads/2021/11/ICICI-Bank-Emeralde-Credit-Card.webp',
+  'icici-emeralde':'https://cardinsider.com/wp-content/uploads/2021/11/ICICI-Bank-Emeralde-Credit-Card.webp',
+  'icici-sapphiro':'https://cardinsider.com/wp-content/uploads/2021/10/ICICI-Bank-Sapphiro-Credit-Card.webp',
+  'icici-coral':'https://cardinsider.com/wp-content/uploads/2021/06/ICICI-Bank-Coral-Credit-Card.webp',
+  'icici-rubyx':'https://cardinsider.com/wp-content/uploads/2021/07/ICICI-Bank-Rubyx-Credit-Card.webp',
+  'icici-platinum':'https://cardinsider.com/wp-content/uploads/2021/07/ICICI-Bank-Platinum-Chip-Credit-Card.webp',
+  'icici-mmt':'https://cardinsider.com/wp-content/uploads/2024/10/MakeMyTrip-ICICI-Bank-Credit-Card.webp',
+  'icici-hpcl-coral':'https://cardinsider.com/wp-content/uploads/2021/07/ICICI-Bank-HPCL-Coral-Credit-Card.webp',
+  'icici-hpcl-supersaver':'https://cardinsider.com/wp-content/uploads/2021/07/HPCL-Super-Saver-ICICI-Credit-Card.webp',
+  'axis-ace':'https://cardinsider.com/wp-content/uploads/2024/06/Axis-Bank-ACE-Credit-Card.webp',
+  'axis-magnus':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-Bank-Magnus-Credit-Card.webp',
+  'axis-flipkart':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-Bank-Flipkart-Credit-Card.webp',
+  'axis-atlas':'https://cardinsider.com/wp-content/uploads/2022/02/Axis-Bank-Atlas-Credit-Card.webp',
+  'axis-reserve':'https://cardinsider.com/wp-content/uploads/2022/01/Axis-Bank-Reserve-Credit-Card.webp',
+  'axis-myzone':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-My-Zone-Credit-Card.webp',
+  'axis-select':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-Bank-SELECT-Credit-Card.webp',
+  'axis-airtel':'https://cardinsider.com/wp-content/uploads/2022/03/Airtel-Axis-Bank-Rupay-Credit-Card.webp',
+  'axis-cashback':'https://cardinsider.com/wp-content/uploads/2024/06/Axis-Bank-Cashback-Credit-Card.webp',
+  'axis-rewards':'https://cardinsider.com/wp-content/uploads/2023/03/Axis-Bank-Rewards-Credit-Card.webp',
+  'axis-googlepay':'https://cardinsider.com/wp-content/uploads/2025/12/Google-Pay-Flex-Axis-Bank-Credit-Card.webp',
+  'axis-horizon':'https://cardinsider.com/wp-content/uploads/2024/06/Axis-Bank-Horizon-Credit-Card.webp',
+  'axis-signature':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-Bank-SELECT-Credit-Card.webp',
+  'axis-flipkart-super-elite':'https://cardinsider.com/wp-content/uploads/2021/08/Axis-Bank-Flipkart-Credit-Card.webp',
+  'indianoil-axis':'https://cardinsider.com/wp-content/uploads/2021/08/Indian-Oil-Axis-Bank-Credit-Card.webp',
+  'idfc-classic':'https://cardinsider.com/wp-content/uploads/2021/07/IDFC-FIRST-Classic-Credit-Card.webp',
+  'idfc-select':'https://cardinsider.com/wp-content/uploads/2021/08/IDFC-FIRST-Select-Credit-Card.webp',
+  'idfc-millennia':'https://cardinsider.com/wp-content/uploads/2021/07/IDFC-FIRST-Millennia-Credit-Card.webp',
+  'idfc-wealth':'https://cardinsider.com/wp-content/uploads/2021/07/IDFC-FIRST-Wealth-Credit-Card.webp',
+  'idfc-ashva':'https://cardinsider.com/wp-content/uploads/2024/12/IDFC-FIRST-Ashva-Credit-Card.webp',
+  'au-lit':'https://cardinsider.com/wp-content/uploads/2022/06/AU-LIT-Credit-Card-Launched.webp',
+  'au-altura':'https://cardinsider.com/wp-content/uploads/2021/10/AU-Altura-Credit-Card.webp',
+  'au-altura-plus':'https://cardinsider.com/wp-content/uploads/2021/10/AU-Altura-Plus-Credit-Card.webp',
+  'amex-mrcc':'https://cardinsider.com/wp-content/uploads/2024/06/American-Express-Membership-Rewards%C2%AE-Credit-Card.webp',
+  'amex-gold':'https://cardinsider.com/wp-content/uploads/2021/07/American-Express-Gold-Charge-Card.webp',
+  'amex-plat-travel':'https://cardinsider.com/wp-content/uploads/2021/06/American-Express-Platinum-Travel-Credit-Card.webp',
+  'amex-smartearn':'https://cardinsider.com/wp-content/uploads/2021/07/American-Express-SmartEarn-Credit-Card.webp',
+  'hsbc-cashback':'https://cardinsider.com/wp-content/uploads/2024/06/HSBC-Live-Credit-Card.webp',
+  'hsbc-live-plus':'https://cardinsider.com/wp-content/uploads/2022/12/HSBC-Live-Vs-Axis-Ace.webp',
+  'hsbc-smart-value':'https://cardinsider.com/wp-content/uploads/2022/02/HSBC-Smart-Value-Credit-Card.webp',
+  'hsbc-travelone':'https://cardinsider.com/wp-content/uploads/2024/12/HSBC-TravelOne-Credit-Card.webp',
+  'kotak-811':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-811-DreamDifferent-Credit-Card.webp',
+  'kotak-league-platinum':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-Bank-League-Platinum-Credit-Card.webp',
+  'kotak-royale':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-Royale-Signature-Credit-Card.webp',
+  'kotak-zen':'https://cardinsider.com/wp-content/uploads/2021/07/Zen-Signature-Credit-Card.webp',
+  'kotak-white':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-White-Credit-Card.webp',
+  'kotak-privy-league':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-Privy-League-Signature-Credit-Card.webp',
+  'kotak-mojo':'https://cardinsider.com/wp-content/uploads/2024/05/Kotak-Mojo-Credit-Card.webp',
+  'kotak-myntra':'https://cardinsider.com/wp-content/uploads/2024/06/Myntra-Kotak-Credit-Card.webp',
+  'kotak-indigo-xl':'https://cardinsider.com/wp-content/uploads/2024/06/IndiGo-Kotak-6E-Rewards-XL-Signature-Credit-Card.webp',
+  'kotak-indigo-platinum':'https://cardinsider.com/wp-content/uploads/2024/06/IndiGo-Kotak-6E-Rewards-Platinum-Credit-Card.webp',
+  'kotak-silk-inspire':'https://cardinsider.com/wp-content/uploads/2024/09/Kotak-Silk-Inspire-Credit-Card.webp',
+  'kotak-indianoil':'https://cardinsider.com/wp-content/uploads/2024/06/IndianOil-Kotak-Credit-Card.webp',
+  'kotak-pvr':'https://cardinsider.com/wp-content/uploads/2021/07/PVR-Kotak-Platinum-Credit-Card.webp',
+  'kotak-cashback-plus':'https://cardinsider.com/wp-content/uploads/2024/10/Kotak-Cashback-Plus-Credit-Card.webp',
+  'kotak-delight-platinum':'https://cardinsider.com/wp-content/uploads/2024/06/Kotak-Delight-Platinum-Credit-Card.webp',
+  'kotak-urbane-gold':'https://cardinsider.com/wp-content/uploads/2021/07/Kotak-Urbane-Gold-Credit-Card.webp',
+  'sc-ultimate':'https://cardinsider.com/wp-content/uploads/2021/06/Standard-Chartered-Ultimate-Credit-Card.webp',
+  'sc-digismart':'https://cardinsider.com/wp-content/uploads/2021/07/Standard-Chartered-DigiSmart-Credit-Card.webp',
+  'sc-easemytrip':'https://cardinsider.com/wp-content/uploads/2023/02/EaseMyTrip-Standard-Chartered-Credit-Card.webp',
+  'yes-first-exclusive':'https://cardinsider.com/wp-content/uploads/2021/06/YES-Bank-RESERV-Credit-Card.webp',
+  'yes-prosperity-cashback':'https://cardinsider.com/wp-content/uploads/2021/07/YES-Prosperity-Cashback-Plus-Credit-Card.webp',
+  'yes-paisasave':'https://cardinsider.com/wp-content/uploads/2025/01/YES-Bank-PaisaSave-Credit-Card.webp',
+  'indusind-legend':'https://cardinsider.com/wp-content/uploads/2021/07/IndusInd-Legend-Credit-Card.webp',
+  'indusind-tiger':'https://cardinsider.com/wp-content/uploads/2024/04/IndusInd-Bank-Tiger-Credit-Card.webp',
+  'indusind-platinum':'https://cardinsider.com/wp-content/uploads/2021/08/IndusInd-Bank-Platinum-Credit-Card.webp',
+  'indusind-eazydiner':'https://cardinsider.com/wp-content/uploads/2021/07/EazyDiner-IndusInd-Bank-Credit-Card.webp',
+  'indusind-nexxt':'https://cardinsider.com/wp-content/uploads/2021/07/IndusInd-Nexxt-Credit-Card.webp',
+  'onecard':'https://cardinsider.com/wp-content/uploads/2022/02/OneCard-Credit-Card.webp',
+  'scapia-federal':'https://cardinsider.com/wp-content/uploads/2023/11/Federal-Scapia-Credit-Card.webp',
+  'fi-federal':'https://cardinsider.com/wp-content/uploads/2022/12/Fi-Federal-Credit-Card.webp',
+  'bob-easy':'https://cardinsider.com/wp-content/uploads/2021/07/BOBCARD-Easy-Card.webp',
+  'bob-premier':'https://cardinsider.com/wp-content/uploads/2021/07/BOBCARD-Premier-Card-1.webp',
+  'bob-cashback':'https://cardinsider.com/wp-content/uploads/2021/07/Bob-Financial-Cashback-Card.webp',
+  'rbl-world-safari':'https://cardinsider.com/wp-content/uploads/2021/07/RBL-World-Safari-Credit-Card.webp',
+  'rbl-shoprite':'https://cardinsider.com/wp-content/uploads/2021/07/RBL-ShopRite-Credit-Card.webp',
+  'rbl-indianoil-xtra':'https://cardinsider.com/wp-content/uploads/2024/06/IndianOil-RBL-Bank-XTRA-Credit-Card.webp',
+  'rbl-duet-plus':'https://cardinsider.com/wp-content/uploads/2024/06/Paisabazaar-RBL-Bank-Duet-Plus-Credit-Card.webp',
+  'bajaj-rbl-world-prime':'https://cardinsider.com/wp-content/uploads/2021/07/Bajaj-Finserv-RBL-Bank-World-Prime-SuperCard.webp',
+  'bajaj-rbl-platinum-prime':'https://cardinsider.com/wp-content/uploads/2021/07/Bajaj-Finserv-RBL-Bank-Platinum-Prime-SuperCard.webp',
+  'idfc-hpcl':'https://cardinsider.com/wp-content/uploads/2024/06/HPCL-IDFC-FIRST-Power-Credit-Card.webp',
+};
 
 // Mini card visual (for search dropdown)
 function cardMini(c) {
@@ -3470,6 +5039,256 @@ const PERKS = {
     { type: 'lounge', label: 'Priority Pass (unlimited)', value: 500 },
     { type: 'concierge', label: 'Concierge + travel insurance', value: 0 },
   ],
+};
+
+// ===================== REWARD REDEMPTION GUIDE =====================
+const REDEMPTION_GUIDE = {
+  'HDFC Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'SmartBuy Portal (Infinia/Diners Black)', value: '1 RP = ₹1.00', rate: 1.00, verdict: 'best',
+        detail: 'Book flights, hotels, gift vouchers on HDFC SmartBuy. Best value for Infinia & Diners Black cardholders.',
+        tip: 'Always redeem via SmartBuy for Amazon/Flipkart vouchers — never from the rewards catalogue.' },
+      { name: 'Airline Miles Transfer', value: '1 RP ≈ ₹0.50–₹1.00', rate: 0.75, verdict: 'good',
+        detail: 'Transfer to Singapore Airlines KrisFlyer, InterMiles, Air India, etc. Value depends on redemption.' },
+      { name: 'SmartBuy (Regalia/Regalia Gold tier)', value: '1 RP = ₹0.50', rate: 0.50, verdict: 'good',
+        detail: 'Same SmartBuy portal, but Regalia-tier cards get ₹0.50 per RP instead of ₹1.' },
+      { name: 'Rewards Catalogue', value: '1 RP = ₹0.20', rate: 0.20, verdict: 'avoid',
+        detail: 'Physical products from HDFC catalogue — terrible value, 5x worse than SmartBuy.' },
+      { name: 'Statement Credit', value: '1 RP = ₹0.20', rate: 0.20, verdict: 'avoid',
+        detail: 'Convenient but wastes 80% of your points\' value compared to SmartBuy.' },
+    ],
+    gotchas: [
+      'RP redemption limited to max 5 times/month from Feb 2026',
+      '10x SmartBuy bonus capped at 25,000 RP per statement cycle',
+      'SmartBuy value depends on card tier — Infinia/Diners Black get ₹1, Regalia gets ₹0.50'
+    ]
+  },
+  'SBI Card': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'E-vouchers (SBI Rewardz portal)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for Amazon, Flipkart, Myntra, Tanishq e-vouchers on the SBI Rewardz portal.',
+        tip: 'E-vouchers offer the best value. Avoid statement credit or catalogue products.' },
+      { name: 'Statement Credit', value: '1 RP = ₹0.20', rate: 0.20, verdict: 'ok',
+        detail: 'Apply points as statement credit. Slightly lower value than e-vouchers.' },
+      { name: 'Rewards Catalogue', value: '1 RP ≈ ₹0.15–₹0.20', rate: 0.17, verdict: 'avoid',
+        detail: 'Physical products — worst value. Always prefer e-vouchers instead.' },
+    ],
+    gotchas: [
+      'SBI Cashback card gives direct cashback (no RP) — no redemption needed',
+      'Some co-branded cards (Flipkart SBI) give instant discounts, not RP',
+      'RP expiry varies by card — check SBI Rewardz portal for your balance'
+    ]
+  },
+  'ICICI Bank': {
+    currency: 'ICICI Reward Points / PayBack Points',
+    methods: [
+      { name: 'iVoucher / Amazon Pay Balance', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers or Amazon Pay balance via ICICI Rewards portal.',
+        tip: 'Amazon Pay ICICI card gives direct cashback — no RP to redeem.' },
+      { name: 'PayBack Points (Partner offers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'good',
+        detail: 'Use PayBack points across partner merchants for discounts and vouchers.' },
+      { name: 'Statement Credit', value: '1 RP = ₹0.20', rate: 0.20, verdict: 'ok',
+        detail: 'Apply as statement credit. Slightly lower value than vouchers.' },
+      { name: 'Rewards Catalogue', value: '1 RP ≈ ₹0.15', rate: 0.15, verdict: 'avoid',
+        detail: 'Physical products from ICICI catalogue — poor value compared to vouchers.' },
+    ],
+    gotchas: [
+      'Amazon Pay ICICI gives direct cashback (no RP) — no redemption needed',
+      'Emeralde/Sapphiro cards earn at higher RP rates but same redemption value',
+      'Points expire 2–3 years from earning — redeem regularly'
+    ]
+  },
+  'Axis Bank': {
+    currency: 'EDGE Reward Points',
+    methods: [
+      { name: 'EDGE Rewards Portal (Travel)', value: '1 RP = ₹0.30–₹0.50', rate: 0.50, verdict: 'best',
+        detail: 'Book flights and hotels on EDGE Rewards portal. Atlas/Magnus get better value.',
+        tip: 'For Atlas/Magnus cards, transfer to airline partners for up to ₹0.75/RP value.' },
+      { name: 'Airline Transfer Partners', value: '1 RP ≈ ₹0.50–₹0.75', rate: 0.60, verdict: 'good',
+        detail: 'Transfer to InterMiles, Singapore Airlines KrisFlyer. Best for Atlas & Magnus cardholders.' },
+      { name: 'EDGE Rewards (Vouchers)', value: '1 RP ≈ ₹0.20–₹0.30', rate: 0.25, verdict: 'ok',
+        detail: 'E-gift vouchers from the EDGE Rewards catalogue. Decent but travel is better.' },
+      { name: 'Statement Credit', value: '1 RP = ₹0.20', rate: 0.20, verdict: 'avoid',
+        detail: 'Lowest value option. Avoid unless you have very few points.' },
+    ],
+    gotchas: [
+      'Axis ACE and Cashback cards give direct cashback — no RP to redeem',
+      'Atlas/Magnus get enhanced airline transfer ratios vs standard cards',
+      'EDGE Reward Points expiry: 2 years for most cards'
+    ]
+  },
+  'Kotak Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'Kotak Rewards Portal (Vouchers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers on Kotak rewards portal. Best value option.',
+        tip: 'Prefer Amazon/Flipkart vouchers over physical products for best value.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15–₹0.20', rate: 0.17, verdict: 'avoid',
+        detail: 'Physical products from rewards catalogue — poor value.' },
+    ],
+    gotchas: [
+      'Kotak Cashback+ card gives direct cashback — no RP system',
+      'Points expiry varies by card — typically 2–3 years'
+    ]
+  },
+  'Kotak Mahindra': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'Kotak Rewards Portal (Vouchers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers on Kotak rewards portal. Best value option.',
+        tip: 'Prefer Amazon/Flipkart vouchers over physical products for best value.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15–₹0.20', rate: 0.17, verdict: 'avoid',
+        detail: 'Physical products from rewards catalogue — poor value.' },
+    ],
+    gotchas: [
+      'Points expiry varies by card — typically 2–3 years'
+    ]
+  },
+  'American Express': {
+    currency: 'Membership Rewards (MR) Points',
+    methods: [
+      { name: 'Airline Transfer Partners', value: '1 MR ≈ ₹0.50–₹1.00', rate: 0.75, verdict: 'best',
+        detail: 'Transfer to Marriott Bonvoy, Singapore Airlines KrisFlyer, British Airways Avios, etc.',
+        tip: 'Wait for transfer bonuses (periodic 20–30% bonus) to maximize value.' },
+      { name: 'Travel Bookings (Amex Travel)', value: '1 MR ≈ ₹0.50', rate: 0.50, verdict: 'good',
+        detail: 'Book flights and hotels through Amex Travel portal.' },
+      { name: 'Amazon/E-vouchers', value: '1 MR ≈ ₹0.30', rate: 0.30, verdict: 'ok',
+        detail: 'Redeem for Amazon Pay, Flipkart, and other e-vouchers.' },
+      { name: 'Statement Credit', value: '1 MR ≈ ₹0.25', rate: 0.25, verdict: 'avoid',
+        detail: 'Direct statement credit gives the worst value. Avoid if possible.' },
+    ],
+    gotchas: [
+      'MR points never expire as long as your card is active',
+      'Transfer partner bonuses run periodically — watch for 20–30% bonus events',
+      'Platinum Reserve/Travel get lower MR earn rates than SmartEarn'
+    ]
+  },
+  'IDFC FIRST Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'Statement Credit / Vouchers', value: '1 RP = ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for statement credit or e-vouchers. IDFC FIRST points never expire.',
+        tip: 'Points never expire — no rush to redeem. Wait for good voucher deals.' },
+    ],
+    gotchas: [
+      'IDFC FIRST Bank reward points never expire — take your time',
+      'Some IDFC cards give direct cashback instead of RP',
+      'Select/Millennia cards: 10x on select categories (capped)'
+    ]
+  },
+  'IndusInd Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'Cash Redemption', value: '1 RP = ₹0.50', rate: 0.50, verdict: 'best',
+        detail: 'Redeem points as direct cash/statement credit at ₹0.50 per RP.',
+        tip: 'Cash redemption is capped at 5,000 RP/month — plan redemptions accordingly.' },
+      { name: 'E-vouchers', value: '1 RP ≈ ₹0.40–₹0.50', rate: 0.45, verdict: 'good',
+        detail: 'Redeem for e-gift vouchers via IndusInd rewards portal.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'avoid',
+        detail: 'Physical products — poor value compared to cash redemption.' },
+    ],
+    gotchas: [
+      'Cash redemption capped at 5,000 RP per month',
+      'IndusInd RP never expire — no rush to redeem',
+      'Pioneer Heritage/Legend cards earn accelerated RP'
+    ]
+  },
+  'AU Small Finance': {
+    currency: 'Direct Cashback',
+    autoCashback: true,
+    methods: [],
+    gotchas: []
+  },
+  'Standard Chartered': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'SC Rewards Portal (Vouchers)', value: '1 RP ≈ ₹0.50', rate: 0.50, verdict: 'best',
+        detail: 'Redeem for e-vouchers and gift cards on the Standard Chartered Rewards portal.',
+        tip: 'Always use the SC Rewards portal for vouchers — never catalogue products.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'avoid',
+        detail: 'Physical products from catalogue — half the value of vouchers.' },
+    ],
+    gotchas: [
+      'SC Ultimate card earns 5x on all online spends',
+      'Points typically expire after 2 years'
+    ]
+  },
+  'RBL Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'ShopNSmile Portal (Vouchers)', value: '1 RP ≈ ₹0.25–₹0.50', rate: 0.35, verdict: 'best',
+        detail: 'Redeem for e-vouchers on RBL ShopNSmile portal. Best value option.',
+        tip: 'Prefer e-vouchers over catalogue products for maximum value.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15–₹0.20', rate: 0.17, verdict: 'avoid',
+        detail: 'Physical products — significantly lower value than vouchers.' },
+    ],
+    gotchas: [
+      'Some RBL co-branded cards may have different redemption methods'
+    ]
+  },
+  'YES Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'Yes Rewardz Portal (Vouchers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers on Yes Rewardz portal.',
+        tip: 'E-vouchers are the only decent option — avoid catalogue.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15', rate: 0.15, verdict: 'avoid',
+        detail: 'Physical products from catalogue — worst value.' },
+    ],
+    gotchas: [
+      'Yes Rewardz points typically expire after 2 years'
+    ]
+  },
+  'Federal Bank': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'FedRewardz Portal (Vouchers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers on FedRewardz portal.',
+        tip: 'Stick to e-vouchers for the best value from your Federal Bank RP.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15', rate: 0.15, verdict: 'avoid',
+        detail: 'Physical products — poor value compared to vouchers.' },
+    ],
+    gotchas: [
+      'Federal Bank Celesta card offers accelerated RP on select categories'
+    ]
+  },
+  'OneCard (FPL)': {
+    currency: 'Direct Cashback',
+    autoCashback: true,
+    methods: [],
+    gotchas: []
+  },
+  'Bank of Baroda': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'BOB Rewards Catalogue (Vouchers)', value: '1 RP ≈ ₹0.25', rate: 0.25, verdict: 'best',
+        detail: 'Redeem for e-vouchers via Bank of Baroda rewards portal.',
+        tip: 'E-vouchers are the best option — avoid physical catalogue products.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15', rate: 0.15, verdict: 'avoid',
+        detail: 'Physical products from BOB catalogue — lower value than vouchers.' },
+    ],
+    gotchas: [
+      'BOB Premier cards earn at higher RP rates'
+    ]
+  },
+  'HSBC': {
+    currency: 'Reward Points (RP)',
+    methods: [
+      { name: 'HSBC Rewards Portal (Vouchers)', value: '1 RP ≈ ₹0.30–₹0.50', rate: 0.40, verdict: 'best',
+        detail: 'Redeem for e-vouchers and travel bookings via HSBC Rewards portal.',
+        tip: 'Combine with HSBC travel bookings for maximum value on TravelOne card.' },
+      { name: 'Airline Miles Transfer', value: '1 RP ≈ ₹0.30', rate: 0.30, verdict: 'good',
+        detail: 'Transfer to airline partners — decent value for frequent flyers.' },
+      { name: 'Catalogue Products', value: '1 RP ≈ ₹0.15', rate: 0.15, verdict: 'avoid',
+        detail: 'Physical products from catalogue — worst value option.' },
+    ],
+    gotchas: [
+      'HSBC Cashback card gives direct cashback — no RP',
+      'TravelOne card gives best RP value via travel redemption'
+    ]
+  },
 };
 
 // ===================== RECOMMEND CARD ENGINE =====================
