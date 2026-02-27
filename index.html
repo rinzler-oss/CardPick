@@ -57,7 +57,7 @@ body.dark {
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-1); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.6; overflow-x: hidden; }
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -89,8 +89,6 @@ h1::after { content: '.'; color: var(--accent); }
 .mycards-flyout-body { padding: 12px 16px 16px; }
 .mycards-overlay { display: none; position: fixed; inset: 0; z-index: 999; }
 .mycards-fab.open .mycards-overlay { display: block; }
-@media(max-width:400px) { .mycards-flyout { width: calc(100vw - 32px); } }
-
 /* ====== Tabs ====== */
 .tabs { display: flex; gap: 4px; margin-bottom: 28px; padding: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); }
 .tab { flex: 1; text-align: center; padding: 11px 8px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.84rem; color: var(--text-3); transition: all var(--dur) var(--ease); display: flex; align-items: center; justify-content: center; gap: 7px; user-select: none; }
@@ -682,15 +680,70 @@ body.dark .card-detail-overlay { background: rgba(0,0,0,0.6); }
 
 /* ====== Responsive ====== */
 @media(max-width:640px) {
-  .container { padding: 0 16px 20px; }
+  .container { padding: 0 14px 20px; }
   h1 { font-size: 1.8rem; }
+  .app-header { padding: 36px 0 22px; }
+  .subtitle { font-size: 0.84rem; }
+  .compare-box { padding: 18px 14px; border-radius: var(--r); }
   .compare-row { flex-direction: column; gap: 10px; }
   .compare-row .field, .compare-row .field-sm { flex: none; min-width: 0; width: 100%; }
-  .route-header { flex-wrap: wrap; gap: 8px; }
-  .suggest-card { flex-wrap: wrap; gap: 10px; }
+  .btn { padding: 10px 18px; font-size: 0.84rem; }
+  .route-card { padding: 14px 12px; }
+  .route-header { flex-wrap: wrap; gap: 6px; }
+  .route-rank { font-size: 1rem; width: 28px; }
+  .route-title .name { font-size: 0.86rem; }
+  .route-reward .amount { font-size: 1.1rem; }
+  .route-steps { padding: 12px; }
+  .route-step { gap: 8px; }
+  .result-card { padding: 14px 12px; }
+  .result-rank { font-size: 1.1rem; width: 30px; }
+  .result-info .name { font-size: 0.9rem; }
+  .result-reward { margin-left: 8px; }
+  .result-reward .amount { font-size: 1.1rem; }
+  .result-color-bar { margin-right: 10px; }
+  .suggest-card { flex-wrap: wrap; gap: 10px; padding: 12px; }
+  .suggest-card .card-visual-lg { width: 70px; height: 44px; }
   .suggest-reward { text-align: left; margin-left: 0; }
   .rec-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .rec-stat { min-width: 80px; }
+  .rec-stat { min-width: 80px; padding: 10px 12px; }
+  .rec-card { padding: 16px 14px; }
+  .rec-card .rec-stats { gap: 6px; }
+  .tracker-grid { grid-template-columns: 1fr; gap: 8px; }
+  .tracker-month { flex-wrap: wrap; }
+  .history-row { padding: 10px 12px; font-size: 0.78rem; flex-wrap: wrap; gap: 4px; }
+  .fuel-card-row { padding: 12px; gap: 10px; }
+  .fuel-card-savings .fc-amount { font-size: 1rem; }
+  .lounge-card { padding: 16px 14px; }
+  .overlap-card { padding: 16px 14px; }
+  .modal { padding: 22px 16px; width: 96%; }
+  .card-detail { padding: 20px 16px; width: 96%; }
+  .card-detail-top { gap: 12px; }
+  .card-detail-img { width: 90px; height: 57px; }
+  .card-detail-visual { width: 90px; height: 57px; padding: 5px 7px; }
+  .card-detail-info .cd-name { font-size: 0.92rem; }
+  .card-detail-actions { gap: 6px; }
+  .card-detail-actions .btn { padding: 7px 14px; font-size: 0.78rem; }
+  .mycards-flyout { width: calc(100vw - 32px); max-height: 80vh; }
+  .toast { font-size: 0.78rem; padding: 10px 18px; max-width: calc(100vw - 32px); white-space: normal; text-align: center; }
+  input, select { font-size: 16px; }
+  .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; min-width: 44px; }
+}
+
+@media(max-width:380px) {
+  .container { padding: 0 10px 16px; }
+  h1 { font-size: 1.5rem; }
+  .app-header { padding: 30px 0 18px; }
+  .compare-box { padding: 14px 10px; }
+  .tabs { gap: 2px; padding: 3px; }
+  .tab { padding: 9px 4px; }
+  .mycards-btn { width: 38px; height: 38px; font-size: 1rem; }
+  .theme-toggle { width: 38px; height: 38px; font-size: 1.1rem; }
+  .rec-grid { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; }
+  .cards-grid-item .card-img { height: 48px; }
+  .cards-grid-item .card-mini { height: 48px; }
 }
 
 /* ====== Toast ====== */
